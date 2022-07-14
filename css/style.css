@@ -7,6 +7,7 @@ body {
     font-size: 18px;
     line-height: 2em;
     overflow-x: visible;
+    transform-origin: 0 0;
 }
 
 
