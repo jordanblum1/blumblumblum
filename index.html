@@ -12,58 +12,24 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 	<link rel="manifest" href="/site.webmanifest">
-`</head>
+</head>
 <body>
 	<div class="container">
 		<img class="logo" src="./assets/BLUM-Tag-Logo.png" width="400px" height="150px">
 		<div class="links">
-			<a href="https://blumjordan.com" class="social-link" ><img src="./assets/JRB-logo-gray.png" width="70px" height="70px" onmouseover="this.src='./assets/JRB-logo.png';" onmouseout="this.src='./assets/JRB-logo-gray.png';"></a>
-			<a href="https://github.com/jordanblum1" class="social-link"><i class="fab fa-github fa-3x"></i></a>
-			<a href="https://www.strava.com/athletes/26247444" class="social-link"><i class="fab fa-strava fa-3x"></i></a>
-			<a href="https://twitter.com/bluhhhm" class="social-link"><i class="fab fa-twitter fa-3x"></i></a>
-			<a href="https://open.spotify.com/user/1226013786" class="social-link"><i class="fab fa-spotify fa-3x"></i></a>
-			<a href="https://instagram.com/jordanblum1" class="social-link"><i class="fab fa-instagram fa-3x"></i></a>
-			<a href="https://instagram.com/nyc_chicks" class="social-link"><i class="fas fa-drumstick-bite fa-3x"></i></a>
-			<a href="https://instagram.com/bluhhhm" class="social-link"><i class="fas fa-camera fa-3x"></i></a>
+			<a href="https://blumjordan.com" class="social-link circle" ><img src="./assets/JRB-logo-red.png" width="70px" height="70px" onmouseover="this.src='./assets/JRB-logo.png';" onmouseout="this.src='./assets/JRB-logo-red.png';"></a>
+			<a href="https://github.com/jordanblum1" class="social-link circle"><i class="fab fa-github fa-3x"></i></a>
+			<a href="https://www.strava.com/athletes/26247444" class="social-link circle"><i class="fab fa-strava fa-3x"></i></a>
+			<a href="https://twitter.com/bluhhhm" class="social-link circle"><i class="fab fa-twitter fa-3x"></i></a>
+			<a href="https://open.spotify.com/user/1226013786" class="social-link circle"><i class="fab fa-spotify fa-3x"></i></a>
+			<a href="https://instagram.com/jordanblum1" class="social-link circle"><i class="fab fa-instagram fa-3x"></i></a>
+			<a href="https://instagram.com/nyc_chicks" class="social-link circle"><i class="fas fa-drumstick-bite fa-3x"></i></a>
+			<a href="https://instagram.com/bluhhhm" class="social-link circle"><i class="fas fa-camera fa-3x"></i></a>
 		</div>
 	</div>
 		<footer class="footer">
 			Copyright 2022 <a rel="sponsored" href="https://www.blumblumblum.com">blumblumblum.com</a>
 		</footer>
 	</div>
-
-	<script src="js/jquery.min.js"></script>
-	<script src="js/imagesloaded.pkgd.min.js"></script>
-	<script src="js/isotope.pkgd.min.js"></script>
-	<script src="js/jquery.magnific-popup.min.js"></script>
-	<script>
-		$(function(){
-		  	// Init the image gallery
-		  	var $gallery = $(".tm-gallery").isotope({
-		    	itemSelector: ".tm-gallery-item",
-		    	layoutMode: "fitRows"
-		  	});
-		  
-		  	// Layout Isotope after each image loads
-		  	$gallery.imagesLoaded().progress(function() {
-		    	$gallery.isotope("layout");
-		  	});
-
-		  	$(".filters-button-group").on("click", "a", function(e) {
-		  		e.preventDefault();
-			    var filterValue = $(this).attr("data-filter");
-			    $gallery.isotope({ filter: filterValue });
-			    $('.filters-button-group a').removeClass('active');
-			    $(this).addClass('active');
-			});
-
-		  	// Magnific Pop up
-		  	$('.tm-gallery').magnificPopup({
-		  		delegate: 'a',
-			  	type: 'image',
-				  gallery: { enabled: true }
-			});
-		});
-	</script>
 </body>
 </html>
