@@ -7,6 +7,7 @@ body {
     background-position: center;
     background-repeat: repeat;
     background-size: auto 100%;
+    max-width: max-content;
 }
 
 .container {
@@ -64,9 +65,9 @@ li {
     border-radius: 15px;
     position: relative;
     bottom: 0;
-    margin: auto 35%;
+    margin: auto 92%;
     background-color: rgb(255, 255, 255, .85);
-    width: 30%;
+    width: 60%;
 }
 
 @media (max-width : 700px) {
@@ -103,6 +104,7 @@ li {
         position: relative;
         bottom: 0;
         background-color: rgb(255, 255, 255, .85);
-        width: 100%;
+        width: 120%;
+        margin: auto 30%;
     }
 }
