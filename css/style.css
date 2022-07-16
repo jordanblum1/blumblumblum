@@ -3,8 +3,6 @@ html { overflow-x: hidden; }
 body {
     font-family: 'Roboto Mono', monospace;
     font-size: 18px;
-    line-height: 2em;
-    transform-origin: 0 0;
     background-image: url("../assets/blumblumblum-background.jpg");
     background-position: center;
     background-repeat: repeat;
@@ -16,44 +14,34 @@ body {
     font-size: 24px;
     padding-top: 20px;
     text-align: center;
+    border-radius: 15px;
+    width: fit-content;
 }
 
 ul {
-    list-style: none;
+    list-style: inside;
+    text-align: center;
 }
 
 li {
-    display: inline;
+    display: inline-block;
 }
 
 .logo {
-    width: 100%;
-    margin: auto 25%;
     height: 150px;
     padding: 5%;
     border-radius: 30px;
-    background-size: 100%;
-    background-color: rgb(255, 255, 255, .85)
-}
-
-@media (max-width : 700px) {
-
-    ul {
-        list-style: none;
-        display: inline;
-    }
-
-    li {
-        display: list-item;
-    }
+    background-color: rgb(255, 255, 255, .85);
+    display: inline;
+    margin: auto 89%;
 }
 
 .white-drape {
     display: block;
-    margin: 10% 50%;
+    margin: 10% 70%;
     padding: 5%;
     border-radius: 30px;
-    width: 50%;
+    width: 100%;
     background-color: rgb(255, 255, 255, .85)
 }
 
@@ -71,17 +59,50 @@ li {
 .social-link:hover i.fa-drumstick-bite {color: #964B00}
 .social-link:hover i.fa-camera {color: black;}
 
-p {
-    /* Center horizontally*/
-    text-align: center;
-  }
-
 .footer {
     text-align: center;
     border-radius: 15px;
     position: relative;
     bottom: 0;
-    width: 100%;
-    margin: auto 30%;
-    background-color: rgb(255, 255, 255, .85)
+    margin: auto 35%;
+    background-color: rgb(255, 255, 255, .85);
+    width: 30%;
+}
+
+@media (max-width : 700px) {
+
+    .logo {
+        width: 100%;
+        margin: auto 35%;
+        height: 150px;
+        padding: 5%;
+        border-radius: 30px;
+        background-size: 100%;
+        background-color: rgb(255, 255, 255, .85)
+    }
+
+    .white-drape {
+        border-radius: 15px;
+        margin: 10% 73%;
+        background-color: rgb(255, 255, 255, .85);
+        width: 30%;
+    }
+
+    ul {
+        list-style: none;
+        display: inline;
+    }
+
+    li {
+        display: list-item;
+    }
+
+    .footer {
+        text-align: center;
+        border-radius: 15px;
+        position: relative;
+        bottom: 0;
+        background-color: rgb(255, 255, 255, .85);
+        width: 100%;
+    }
 }
