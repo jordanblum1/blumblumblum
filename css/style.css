@@ -1,4 +1,6 @@
-html { overflow-x: hidden; }
+html { 
+    overflow-x: hidden; 
+}
 
 body {
     font-family: 'Roboto Mono', monospace;
@@ -17,33 +19,39 @@ body {
     text-align: center;
     border-radius: 15px;
     width: fit-content;
+    margin: 0 auto;
 }
 
 ul {
-    list-style: inside;
+    list-style: none;
     text-align: center;
+    padding: 0;
 }
 
 li {
     display: inline-block;
+    margin: 0 10px;
 }
 
-.logo {
-    height: 150px;
+.logo, .white-drape, .footer {
     padding: 5%;
     border-radius: 30px;
     background-color: rgb(255, 255, 255, .85);
-    display: inline;
-    margin: auto 89%;
+    margin: 20px auto;
+}
+
+.logo {
+    width: 40%;
 }
 
 .white-drape {
-    display: block;
-    margin: 10% 70%;
-    padding: 5%;
-    border-radius: 30px;
-    width: 100%;
-    background-color: rgb(255, 255, 255, .85)
+    width: fit-content;
+    padding: 10px 20px;
+}
+
+.footer {
+    width: fit-content;
+    padding: 3px 6px;
 }
 
 .links i {
@@ -60,51 +68,14 @@ li {
 .social-link:hover i.fa-drumstick-bite {color: #964B00}
 .social-link:hover i.fa-camera {color: black;}
 
-.footer {
-    text-align: center;
-    border-radius: 15px;
-    position: relative;
-    bottom: 0;
-    margin: auto 92%;
-    background-color: rgb(255, 255, 255, .85);
-    width: 60%;
-}
-
 @media (max-width : 700px) {
 
-    .logo {
-        width: 100%;
-        margin: auto 35%;
-        height: 150px;
-        padding: 5%;
-        border-radius: 30px;
-        background-size: 100%;
-        background-color: rgb(255, 255, 255, .85)
-    }
-
-    .white-drape {
-        border-radius: 15px;
-        margin: 10% 73%;
-        background-color: rgb(255, 255, 255, .85);
-        width: 30%;
-    }
-
-    ul {
-        list-style: none;
-        display: inline;
-    }
-
     li {
-        display: list-item;
+        display: block;
+        margin: 10px auto;
     }
 
-    .footer {
-        text-align: center;
-        border-radius: 15px;
-        position: relative;
-        bottom: 0;
-        background-color: rgb(255, 255, 255, .85);
-        width: 120%;
-        margin: auto 30%;
+    .logo, .white-drape, .footer {
+        width: 90%;
     }
 }
