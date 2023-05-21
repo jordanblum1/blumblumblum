@@ -10,6 +10,10 @@ body {
     background-repeat: repeat;
     background-size: auto 100%;
     max-width: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .container {
@@ -19,13 +23,15 @@ body {
     text-align: center;
     border-radius: 15px;
     width: fit-content;
-    margin: 0 auto;
 }
 
 ul {
     list-style: none;
     text-align: center;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 li {
@@ -38,19 +44,19 @@ li {
     border-radius: 30px;
     background-color: rgb(255, 255, 255, .85);
     margin: 20px auto;
+    text-align: center;
 }
 
 .logo {
     width: 40%;
 }
 
-.white-drape {
+.white-drape, .footer {
     width: fit-content;
     padding: 10px 20px;
 }
 
 .footer {
-    width: fit-content;
     padding: 3px 6px;
 }
 
@@ -69,6 +75,10 @@ li {
 .social-link:hover i.fa-camera {color: black;}
 
 @media (max-width : 700px) {
+
+    ul {
+        flex-direction: column;
+    }
 
     li {
         display: block;
