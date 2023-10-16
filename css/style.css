@@ -9,11 +9,10 @@ body {
   background-position: center;
   background-repeat: repeat;
   background-size: auto 100%;
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 110vh;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -22,10 +21,12 @@ body {
 .container {
   font-family: arial;
   font-size: 24px;
+  display: block;
   padding-top: 20px;
   text-align: center;
   border-radius: 15px;
   width: fit-content;
+  height: 80vh;
 }
 
 ul {
@@ -35,6 +36,8 @@ ul {
   justify-content: center;
   padding: 0;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 li {
@@ -43,27 +46,36 @@ li {
 }
 
 .logo,
-.white-drape,
-.footer {
+.white-drape {
   padding: 5%;
   border-radius: 30px;
   background-color: rgb(255, 255, 255, 0.85);
   text-align: center;
   margin: 20px auto;
+  position: relative; /* Added position */
+  z-index: 2; /* Added z-index */
 }
 
 .logo {
   width: 40%;
 }
 
-.white-drape,
-.footer {
+.white-drape {
   width: fit-content;
   padding: 10px 20px;
 }
 
 .footer {
-  padding: 3px 6px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgb(255, 255, 255, 0.85);
+  text-align: center;
+  border-radius: 30px;
+  margin: 20px auto;
+  z-index: 2;
+  display: block;
+  width: 45%;
 }
 
 .links i {
@@ -104,11 +116,12 @@ li {
   }
   .logo {
     width: 60%;
-    max-height: 25vh;
-    object-fit: contain;
   }
-  .white-drape,
-  .footer {
+  .white-drape {
     width: 80%;
   }
+}
+.logo {
+  max-width: 100%;
+  height: auto;
 }
