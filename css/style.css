@@ -54,15 +54,16 @@ ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 20px;
   padding: 0;
-  margin: 0 auto;
+  margin: 20px auto;
   position: relative;
-  z-index: 1;
+  width: auto;
+  height: auto;
 }
 
 li {
-  display: inline-block;
-  margin: 0 10px;
+  position: relative;
   border-radius: 50%;
   padding: 20px;
   width: 70px;
@@ -70,6 +71,9 @@ li {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgb(255, 255, 255, .9);
+  transition: all 0.3s ease;
+  margin: 0;
 }
 
 .footer {
@@ -94,16 +98,8 @@ li {
 }
 
 .social-links li {
-  display: inline-block;
-  margin: 0 10px;
-  background-color: rgb(255, 255, 255, .9);
-  border-radius: 50%;
-  padding: 20px;
-  width: 70px;
-  height: 70px;
+  margin: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .social-link:hover i.fa-x-twitter {
@@ -128,18 +124,24 @@ li {
   color: gray;
 }
 
+/* Simpler hover effect */
+li:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+/* Update mobile view */
 @media (max-width: 768px) {
   ul {
     flex-direction: column;
     align-items: center;
   }
+  
   li {
-    margin-bottom: 20px;  /* Increased margin for better spacing on mobile */
-  }
-  .logo {
-    width: 60%;
+    margin: 10px 0;
   }
 }
+
 .logo {
   max-width: 100%;
   height: auto;
