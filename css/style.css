@@ -141,6 +141,15 @@ li:hover {
   
   li {
     margin: 10px 0;
+    /* Keep these properties explicitly for mobile */
+    background-color: rgb(255, 255, 255, .9);
+    border-radius: 50%;
+    padding: 20px;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
