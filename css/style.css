@@ -1,5 +1,6 @@
 html {
   overflow-x: hidden;
+  height: 100%;
 }
 
 body {
@@ -13,10 +14,11 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 110vh;
+  height: 100vh;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  overflow-y: hidden;
 }
 
 .container {
@@ -25,22 +27,25 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 20px;
+  padding-top: 0;
   text-align: center;
   border-radius: 15px;
   width: 100%;
-  height: 80vh;
+  height: 100%;
+  padding: 40px 0;
+  box-sizing: border-box;
 }
 
 .logo-container {
   background-color: rgb(255, 255, 255, .9);
-  padding: 20px;
+  padding: 30px 40px;  /* Increased padding to give more space */
   border-radius: 40px;
   margin-bottom: 30px;
   display: inline-block;
   text-align: center;
-  width: auto;
+  width: fit-content;
   max-width: 500px;
+  margin-top: 20px;
 }
 
 .logo {
@@ -150,6 +155,10 @@ li:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .container {
+    padding: 20px 0;
   }
 }
 
