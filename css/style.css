@@ -126,9 +126,17 @@ li {
 }
 
 /* Simpler hover effect */
+li:hover > a {
+  transform: scale(1.1);
+}
+
 li:hover {
   transform: scale(1.1);
   box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+li:hover > a {
+  transform: scale(1);
 }
 
 /* Update mobile view to keep items in a single column */
@@ -164,4 +172,124 @@ li:hover {
 .logo {
   max-width: 100%;
   height: auto;
+}
+
+/* Spotify Dropdown Styles */
+.spotify-dropdown-container {
+    position: relative;
+}
+
+.dropdown-trigger {
+    cursor: pointer;
+}
+
+.dropdown-trigger i {
+    color: #971a1d;
+    transition: all 0.3s ease;
+}
+
+.dropdown-trigger:hover i {
+    color: #1db954;
+}
+
+.dropdown-content {
+    position: fixed;
+    left: calc(100% + 2rem);
+    top: 50%;
+    transform: translateY(-50%) !important;
+    width: 500px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.dropdown-content.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+/* Mobile styles - override desktop positioning completely */
+@media (max-width: 768px) {
+    .dropdown-content {
+        position: absolute !important; /* Force override */
+        left: 50% !important;
+        top: 100% !important;
+        transform: translateX(-50%) !important;
+        width: 90vw;
+        max-width: 400px;
+        margin-top: 1rem;
+    }
+    
+    .dropdown-content.active {
+        transform: translateX(-50%) !important;
+    }
+    
+    /* Adjust container for mobile */
+    .spotify-dropdown-container {
+        position: relative;
+        margin-bottom: 20px;
+    }
+    
+    /* Add space below the dropdown when active */
+    .spotify-dropdown-container.active {
+        margin-bottom: calc(352px + 3rem);
+    }
+    
+    /* Ensure content is scrollable on mobile */
+    .spotify-dropdown-container.active + li,
+    .spotify-dropdown-container.active ~ .footer {
+        margin-top: calc(352px + 2rem);
+    }
+}
+
+/* Add hover color for music icon */
+.social-link:hover i.fa-music {
+    color: #1db954;
+}
+
+/* Add specific style for the dropdown container to prevent zoom */
+.spotify-dropdown-container:hover .dropdown-content {
+    transform: translateY(-50%) !important;
+}
+
+/* Ensure the music icon still zooms */
+.spotify-dropdown-container:hover > a {
+    transform: scale(1.1);
+}
+
+.spotify-dropdown-container:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.spotify-dropdown-container:hover > a {
+    transform: scale(1);
+}
+
+/* Add styles for smooth transitions */
+.dropdown-content {
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+/* Prevent any transform on the content when container is hovered */
+.spotify-dropdown-container:hover .dropdown-content.active {
+    transform: translateY(-50%) !important;
+}
+
+/* Add specific mobile landscape handling */
+@media (max-width: 768px) and (orientation: landscape) {
+    .container {
+        padding-bottom: 4rem;
+    }
+    
+    .spotify-dropdown-container.active {
+        margin-bottom: calc(352px + 4rem);
+    }
 }
