@@ -244,13 +244,14 @@ li:hover > a {
 /* Mobile styles - override desktop positioning completely */
 @media (max-width: 768px) {
     .dropdown-content {
-        position: absolute !important; /* Force override */
+        position: absolute !important;
         left: 50% !important;
+        right: auto !important;
         top: 100% !important;
         transform: translateX(-50%) !important;
         width: 90vw;
         max-width: 400px;
-        margin-top: 1rem;
+        margin: 0 auto;
     }
     
     .dropdown-content.active {
