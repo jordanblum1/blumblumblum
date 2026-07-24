@@ -85,6 +85,20 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+@media (min-width: 1281px), (min-width: 641px) and (min-resolution: 1.5dppx) {
+  body {
+    background-image:
+      linear-gradient(var(--veil), var(--veil)),
+      url("../assets/blumblumblum-background-3x.webp");
+    background-image:
+      linear-gradient(var(--veil), var(--veil)),
+      image-set(
+        url("../assets/blumblumblum-background-3x.avif") type("image/avif"),
+        url("../assets/blumblumblum-background-3x.webp") type("image/webp")
+      );
+  }
+}
+
 body::after {
   content: "";
   position: fixed;
