@@ -57,19 +57,7 @@
     if (event.animationName === 'logo-ink-replay') finishLogoReplay();
   });
 
-  logoButton?.addEventListener('click', () => {
-    window.clearTimeout(replayFallbackTimer);
-    logoButton.classList.remove('is-replaying');
-
-    if (!reducedMotion.matches) {
-      window.requestAnimationFrame(() => {
-        window.requestAnimationFrame(() => {
-          logoButton.classList.add('is-replaying');
-          replayFallbackTimer = window.setTimeout(finishLogoReplay, 1400);
-        });
-      });
-    }
-
+  const registerLogoTap = () => {
     logoClicks += 1;
     window.clearTimeout(clickResetTimer);
     clickResetTimer = window.setTimeout(() => {
@@ -79,7 +67,29 @@
     if (logoClicks < 3) return;
 
     logoClicks = 0;
-    openClayEgg();
+    toggleClayEgg();
+  };
+
+  logoButton?.addEventListener('click', () => {
+    // A tap on the clay silhouette also lands here (the canvas doesn't catch
+    // pointer events); the egg already counted that physical tap.
+    if (Date.now() - lastClayTap < 350) return;
+
+    if (!clayActive) {
+      window.clearTimeout(replayFallbackTimer);
+      logoButton.classList.remove('is-replaying');
+
+      if (!reducedMotion.matches) {
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            logoButton.classList.add('is-replaying');
+            replayFallbackTimer = window.setTimeout(finishLogoReplay, 1400);
+          });
+        });
+      }
+    }
+
+    registerLogoTap();
   });
 
   const logoParty = () => {
@@ -96,19 +106,25 @@
     showToast('Triple blum unlocked. Very productive.');
   };
 
-  // Triple blum: the logo in 3D clay (borrowed from jordanrblum.com's hero).
-  // Falls back to the classic party pulse when motion is reduced, the dialog
-  // API is missing, or three.js can't load/run.
-  const clayDialog = document.querySelector('#clay-dialog');
-  const clayStage = document.querySelector('[data-clay-stage]');
+  // Triple blum: the flat logo morphs into 3D clay in place (borrowed from
+  // jordanrblum.com's hero); triple again to morph back. Falls back to the
+  // classic party pulse when motion is reduced or three.js can't load/run.
+  const logoPanel = document.querySelector('.logo-panel');
   let clayEggPromise;
+  let clayActive = false;
+  let lastClayTap = 0;
 
   const loadClayEgg = () => {
     clayEggPromise ??= import('./clay-mark.js')
       .then(({ mountClayMark }) => {
-        const markup = document.querySelector('.brand-mark')?.outerHTML;
-        if (!markup) throw new Error('no mark');
-        return mountClayMark(clayStage, markup);
+        const mark = document.querySelector('.brand-mark');
+        if (!mark || !logoPanel) throw new Error('no mark');
+        return mountClayMark(logoPanel, mark, {
+          onTap: () => {
+            lastClayTap = Date.now();
+            registerLogoTap();
+          },
+        });
       })
       .catch((error) => {
         clayEggPromise = undefined;
@@ -117,40 +133,33 @@
     return clayEggPromise;
   };
 
-  const openClayEgg = () => {
-    const dialogSupported =
-      clayDialog instanceof HTMLElement &&
-      clayStage instanceof HTMLElement &&
-      typeof clayDialog.showModal === 'function';
-
-    if (reducedMotion.matches || !dialogSupported) {
+  const toggleClayEgg = () => {
+    if (reducedMotion.matches || !logoPanel) {
       logoParty();
       return;
     }
 
     loadClayEgg().then(
       (egg) => {
-        if (!clayDialog.open) clayDialog.showModal();
-        egg.start();
+        if (!clayActive) {
+          clayActive = true;
+          finishLogoReplay();
+          egg.morphIn();
+          logoPanel.classList.add('is-clay');
+          showToast('Clay mode. Grab it.');
+        } else {
+          clayActive = false;
+          logoPanel.classList.remove('is-clay');
+          egg.morphOut();
+        }
       },
       () => logoParty(),
     );
   };
 
-  if (clayDialog instanceof HTMLElement) {
-    document.querySelector('[data-clay-close]')?.addEventListener('click', () => {
-      clayDialog.close();
-    });
-
-    clayDialog.addEventListener('click', (event) => {
-      if (event.target === clayDialog) clayDialog.close();
-    });
-
-    clayDialog.addEventListener('close', () => {
-      clayEggPromise?.then((egg) => egg.stop()).catch(() => {});
-      window.requestAnimationFrame(() => logoButton?.focus({ preventScroll: true }));
-    });
-  }
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && clayActive) toggleClayEgg();
+  });
 
   const saveDarkroom = (enabled) => {
     try {
