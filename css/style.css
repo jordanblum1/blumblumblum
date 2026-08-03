@@ -707,6 +707,12 @@ img {
   background: transparent;
   /* two zero shadows so the list interpolates against var(--shadow) */
   box-shadow: 0 0 0 rgb(43 37 33 / 0), 0 0 0 rgb(43 37 33 / 0);
+  /* touch drags on the clay spin it instead of scrolling the page */
+  touch-action: none;
+}
+
+.logo-panel.is-clay .brand-button {
+  touch-action: none;
 }
 
 .logo-panel.is-clay .clay-canvas {

@@ -68,9 +68,33 @@ jobs:
         env:
           S3_BUCKET: ${{ secrets.S3_BUCKET }}
         run: |
+          # Default policy (HTML, manifest, favicons): always revalidate so a
+          # deploy plus the CloudFront invalidation below lands immediately.
           aws s3 sync _deploy/ "s3://$S3_BUCKET" \
             --delete \
-            --only-show-errors
+            --only-show-errors \
+            --cache-control "public, max-age=0, must-revalidate"
+
+          # Unfingerprinted code: short TTL keeps deploys fresh while sparing
+          # repeat requests within a visit.
+          for dir in css js; do
+            aws s3 cp "_deploy/$dir" "s3://$S3_BUCKET/$dir" \
+              --recursive \
+              --only-show-errors \
+              --cache-control "public, max-age=300, stale-while-revalidate=3600"
+          done
+
+          # Media: a day fresh, then a week of stale-while-revalidate.
+          aws s3 cp _deploy/assets "s3://$S3_BUCKET/assets" \
+            --recursive \
+            --only-show-errors \
+            --cache-control "public, max-age=86400, stale-while-revalidate=604800"
+
+          # Fonts never change once shipped.
+          aws s3 cp _deploy/assets/fonts "s3://$S3_BUCKET/assets/fonts" \
+            --recursive \
+            --only-show-errors \
+            --cache-control "public, max-age=31536000, immutable"
 
       - name: Invalidate CloudFront cache
         id: invalidate

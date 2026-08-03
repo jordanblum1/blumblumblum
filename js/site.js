@@ -57,6 +57,22 @@
     if (event.animationName === 'logo-ink-replay') finishLogoReplay();
   });
 
+  // Warm the clay path while the triple-tap is still in flight: tap one opens
+  // the CDN connection, tap two starts fetching three.js — so tap three
+  // usually morphs instantly. Costs nothing unless someone taps the logo.
+  const warmClayEgg = () => {
+    if (reducedMotion.matches) return;
+    if (logoClicks === 1 && !document.querySelector('[data-clay-preconnect]')) {
+      const link = document.createElement('link');
+      link.rel = 'preconnect';
+      link.href = 'https://cdn.jsdelivr.net';
+      link.crossOrigin = 'anonymous';
+      link.setAttribute('data-clay-preconnect', '');
+      document.head.append(link);
+    }
+    if (logoClicks === 2) loadClayEgg().catch(() => {});
+  };
+
   const registerLogoTap = () => {
     logoClicks += 1;
     window.clearTimeout(clickResetTimer);
@@ -64,7 +80,10 @@
       logoClicks = 0;
     }, 1500);
 
-    if (logoClicks < 3) return;
+    if (logoClicks < 3) {
+      warmClayEgg();
+      return;
+    }
 
     logoClicks = 0;
     toggleClayEgg();
