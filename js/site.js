@@ -79,6 +79,10 @@
     if (logoClicks < 3) return;
 
     logoClicks = 0;
+    openClayEgg();
+  });
+
+  const logoParty = () => {
     if (!reducedMotion.matches) {
       window.clearTimeout(partyTimer);
       document.body.classList.remove('logo-party');
@@ -90,7 +94,63 @@
       });
     }
     showToast('Triple blum unlocked. Very productive.');
-  });
+  };
+
+  // Triple blum: the logo in 3D clay (borrowed from jordanrblum.com's hero).
+  // Falls back to the classic party pulse when motion is reduced, the dialog
+  // API is missing, or three.js can't load/run.
+  const clayDialog = document.querySelector('#clay-dialog');
+  const clayStage = document.querySelector('[data-clay-stage]');
+  let clayEggPromise;
+
+  const loadClayEgg = () => {
+    clayEggPromise ??= import('./clay-mark.js')
+      .then(({ mountClayMark }) => {
+        const markup = document.querySelector('.brand-mark')?.outerHTML;
+        if (!markup) throw new Error('no mark');
+        return mountClayMark(clayStage, markup);
+      })
+      .catch((error) => {
+        clayEggPromise = undefined;
+        throw error;
+      });
+    return clayEggPromise;
+  };
+
+  const openClayEgg = () => {
+    const dialogSupported =
+      clayDialog instanceof HTMLElement &&
+      clayStage instanceof HTMLElement &&
+      typeof clayDialog.showModal === 'function';
+
+    if (reducedMotion.matches || !dialogSupported) {
+      logoParty();
+      return;
+    }
+
+    loadClayEgg().then(
+      (egg) => {
+        if (!clayDialog.open) clayDialog.showModal();
+        egg.start();
+      },
+      () => logoParty(),
+    );
+  };
+
+  if (clayDialog instanceof HTMLElement) {
+    document.querySelector('[data-clay-close]')?.addEventListener('click', () => {
+      clayDialog.close();
+    });
+
+    clayDialog.addEventListener('click', (event) => {
+      if (event.target === clayDialog) clayDialog.close();
+    });
+
+    clayDialog.addEventListener('close', () => {
+      clayEggPromise?.then((egg) => egg.stop()).catch(() => {});
+      window.requestAnimationFrame(() => logoButton?.focus({ preventScroll: true }));
+    });
+  }
 
   const saveDarkroom = (enabled) => {
     try {

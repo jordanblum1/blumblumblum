@@ -673,6 +673,38 @@ img {
   transition: background-color var(--fast) var(--ease), transform var(--fast) var(--ease);
 }
 
+.clay-dialog {
+  width: min(calc(100% - 2rem), 46rem);
+}
+
+.clay-stage {
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  border-radius: 0.85rem;
+  background:
+    radial-gradient(circle at 70% 20%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 55%),
+    color-mix(in srgb, var(--accent) 6%, var(--paper-raised));
+}
+
+.clay-stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+.clay-stage canvas:active {
+  cursor: grabbing;
+}
+
+.clay-hint {
+  margin: 0.85rem 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-align: center;
+}
+
 .embed-shell {
   position: relative;
   min-height: min(22rem, 52dvh);
