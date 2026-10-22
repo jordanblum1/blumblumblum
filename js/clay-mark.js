@@ -76,11 +76,16 @@ export function mountClayMark(panel, markSvg, { onTap }) {
   const meshes = [];
   const pieces = geometries.map((geometry, index) => {
     const piece = new THREE.Group();
+    // center each letter on its own origin so it squishes in place
+    geometry.computeBoundingBox();
+    const pieceCenter = geometry.boundingBox.getCenter(new THREE.Vector3());
+    geometry.translate(-pieceCenter.x, -pieceCenter.y, -pieceCenter.z);
     const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.copy(pieceCenter);
     piece.add(mesh);
     meshes.push(mesh);
     group.add(piece);
-    return { piece, phase: index * 1.7 };
+    return { piece, mesh, phase: index * 1.7, squish: { value: 0, velocity: 0 } };
   });
   scene.add(group);
 
@@ -121,24 +126,29 @@ export function mountClayMark(panel, markSvg, { onTap }) {
   let lastX = 0;
   let lastY = 0;
   let settleResolve = null;
+  let pressed = null;
 
   const raycaster = new THREE.Raycaster();
   const pointerNdc = new THREE.Vector2();
-  const hitsClay = (event) => {
+  const hitPiece = (event) => {
     const rect = canvas.getBoundingClientRect();
-    if (!rect.width || !rect.height) return false;
+    if (!rect.width || !rect.height) return null;
     pointerNdc.set(
       ((event.clientX - rect.left) / rect.width) * 2 - 1,
       -(((event.clientY - rect.top) / rect.height) * 2 - 1),
     );
     raycaster.setFromCamera(pointerNdc, camera);
-    return raycaster.intersectObjects(meshes).length > 0;
+    const mesh = raycaster.intersectObjects(meshes)[0]?.object;
+    return pieces.find((piece) => piece.mesh === mesh) ?? null;
   };
+  const hitsClay = (event) => hitPiece(event) !== null;
 
   // The canvas keeps pointer-events: none so the links stay clickable around
   // it; grabbing is decided by raycasting the clay silhouette instead.
   const onPointerDown = (event) => {
-    if (!event.isPrimary || !hitsClay(event)) return;
+    if (!event.isPrimary) return;
+    pressed = hitPiece(event);
+    if (!pressed) return;
     dragging = true;
     moved = false;
     lastX = event.clientX;
@@ -159,6 +169,7 @@ export function mountClayMark(panel, markSvg, { onTap }) {
   const onPointerUp = (event) => {
     if (!dragging) return;
     dragging = false;
+    pressed = null;
     document.body.style.cursor = hitsClay(event) ? 'grab' : '';
     if (!moved) onTap?.(event);
   };
@@ -198,9 +209,16 @@ export function mountClayMark(panel, markSvg, { onTap }) {
     group.rotation.z = (Math.sin(motionTime * 0.27) * 0.03 - 0.035) * body;
     group.scale.set(baseScale, baseScale, baseScale * Math.max(0.002, body));
 
-    pieces.forEach(({ piece, phase }) => {
+    pieces.forEach((entry) => {
+      const { piece, mesh, phase, squish } = entry;
       piece.position.y = Math.sin(motionTime * 0.9 + phase) * 0.045 * body;
       piece.position.z = Math.sin(motionTime * 0.7 + phase * 2.1) * 0.05 * body;
+      // Pressed letters squash like clay under a thumb; let go and the
+      // underdamped spring overshoots into a jelly wobble.
+      const held = entry === pressed;
+      springTo(squish, held ? 1 : 0, dt, 260, held ? 22 : 6);
+      const s = squish.value;
+      mesh.scale.set(1 + s * 0.14, 1 - s * 0.2, 1 - s * 0.3);
     });
 
     renderer.render(scene, camera);
@@ -254,6 +272,7 @@ export function mountClayMark(panel, markSvg, { onTap }) {
       yawFree = ((((yawFree + Math.PI) % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2)) - Math.PI;
       listen(false);
       dragging = false;
+      pressed = null;
       startLoop();
     },
     isActive: () => active,

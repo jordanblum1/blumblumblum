@@ -227,6 +227,9 @@ img {
   border-radius: 0.5rem;
   background: transparent;
   cursor: pointer;
+  /* long-press belongs to the link roulette, not the iOS callout */
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 .brand-mark {
@@ -723,6 +726,54 @@ img {
   opacity: 0;
 }
 
+/* Catch the letters: the pieces fall out of the panel, so it stops clipping
+   and rises above the links. Each piece gets a fat invisible stroke as a
+   finger-sized grab target. */
+.logo-panel.is-catching {
+  z-index: 2;
+  overflow: visible;
+  touch-action: none;
+}
+
+.is-catching .logo-piece {
+  cursor: grab;
+}
+
+.is-catching .logo-piece path {
+  stroke-width: 28;
+}
+
+.logo-piece.is-held {
+  cursor: grabbing;
+  filter: drop-shadow(0 6px 8px rgb(43 37 33 / 0.28));
+}
+
+.logo-ghost path {
+  fill: currentColor;
+  fill-opacity: 0.08;
+  stroke: currentColor;
+  stroke-dasharray: 0.006 0.009;
+  stroke-opacity: 0.55;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Link roulette: icons spin like reels while a highlight hops card to card
+   and settles on today's pick. (:root outranks the `:root.is-ready` reset.) */
+:root body.is-rouletting .icon-disc > * {
+  animation: reel 240ms linear infinite;
+}
+
+.links-grid li.is-rolling .icon-disc {
+  background: color-mix(in srgb, var(--accent) 16%, var(--panel));
+  transform: translate3d(0, -0.25rem, 0) scale(1.05);
+}
+
+.links-grid li.is-picked .icon-disc {
+  box-shadow: 0 0 0 3px var(--accent), var(--shadow-hover);
+  transform: translate3d(0, -0.25rem, 0) scale(1.08);
+}
+
 .embed-shell {
   position: relative;
   min-height: min(22rem, 52dvh);
@@ -1173,6 +1224,12 @@ body.logo-party .links-grid li:nth-child(even) {
   68% { transform: translate3d(-0.12rem, 0, 0) rotate(-0.3deg); }
 }
 
+@keyframes reel {
+  0%, 100% { translate: 0 0; opacity: 1; }
+  45% { translate: 0 -55%; opacity: 0; }
+  55% { translate: 0 55%; opacity: 0; }
+}
+
 @keyframes reduced-reveal {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -1356,6 +1413,7 @@ body.logo-party .links-grid li:nth-child(even) {
   .outpost-link:hover .icon-disc,
   .outpost-link:active .icon-disc,
   .dialog-close:hover,
+  .links-grid li:is(.is-rolling, .is-picked) .icon-disc,
   .toast {
     transform: none !important;
   }

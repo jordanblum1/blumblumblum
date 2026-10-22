@@ -89,7 +89,17 @@
     toggleClayEgg();
   };
 
-  logoButton?.addEventListener('click', () => {
+  logoButton?.addEventListener('click', (event) => {
+    // A long-press already spun the roulette; it is not a tap.
+    if (longPressed) {
+      longPressed = false;
+      return;
+    }
+    // Mid-game, pieces are dragged by pointer; a keyboard press sends one home.
+    if (catchGame) {
+      if (event.detail === 0) catchGame.homeNext?.();
+      return;
+    }
     // A tap on the clay silhouette also lands here (the canvas doesn't catch
     // pointer events); the egg already counted that physical tap.
     if (Date.now() - lastClayTap < 350) return;
@@ -111,7 +121,7 @@
     registerLogoTap();
   });
 
-  const logoParty = () => {
+  const logoParty = (message = 'Triple blum unlocked. Very productive.') => {
     if (!reducedMotion.matches) {
       window.clearTimeout(partyTimer);
       document.body.classList.remove('logo-party');
@@ -122,7 +132,7 @@
         }, 650);
       });
     }
-    showToast('Triple blum unlocked. Very productive.');
+    showToast(message);
   };
 
   // Triple blum: the flat logo morphs into 3D clay in place (borrowed from
@@ -177,8 +187,118 @@
   };
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && clayActive) toggleClayEgg();
+    if (event.key !== 'Escape') return;
+    if (clayActive) toggleClayEgg();
+    catchGame?.stop?.();
   });
+
+  // Long-press the logo for link roulette: the cards spin like a slot machine
+  // and one lights up. Short taps keep counting toward the clay egg; a press
+  // long enough to spin swallows its own click.
+  const linkItems = [...document.querySelectorAll('.links-grid li')];
+  let pressTimer;
+  let pressOrigin = [0, 0];
+  let longPressed = false;
+  let rouletteTimer;
+
+  const linkRoulette = () => {
+    window.clearTimeout(rouletteTimer);
+    linkItems.forEach((item) => item.classList.remove('is-rolling', 'is-picked'));
+    const pick = Math.floor(Math.random() * linkItems.length);
+    const hops = linkItems.length + pick;
+
+    // each hop waits a little longer, like a reel running out of spin
+    const hop = (index) => {
+      linkItems.forEach((item, i) => item.classList.toggle('is-rolling', i === index % linkItems.length));
+      if (index < hops) {
+        rouletteTimer = window.setTimeout(() => hop(index + 1), 45 + index * index * 1.2);
+        return;
+      }
+      const picked = linkItems[pick];
+      picked.classList.replace('is-rolling', 'is-picked');
+      document.body.classList.remove('is-rouletting');
+      showToast(`Today you should look at ${picked.querySelector('.link-label')?.textContent}.`);
+      rouletteTimer = window.setTimeout(() => picked.classList.remove('is-picked'), 2600);
+    };
+
+    document.body.classList.toggle('is-rouletting', !reducedMotion.matches);
+    hop(reducedMotion.matches ? hops : 0);
+  };
+
+  const startPress = (x, y) => {
+    window.clearTimeout(pressTimer);
+    longPressed = false;
+    if (clayActive || catchGame) return;
+    pressOrigin = [x, y];
+    pressTimer = window.setTimeout(() => {
+      longPressed = true;
+      linkRoulette();
+    }, 600);
+  };
+  const cancelPress = () => window.clearTimeout(pressTimer);
+
+  logoButton?.addEventListener('pointerdown', (event) => {
+    if (event.isPrimary && event.button === 0) startPress(event.clientX, event.clientY);
+  });
+  logoButton?.addEventListener('pointermove', (event) => {
+    if (Math.hypot(event.clientX - pressOrigin[0], event.clientY - pressOrigin[1]) > 10) cancelPress();
+  });
+  ['pointerup', 'pointercancel', 'keyup'].forEach((type) => logoButton?.addEventListener(type, cancelPress));
+  logoButton?.addEventListener('keydown', (event) => {
+    if ((event.key === 'Enter' || event.key === ' ') && !event.repeat) startPress(0, 0);
+  });
+  // phones open a context menu on long-press; the roulette owns that gesture
+  logoButton?.addEventListener('contextmenu', (event) => event.preventDefault());
+
+  // Catch the letters: "bbb" or a phone shake drops the logo pieces like
+  // Tetris blocks to drag back home. The game loads only when it fires.
+  let catchGame = null;
+
+  const startCatch = () => {
+    if (catchGame || clayActive || !logoPanel) return;
+    catchGame = {};
+    finishLogoReplay();
+    import('./catch-letters.js').then(
+      ({ catchLetters }) => {
+        catchGame = catchLetters(document.querySelector('.brand-mark'), {
+          onWin: () => logoParty('Rebuilt. blumblumblum, good as new.'),
+          onEnd: () => {
+            catchGame = null;
+            logoPanel.classList.remove('is-catching');
+          },
+        });
+        logoPanel.classList.add('is-catching');
+        showToast('Catch the letters! Drag them home.');
+      },
+      () => {
+        catchGame = null;
+      },
+    );
+  };
+
+  // A shake is a few hard jolts in quick succession. iOS only allows motion
+  // after a permission prompt from a gesture, so it's asked from the hint.
+  let shakes = 0;
+  let shakeAt = 0;
+  let lastMotion;
+  const onMotion = ({ accelerationIncludingGravity: a }) => {
+    if (a?.x == null) return;
+    const jolt = lastMotion
+      ? Math.abs(a.x - lastMotion.x) + Math.abs(a.y - lastMotion.y) + Math.abs(a.z - lastMotion.z)
+      : 0;
+    lastMotion = { x: a.x, y: a.y, z: a.z };
+    const now = Date.now();
+    if (jolt < 24 || now - shakeAt < 120) return;
+    shakes = now - shakeAt < 900 ? shakes + 1 : 1;
+    shakeAt = now;
+    if (shakes >= 4) {
+      shakes = 0;
+      startCatch();
+    }
+  };
+  const listenForShake = () => window.addEventListener('devicemotion', onMotion);
+  const askForMotion = window.DeviceMotionEvent?.requestPermission;
+  if (!askForMotion && window.matchMedia('(pointer: coarse)').matches) listenForShake();
 
   const saveDarkroom = (enabled) => {
     try {
@@ -202,6 +322,8 @@
   };
 
   let keywordBuffer = '';
+  let bPresses = 0;
+  let lastB = 0;
   document.addEventListener('keydown', (event) => {
     const target = event.target;
     const isTyping = target instanceof HTMLElement && (
@@ -213,7 +335,16 @@
 
     if (isTyping || event.metaKey || event.ctrlKey || event.altKey || event.key.length !== 1) return;
 
-    keywordBuffer = `${keywordBuffer}${event.key.toLowerCase()}`.slice(-12);
+    const key = event.key.toLowerCase();
+    const now = Date.now();
+    bPresses = key === 'b' && now - lastB < 450 ? bPresses + 1 : Number(key === 'b');
+    lastB = now;
+    if (bPresses === 3) {
+      bPresses = 0;
+      startCatch();
+    }
+
+    keywordBuffer = `${keywordBuffer}${key}`.slice(-12);
     if (keywordBuffer.endsWith('grain')) {
       keywordBuffer = '';
       toggleDarkroom();
@@ -222,6 +353,9 @@
 
   document.querySelector('[data-grain-hint]')?.addEventListener('click', () => {
     showToast('A hint: type “grain” anywhere on the page.');
+    askForMotion?.call(window.DeviceMotionEvent).then((state) => {
+      if (state === 'granted') listenForShake();
+    }, () => {});
   });
 
   const playlistOpen = document.querySelector('[data-playlist-open]');
@@ -281,5 +415,5 @@
   });
 
   console.info('%cblumblumblum', 'color:#9c4037;font-weight:700;font-size:14px');
-  console.info('There are at least two tiny secrets here. Start with “grain”.');
+  console.info('There are a few tiny secrets here. Start with “grain”.');
 })();
