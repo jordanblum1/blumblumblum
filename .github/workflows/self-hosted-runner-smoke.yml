@@ -1,0 +1,21 @@
+name: Self-hosted runner smoke
+
+on:
+  push:
+    branches: [ci/self-hosted-mac]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: [self-hosted, macOS, ARM64, personal-mac]
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify runner
+        run: |
+          test "$(uname -m)" = "arm64"
+          sw_vers
+          node --version
