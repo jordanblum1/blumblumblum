@@ -18,7 +18,7 @@ env:
 jobs:
   deploy:
     name: Deploy static site
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.ENABLE_SELF_HOSTED_RUNNER == 'true' && fromJSON('["self-hosted","macOS","ARM64","personal-mac"]') || 'ubuntu-latest' }}
 
     steps:
       - name: Check out repository
