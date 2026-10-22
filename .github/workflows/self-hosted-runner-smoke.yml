@@ -1,8 +1,6 @@
 name: Self-hosted runner smoke
 
 on:
-  push:
-    branches: [ci/self-hosted-mac]
   workflow_dispatch:
 
 permissions:
