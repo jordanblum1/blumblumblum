@@ -1418,3 +1418,6 @@ body.logo-party .links-grid li:nth-child(even) {
     transform: none !important;
   }
 }
+
+.studio-disc { background: var(--paper-raised); }
+.studio-mark { width: 100%; height: 100%; object-fit: contain; border-radius: inherit; }
