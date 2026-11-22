@@ -49,7 +49,7 @@
   background: linear-gradient(#6b45262b, #faf5ec80 17%, transparent 35% 65%, #faf5ec80 83%, #6b45262b);
   box-shadow: inset 0 0 9px rgb(80 52 28 / .12);
 }
-.lucky-symbol { display: grid; height: calc(100% / 3); place-items: center; color: var(--accent); }
+.lucky-symbol { display: grid; height: calc(100% / 3); place-items: center; color: #9c4037; }
 .lucky-strip { height: 100%; }
 .lucky-symbol > svg { display: block; width: 64%; height: 68%; overflow: visible; }
 .lucky-symbol .equalizer { height: 68%; transform: scale(.72); }
@@ -150,7 +150,7 @@
   padding: .6rem .7rem;
   border: 1px solid #d5c1a6;
   border-top: 1px dashed #b39b7a;
-  border-radius: 2px 2px 5px 5px;
+  border-radius: 6px 6px 10px 10px;
   background: #fcf8ed;
   box-shadow: 0 4px 8px #2b25212b, inset 0 0 18px #d6bd9224;
   color: #7f302a;

@@ -234,13 +234,35 @@ test('a hidden tab settles the reels and cancels transient motion', async ({ pag
   expect(await page.locator('[data-lucky-machine]').evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0);
 });
 
-test('the footer uses a coin clue and plain captions without extra glass containers', async ({ page }) => {
+test('the footer uses a slot-machine clue and opaque readable captions without glass containers', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('[data-lucky-open] svg')).toBeVisible();
   await expect(page.locator('[data-grain-hint]')).toHaveAccessibleName('Reveal the grain hint');
   await expect(page.getByText('developed by hand', { exact: true })).toHaveCount(0);
   await expect(page.locator('.site-footer')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
-  await expect(page.locator('.link-label').first()).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+  for (const theme of ['light', 'darkroom']) {
+    if (theme === 'darkroom') await page.keyboard.type('grain');
+    const text = await page.locator('.link-label, .site-signature, .toast.is-visible').evaluateAll(elements => {
+      const luminance = rgb => rgb.slice(0, 3).map(channel => {
+        const value = channel / 255;
+        return value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4;
+      }).reduce((sum, value, index) => sum + value * [.2126, .7152, .0722][index], 0);
+      const parse = color => color.match(/[\d.]+/g).map(Number);
+      return elements.map(element => {
+        const style = getComputedStyle(element);
+        const foreground = parse(style.color);
+        const background = parse(style.backgroundColor);
+        const values = [luminance(foreground), luminance(background)].sort((a, b) => a - b);
+        return { label: element.textContent.trim(), ratio: (values[1] + .05) / (values[0] + .05),
+          alpha: background[3] ?? 1, fits: element.scrollHeight <= element.clientHeight + 1 };
+      });
+    });
+    for (const item of text) {
+      expect(item.alpha, theme + ': ' + item.label).toBe(1);
+      expect(item.ratio, theme + ': ' + item.label).toBeGreaterThanOrEqual(4.5);
+      expect(item.fits, theme + ': ' + item.label).toBe(true);
+    }
+  }
   await page.locator('[data-grain-hint]').click();
   await expect(page.locator('[data-toast]')).toContainText('grain');
 });
