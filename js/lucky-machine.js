@@ -1,4 +1,6 @@
 import { createArtwork } from './lucky-artwork.js';
+import { reelKeyframes } from './lucky-reels.js';
+import { createSlotSounds } from './lucky-sounds.js';
 
 const machine = document.querySelector('[data-lucky-machine]');
 const opener = document.querySelector('[data-lucky-open]');
@@ -18,6 +20,8 @@ if (machine && opener && links && stage && lever && arm && winner && status && b
     art: link.querySelector('.icon-disc').firstElementChild,
   }));
   const symbol = createArtwork(choices);
+  const sounds = createSlotSounds();
+  const reelRuns = [{ steps: 9, duration: 2800 }, { steps: 11, duration: 3180 }, { steps: 13, duration: 3600 }];
   let state = 'closed';
   let epoch = 0;
   let selected = 0;
@@ -28,6 +32,7 @@ if (machine && opener && links && stage && lever && arm && winner && status && b
   let drag = null;
   let suppressPointerClick = false;
   let returnLeverFocus = false;
+  let armTimer = 0;
 
   const setState = value => {
     state = value;
@@ -53,10 +58,22 @@ if (machine && opener && links && stage && lever && arm && winner && status && b
       if (current === epoch) callback();
     }).catch(() => { /* Interrupted transitions settle through their owning state. */ });
   };
+  const resetArm = (immediate = false) => {
+    clearTimeout(armTimer);
+    arm.style.transitionDuration = immediate || reduced.matches ? '0ms' : '200ms';
+    arm.style.transform = 'translateY(0)';
+  };
   const resetDrag = () => {
     drag = null;
     lever.classList.remove('is-dragging');
-    arm.style.removeProperty('transform');
+    resetArm();
+  };
+  const pullArm = distance => {
+    clearTimeout(armTimer);
+    // The user's pull tracks directly; the release uses an interruptible transition.
+    arm.style.transitionDuration = '160ms';
+    arm.style.transform = 'translateY(36px)';
+    armTimer = window.setTimeout(() => resetArm(), distance >= 18 ? 80 : 160);
   };
   const renderRows = tops => reels.forEach((reel, column) => {
     reel.replaceChildren(...[0, 1, 2].map(row => symbol((tops[column] + row * 3) % choices.length)));
@@ -86,9 +103,12 @@ if (machine && opener && links && stage && lever && arm && winner && status && b
     setState('idle');
     if (returnTo === opener) lever.focus({ preventScroll: true });
   };
-  const finish = () => {
+  const finish = (celebrate = false) => {
     if (state !== 'spinning') return;
     cancelAnimations();
+    resetArm(true);
+    if (celebrate) sounds.end();
+    else sounds.stop();
     setState('idle');
     if (returnLeverFocus && document.activeElement === document.body) lever.focus({ preventScroll: true });
     returnLeverFocus = false;
@@ -97,25 +117,43 @@ if (machine && opener && links && stage && lever && arm && winner && status && b
       symbol((selected + 8) % choices.length), symbol(selected), symbol((selected + 1) % choices.length),
     ));
     winner.href = choices[selected].href;
-    winner.textContent = choices[selected].label + ' ↗';
+    const ticketArt = symbol(selected);
+    ticketArt.classList.add('lucky-ticket-art');
+    const label = document.createElement('span');
+    label.className = 'lucky-ticket-label';
+    label.textContent = choices[selected].label;
+    const arrow = document.createElement('span');
+    arrow.textContent = '↗';
+    arrow.setAttribute('aria-hidden', 'true');
+    winner.replaceChildren(ticketArt, label, arrow);
+    winner.setAttribute('aria-label', choices[selected].label);
     winner.hidden = false;
     status.textContent = choices[selected].label + ' selected. Follow the link, or spin again.';
+    machine.classList.add('has-winner');
+    if (celebrate && !reduced.matches && !document.hidden) {
+      sounds.cue('win');
+      animate(winner, [
+        { opacity: 0, transform: 'translateY(-18px)' },
+        { opacity: 1, transform: 'translateY(0)' },
+      ], { duration: 240, easing: 'cubic-bezier(.23,1,.32,1)' });
+      animate(machine.querySelector('.lucky-payline'), [{ opacity: 0 }, { opacity: 1 }], { duration: 220 });
+    }
   };
   const spin = (startDistance = 0) => {
     if (state !== 'idle') return;
-    resetDrag();
+    drag = null;
+    lever.classList.remove('is-dragging');
     cancelAnimations();
+    machine.classList.remove('has-winner');
     returnLeverFocus = document.activeElement === lever;
     setState('spinning');
     selected = Math.floor(Math.random() * choices.length);
     winner.hidden = true;
     status.textContent = 'Reels spinning.';
     if (reduced.matches) { finish(); return; }
-    animate(arm, [
-      { transform: `translateY(${startDistance}px)` },
-      { transform: 'translateY(40px)', offset: .35 },
-      { transform: 'translateY(0)' },
-    ], { duration: 520, easing: 'cubic-bezier(.2,.8,.2,1)' });
+    pullArm(startDistance);
+    sounds.begin();
+    const currentRound = epoch;
     reels.forEach((reel, column) => {
       const rowHeight = reel.getBoundingClientRect().height / 3;
       const current = [...reel.children];
@@ -123,25 +161,29 @@ if (machine && opener && links && stage && lever && arm && winner && status && b
       strip.className = 'lucky-strip';
       // Preserve the visible three rows at release, then travel to the center winner.
       strip.append(...current);
-      const steps = 15 + column * 4;
+      const { steps, duration } = reelRuns[column];
       for (let step = 3; step < steps; step++) strip.append(symbol((last[column] + step) % choices.length));
       strip.append(symbol((selected + 8) % choices.length), symbol(selected), symbol((selected + 1) % choices.length));
       reel.replaceChildren(strip);
-      animate(strip, [
-        { transform: 'translateY(0)' },
-        { transform: `translateY(${-steps * rowHeight}px)` },
-      ], { duration: 1800 + column * 320, easing: 'cubic-bezier(.12,.65,.18,1)', fill: 'forwards' });
+      const rotation = animate(strip, reelKeyframes(steps * rowHeight), { duration, easing: 'linear', fill: 'forwards' });
+      rotation.finished.then(() => {
+        if (currentRound === epoch && state === 'spinning') sounds.cue('stop');
+      }).catch(() => { /* The round was interrupted. */ });
     });
-    afterAnimations(finish);
+    afterAnimations(() => finish(true));
   };
   const settleClosed = (restoreFocus = true) => {
     cancelAnimations();
     resetDrag();
+    resetArm(true);
+    sounds.stop();
+    machine.classList.remove('has-winner');
     suppressPointerClick = false;
     returnLeverFocus = false;
     setState('closed');
     machine.hidden = true;
     reels.forEach(reel => reel.replaceChildren());
+    winner.replaceChildren();
     winner.hidden = true;
     links.hidden = false;
     links.inert = false;
@@ -164,6 +206,7 @@ if (machine && opener && links && stage && lever && arm && winner && status && b
     stage.style.minHeight = Math.max(height, machine.getBoundingClientRect().height) + 'px';
     last = [0, 1, 2];
     renderRows(last);
+    sounds.prime();
     winner.hidden = true;
     opener.setAttribute('aria-expanded', 'true');
     status.textContent = 'Link slot machine. Activate or drag the round handle down to choose a destination. Escape returns to links.';
@@ -185,6 +228,7 @@ if (machine && opener && links && stage && lever && arm && winner && status && b
     const from = choices.map((choice, index) => cellArt(index).getBoundingClientRect());
     cancelAnimations();
     resetDrag();
+    sounds.stop();
     setState('closing');
     links.hidden = false;
     links.inert = true;
@@ -198,6 +242,8 @@ if (machine && opener && links && stage && lever && arm && winner && status && b
   };
   const settleMotion = () => {
     resetDrag();
+    resetArm(true);
+    sounds.stop();
     if (state === 'opening') settleOpening();
     else if (state === 'closing') settleClosed();
     else finish();
@@ -214,13 +260,15 @@ if (machine && opener && links && stage && lever && arm && winner && status && b
   lever.addEventListener('pointerdown', event => {
     if (!event.isPrimary || event.button !== 0 || state !== 'idle') return;
     suppressPointerClick = false;
+    clearTimeout(armTimer);
+    arm.style.removeProperty('transition-duration');
     drag = { id: event.pointerId, y: event.clientY, distance: 0 };
     lever.setPointerCapture(event.pointerId);
     lever.classList.add('is-dragging');
   });
   lever.addEventListener('pointermove', event => {
     if (!drag || drag.id !== event.pointerId) return;
-    drag.distance = Math.min(40, Math.max(0, event.clientY - drag.y));
+    drag.distance = Math.min(36, Math.max(0, event.clientY - drag.y));
     // Write directly on the moving part; no parent variable recalculation per frame.
     arm.style.transform = `translateY(${drag.distance}px)`;
   });
@@ -231,7 +279,7 @@ if (machine && opener && links && stage && lever && arm && winner && status && b
     else resetDrag();
   });
   lever.addEventListener('pointercancel', resetDrag);
-  lever.addEventListener('lostpointercapture', resetDrag);
+  lever.addEventListener('lostpointercapture', () => { if (drag) resetDrag(); });
   document.addEventListener('blum:open-luck', event => show(event.detail?.from));
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') close();

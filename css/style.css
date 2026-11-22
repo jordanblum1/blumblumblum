@@ -436,18 +436,18 @@ img {
 
 .link-label {
   max-width: 100%;
-  padding: 0.22rem 0.48rem;
+  padding: .15rem .2rem;
   overflow: hidden;
-  border: 1px solid rgb(255 255 255 / 0.58);
-  border-radius: 999px;
-  background: var(--panel);
-  box-shadow: 0 1px 2px rgb(43 37 33 / 0.08);
   color: var(--ink);
-  font-size: 0.72rem;
-  font-weight: 500;
-  line-height: 1.2;
+  font-family: Baskerville, "Iowan Old Style", Georgia, serif;
+  font-size: .95rem;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -.015em;
+  text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-shadow: 0 1px 2px var(--paper), 0 0 6px var(--paper), 0 0 12px var(--paper);
   animation: label-develop 280ms var(--ease) backwards;
   animation-delay: calc(470ms + var(--stagger));
 }
@@ -480,32 +480,40 @@ img {
 
 .site-footer {
   display: flex;
-  width: fit-content;
-  max-width: 100%;
+  width: min(100%, 36rem);
   align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
+  justify-content: space-between;
+  gap: 1rem;
   margin-inline: auto;
-  padding: 0.48rem 0.8rem;
-  border: 1px solid rgb(255 255 255 / 0.62);
-  border-radius: 999px;
-  background: var(--panel);
-  box-shadow: 0 2px 8px rgb(43 37 33 / 0.1);
-  color: var(--muted);
-  font-size: 0.71rem;
+  padding: .25rem .5rem;
+  color: var(--ink);
 }
-
+.site-signature {
+  font-family: Baskerville, "Iowan Old Style", Georgia, serif;
+  font-size: .88rem;
+  font-style: italic;
+  text-shadow: 0 1px 2px var(--paper), 0 0 6px var(--paper), 0 0 12px var(--paper);
+}
+.footer-secrets { display: flex; align-items: center; gap: .4rem; }
 .site-footer button {
-  display: inline-flex;
-  min-height: 1.5rem;
-  align-items: center;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
   padding: 0;
   border: 0;
-  border-bottom: 1px dotted currentColor;
+  border-radius: 50%;
   background: transparent;
   color: inherit;
-  cursor: help;
+  cursor: pointer;
 }
+.lucky-token svg { display: block; width: 40px; height: 40px; filter: drop-shadow(0 2px 2px #2b252140); transition: transform 220ms var(--ease); }
+.grain-mark svg { display: block; width: 28px; height: 24px; filter: drop-shadow(0 1px 1px var(--paper)) drop-shadow(0 0 2px var(--paper)); }
+@media (hover: hover) and (pointer: fine) {
+  .lucky-token:hover svg { transform: rotate(-12deg) translateY(-2px); }
+  .grain-mark:hover svg { transform: rotate(4deg); }
+}
+.lucky-token:focus-visible svg { transform: rotate(-12deg); }
 
 .playlist-dialog {
   width: min(calc(100% - 2rem), 38rem);
@@ -1099,6 +1107,9 @@ body.logo-party .links-grid li:nth-child(even) {
     stroke: none;
     animation: none !important;
   }
+
+  .lucky-token svg { transition: none; }
+  .lucky-token:hover svg, .lucky-token:focus-visible svg, .grain-mark:hover svg { transform: none; }
 
   .spotify-mark,
 .playlist-motion,

@@ -739,6 +739,7 @@ svg[data-icon-motion="wings"].is-playing .blum-wing-crumbs { animation:blum-wing
           <div class="lucky-reel" data-lucky-reel></div>
           <div class="lucky-reel" data-lucky-reel></div>
         </div>
+        <div class="lucky-payline" aria-hidden="true"></div>
         <button class="lucky-lever" type="button" data-lucky-lever aria-label="Pull the lever" aria-describedby="lucky-instructions">
           <span class="lucky-lever-arm" aria-hidden="true"><span class="lucky-knob"></span></span>
         </button>
@@ -750,9 +751,25 @@ svg[data-icon-motion="wings"].is-playing .blum-wing-crumbs { animation:blum-wing
     </div>
 
     <footer class="site-footer">
-      <span>© 2026 blumblumblum</span>
-      <button type="button" data-lucky-open aria-controls="lucky-machine" aria-expanded="false" hidden>Feeling lucky?</button>
-      <button type="button" data-grain-hint title="Try typing “grain”">developed by hand</button>
+      <span class="site-signature">© 2026 Jordan Blum</span>
+      <div class="footer-secrets">
+        <button class="lucky-token" type="button" data-lucky-open aria-label="Feeling lucky?" title="Feeling lucky?" aria-controls="lucky-machine" aria-expanded="false" hidden>
+          <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+            <circle cx="20" cy="20" r="16" fill="#d8b882" stroke="#8e643a" stroke-width="1.2"/>
+            <circle cx="20" cy="20" r="12.5" fill="none" stroke="#9c4037" stroke-width=".7" stroke-dasharray=".4 2"/>
+            <path d="M20 10 22.8 17.2 30 20 22.8 22.8 20 30 17.2 22.8 10 20 17.2 17.2Z" fill="#9c4037"/>
+            <path d="m18 12 1-3m7 16 3 1" stroke="#fcf8ed" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="grain-mark" type="button" data-grain-hint aria-label="Reveal the grain hint" title="Try typing “grain”">
+          <svg viewBox="0 0 32 26" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="26" height="20" rx="1.5"/>
+            <path d="M8 3v20M24 3v20M3 8h5m-5 5h5m-5 5h5m16-10h5m-5 5h5m-5 5h5"/>
+            <path d="m12 16 3-5 3 3 2-2 2 5H11Z"/>
+            <circle cx="20" cy="8" r="1"/>
+          </svg>
+        </button>
+      </div>
     </footer>
   </main>
 

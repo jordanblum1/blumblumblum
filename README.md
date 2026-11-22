@@ -37,9 +37,9 @@ Higgsfield toolbox source SHA-256: `bd7a00e8e4bd38d3a98789eaffb5f90f02b6e73047cb
 
 ## Lucky Links
 
-“Feeling lucky?” in the footer gathers the nine native link symbols into a physical three-reel machine in the same space. Each reel shows three rows; its center row is the winning payline. Click, press or drag the round handle down to choose a destination. Only the selected link appears as text. The × control or Escape disperses the symbols back to the grid. Long-pressing the BLUM logo is a second entrance.
+The engraved “Feeling lucky?” coin in the footer gathers the nine native link symbols into a physical three-reel machine in the same space. Each reel shows three rows; its center row is the winning payline. Click, press or drag the round handle down to choose a destination. Only the selected link appears as text. The × control or Escape disperses the symbols back to the grid. Long-pressing the BLUM logo is a second entrance.
 
-`js/lucky-machine.js` owns the closed/opening/idle/spinning/closing states and their bounded Web Animations. `js/lucky-artwork.js` clones trusted local art with unique mask/clip IDs. A preference change, resize or hidden tab safely settles the current transition. Reduced motion is immediate. Without JavaScript all original links remain available. The generated cabinet and references are documented in [DESIGN.md](DESIGN.md).
+`js/lucky-machine.js` owns the closed/opening/idle/spinning/closing states and their bounded Web Animations. `js/lucky-artwork.js` clones trusted local art with unique mask/clip IDs; `js/lucky-reels.js` supplies the slower mechanical motion profile. `js/lucky-sounds.js` plays optional local samples after a lever action and cancels them on interruption. The film-frame footer mark preserves the grain hint without the old text button. A preference change, resize or hidden tab safely settles the current transition. Reduced motion is immediate. Without JavaScript all original links remain available. The generated cabinet and references are documented in [DESIGN.md](DESIGN.md).
 
 ## Journey map and checks
 

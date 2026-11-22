@@ -19,8 +19,8 @@ test('the discoverable clue reveals nine native symbols in the site palette with
   page.on('pageerror', error => errors.push(error.message));
   await open(page);
   await expect(lever(page)).toBeFocused();
-  await expect(page.locator('[data-lucky-symbol]')).toHaveCount(9);
-  expect(await page.locator('[data-lucky-symbol]').evaluateAll(elements =>
+  await expect(page.locator('[data-lucky-reel] [data-lucky-symbol]')).toHaveCount(9);
+  expect(await page.locator('[data-lucky-reel] [data-lucky-symbol]').evaluateAll(elements =>
     new Set(elements.map(element => getComputedStyle(element).color)).size,
   )).toBe(1);
   expect(await page.evaluate(() => {
@@ -40,7 +40,9 @@ test('the lever settles on three matching icons and an actual destination', asyn
   await expect(result(page)).toBeVisible();
   await expect(result(page)).toHaveAttribute('href', 'https://github.com/jordanblum1');
   await expect(page.locator('[data-lucky-status]')).toContainText('GitHub selected.');
-  await expect(result(page)).toHaveText('GitHub ↗');
+  await expect(result(page)).toHaveAttribute('aria-label', 'GitHub');
+  await expect(result(page).locator('.lucky-ticket-label')).toHaveText('GitHub');
+  await expect(page.locator('.lucky-payline')).toHaveCSS('opacity', '1');
   expect(await centers(page)).toEqual(['GitHub', 'GitHub', 'GitHub']);
   await expect(lever(page)).toBeEnabled();
   await page.route('https://github.com/jordanblum1', route => route.fulfill({
@@ -78,7 +80,7 @@ test('closing during a spin cancels it, restores links and returns focus to the 
   await expect(page.locator('.outpost-link')).toHaveCount(9);
   await expect(page.locator('.links-nav')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Feeling lucky?', exact: true })).toBeFocused();
-  await expect(page.locator('[data-lucky-symbol]')).toHaveCount(0);
+  await expect(page.locator('[data-lucky-reel] [data-lucky-symbol]')).toHaveCount(0);
   await page.getByRole('button', { name: 'Feeling lucky?', exact: true }).click();
   await expect(result(page)).toBeHidden();
   await expect(lever(page)).toBeEnabled();
@@ -121,7 +123,7 @@ for (const motion of ['no-preference', 'reduce']) test('one arm drag makes one c
   }
   if (motion === 'no-preference') await expect(page.locator('[data-lucky-machine]')).toHaveAttribute('aria-busy', 'true');
   await expect(result(page)).toBeVisible();
-  await expect(page.locator('[data-lucky-symbol]')).toHaveCount(9);
+  await expect(page.locator('[data-lucky-reel] [data-lucky-symbol]')).toHaveCount(9);
   expect(await page.evaluate(() => window.luckyDraws)).toBe(before + 1);
   await lever(page).click();
   await expect(result(page)).toBeVisible();
@@ -230,4 +232,94 @@ test('a hidden tab settles the reels and cancels transient motion', async ({ pag
   await expect(result(page)).toBeVisible();
   await expect(lever(page)).toBeEnabled();
   expect(await page.locator('[data-lucky-machine]').evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0);
+});
+
+test('the footer uses a coin clue and plain captions without extra glass containers', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('[data-lucky-open] svg')).toBeVisible();
+  await expect(page.locator('[data-grain-hint]')).toHaveAccessibleName('Reveal the grain hint');
+  await expect(page.getByText('developed by hand', { exact: true })).toHaveCount(0);
+  await expect(page.locator('.site-footer')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+  await expect(page.locator('.link-label').first()).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+  await page.locator('[data-grain-hint]').click();
+  await expect(page.locator('[data-toast]')).toContainText('grain');
+});
+
+test('the slower reels end in sequence and the ticket identifies the center winner', async ({ page }) => {
+  await open(page);
+  await lever(page).click();
+  const rotations = await page.locator('.lucky-strip').evaluateAll(strips => strips.map(strip => {
+    const animation = strip.getAnimations()[0];
+    return { duration: animation.effect.getTiming().duration, frames: animation.effect.getKeyframes().length };
+  }));
+  expect(rotations.map(rotation => rotation.duration)).toEqual([2800, 3180, 3600]);
+  expect(rotations.every(rotation => rotation.frames > 2)).toBe(true);
+  await expect(result(page)).toBeVisible();
+  const choice = await result(page).getAttribute('aria-label');
+  expect(await centers(page)).toEqual([choice, choice, choice]);
+  await expect(result(page).locator('.lucky-ticket-label')).toHaveText(choice);
+  await expect(result(page).locator('.lucky-ticket-art')).toBeVisible();
+  const ticket = await result(page).boundingBox();
+  expect(ticket.height).toBeGreaterThanOrEqual(64);
+  await expect(page.locator('.lucky-payline')).toHaveCSS('opacity', '1');
+  await lever(page).click();
+  await expect(result(page)).toBeHidden();
+  await expect(page.locator('.lucky-payline')).toHaveCSS('opacity', '0');
+  await page.keyboard.press('Escape');
+});
+
+test('real local audio starts only after a lever action and stops on interruption', async ({ page }) => {
+  await page.addInitScript(() => {
+    const NativeAudioContext = window.AudioContext;
+    window.slotAudioStarts = [];
+    window.slotActiveAudio = new Set();
+    window.AudioContext = class extends NativeAudioContext {
+      constructor(...args) { super(...args); window.slotAudioContext = this; }
+      createBufferSource() {
+        const source = super.createBufferSource();
+        const start = source.start.bind(source);
+        source.start = (...args) => {
+          window.slotAudioStarts.push({ loop: source.loop, duration: source.buffer.duration });
+          window.slotActiveAudio.add(source);
+          return start(...args);
+        };
+        source.addEventListener('ended', () => window.slotActiveAudio.delete(source));
+        return source;
+      }
+    };
+  });
+  await open(page);
+  expect(await page.evaluate(() => window.slotAudioContext)).toBeUndefined();
+  await lever(page).click();
+  await expect.poll(() => page.evaluate(() => window.slotAudioStarts.length)).toBeGreaterThanOrEqual(2);
+  expect(await page.evaluate(() => window.slotAudioContext.state)).toBe('running');
+  expect(await page.evaluate(() => window.slotAudioStarts.filter(source => source.loop).length)).toBe(1);
+  await expect(result(page)).toBeVisible();
+  // Pull, rolling bed, three actual reel stops, and one winning bell.
+  expect(await page.evaluate(() => window.slotAudioStarts.length)).toBe(6);
+  await lever(page).click();
+  await page.keyboard.press('Escape');
+  await expect.poll(() => page.evaluate(() => window.slotActiveAudio.size)).toBe(0);
+});
+
+for (const failure of ['unavailable samples', 'blocked audio']) test('sound failure preserves the picker: ' + failure, async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  if (failure === 'unavailable samples') {
+    await page.route('**/assets/audio/*.mp3', route => route.fulfill({ status: 404, body: '' }));
+  } else {
+    await page.addInitScript(() => {
+      const NativeAudioContext = window.AudioContext;
+      window.AudioContext = class extends NativeAudioContext {
+        resume() { return Promise.reject(new DOMException('Audio blocked', 'NotAllowedError')); }
+      };
+    });
+  }
+  await open(page);
+  await lever(page).click();
+  await expect(result(page)).toBeVisible();
+  await expect(lever(page)).toBeEnabled();
+  await page.keyboard.press('Escape');
+  await expect(page.locator('.links-nav')).toBeVisible();
+  expect(errors).toEqual([]);
 });
