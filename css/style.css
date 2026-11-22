@@ -145,9 +145,10 @@ img {
   background: color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
-:focus-visible {
+:is(a, button):focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 4px;
+  box-shadow: 0 0 0 7px var(--paper-raised);
 }
 
 .visually-hidden {
@@ -326,8 +327,9 @@ img {
 
 .links-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(1rem, 3.2vw, 1.5rem) clamp(0.65rem, 2.2vw, 1rem);
+  --link-gap: clamp(.65rem, 2.2vw, 1rem);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 3.2vw, 1.5rem) var(--link-gap);
   padding: 0;
   margin: 0;
   list-style: none;
@@ -358,7 +360,7 @@ img {
   position: relative;
   isolation: isolate;
   display: grid;
-  width: clamp(5.25rem, 12vw, 6.25rem);
+  width: min(100%, clamp(5.25rem, 12vw, 6.25rem));
   aspect-ratio: 1;
   place-items: center;
   border: 1px solid rgb(255 255 255 / 0.72);
@@ -436,18 +438,18 @@ img {
 
 .link-label {
   max-width: 100%;
-  padding: 0.22rem 0.48rem;
+  padding: .25rem .5rem;
   overflow: hidden;
-  border: 1px solid rgb(255 255 255 / 0.58);
-  border-radius: 999px;
-  background: var(--panel);
-  box-shadow: 0 1px 2px rgb(43 37 33 / 0.08);
+  border-radius: .625rem;
+  background: var(--paper-raised);
   color: var(--ink);
-  font-size: 0.72rem;
+  font-size: .875rem;
   font-weight: 500;
-  line-height: 1.2;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.3;
+  letter-spacing: 0;
+  text-align: center;
+  white-space: normal;
+  text-wrap: balance;
   animation: label-develop 280ms var(--ease) backwards;
   animation-delay: calc(470ms + var(--stagger));
 }
@@ -480,32 +482,45 @@ img {
 
 .site-footer {
   display: flex;
-  width: fit-content;
-  max-width: 100%;
+  width: min(100%, 36rem);
   align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
+  justify-content: space-between;
+  gap: 1rem;
   margin-inline: auto;
-  padding: 0.48rem 0.8rem;
-  border: 1px solid rgb(255 255 255 / 0.62);
-  border-radius: 999px;
-  background: var(--panel);
-  box-shadow: 0 2px 8px rgb(43 37 33 / 0.1);
-  color: var(--muted);
-  font-size: 0.71rem;
+  padding: .25rem .5rem;
+  color: var(--ink);
 }
-
+.site-signature {
+  padding: .25rem .5rem;
+  border-radius: .5rem;
+  background: var(--paper-raised);
+  color: var(--ink);
+  font-size: .75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+.footer-secrets { display: flex; align-items: center; gap: .4rem; }
 .site-footer button {
-  display: inline-flex;
-  min-height: 1.5rem;
-  align-items: center;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
   padding: 0;
   border: 0;
-  border-bottom: 1px dotted currentColor;
+  border-radius: 50%;
   background: transparent;
   color: inherit;
-  cursor: help;
+  cursor: pointer;
 }
+.site-footer .lucky-token { width: 56px; height: 48px; }
+.lucky-token svg { display: block; width: 52px; height: 44px; filter: drop-shadow(0 2px 2px #2b252140); }
+.lucky-clue-handle { transition: transform 160ms var(--ease); }
+.grain-mark svg { display: block; width: 28px; height: 24px; filter: drop-shadow(0 1px 1px #2b252130); }
+@media (hover: hover) and (pointer: fine) {
+  .lucky-token:hover .lucky-clue-handle { transform: translateY(3px); }
+}
+.lucky-token:focus-visible .lucky-clue-handle { transform: translateY(3px); }
 
 .playlist-dialog {
   width: min(calc(100% - 2rem), 38rem);
@@ -965,12 +980,12 @@ body.logo-party .links-grid li:nth-child(even) {
   }
 
   .links-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.85rem 0.4rem;
+    --link-gap: .4rem;
+    row-gap: .85rem;
   }
 
   .icon-disc {
-    width: clamp(4.9rem, 24vw, 5.6rem);
+    width: min(100%, clamp(4.9rem, 24vw, 5.6rem));
   }
 
   .icon-disc svg {
@@ -1002,12 +1017,6 @@ body.logo-party .links-grid li:nth-child(even) {
 
   .spotify-fallback {
     margin-top: 0.75rem;
-  }
-}
-
-@media (max-width: 22rem) {
-  .links-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -1058,8 +1067,8 @@ body.logo-party .links-grid li:nth-child(even) {
   }
 
   .links-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.55rem 0.4rem;
+    --link-gap: .4rem;
+    row-gap: .55rem;
   }
 
   .outpost-link {
@@ -1072,6 +1081,19 @@ body.logo-party .links-grid li:nth-child(even) {
 
   .site-footer {
     padding-block: 0.35rem;
+  }
+}
+
+/* Touch tablets keep the same 3×3 layout even in landscape. A wide desktop
+   uses wrapping rows, so the final four links center naturally under five. */
+@media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+  .links-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .links-grid li {
+    flex: 0 0 calc((100% - 4 * var(--link-gap)) / 5);
   }
 }
 
@@ -1099,6 +1121,9 @@ body.logo-party .links-grid li:nth-child(even) {
     stroke: none;
     animation: none !important;
   }
+
+  .lucky-clue-handle { transition: none; }
+  .lucky-token:hover .lucky-clue-handle, .lucky-token:focus-visible .lucky-clue-handle { transform: none; }
 
   .spotify-mark,
 .playlist-motion,

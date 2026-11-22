@@ -4,6 +4,7 @@
   position: relative;
   width: min(100%, 31rem);
   margin-inline: auto;
+  padding-bottom: 1.5rem;
   color: var(--accent);
 }
 .lucky-machine[hidden], .lucky-machine [hidden], [data-lucky-open][hidden], .links-nav[hidden] { display: none; }
@@ -48,19 +49,33 @@
   background: linear-gradient(#6b45262b, #faf5ec80 17%, transparent 35% 65%, #faf5ec80 83%, #6b45262b);
   box-shadow: inset 0 0 9px rgb(80 52 28 / .12);
 }
-.lucky-symbol { display: grid; height: calc(100% / 3); place-items: center; color: var(--accent); }
+.lucky-symbol { display: grid; height: calc(100% / 3); place-items: center; color: #9c4037; }
 .lucky-strip { height: 100%; }
 .lucky-symbol > svg { display: block; width: 64%; height: 68%; overflow: visible; }
 .lucky-symbol .equalizer { height: 68%; transform: scale(.72); }
 [data-lucky-state="opening"] .lucky-reels, [data-lucky-state="closing"] .lucky-reels { opacity: 0; }
 [data-lucky-state="spinning"] .lucky-strip { will-change: transform; }
+.lucky-payline {
+  position: absolute;
+  top: 40.05%;
+  left: 20.6%;
+  width: 57.4%;
+  height: 13.9%;
+  border: 1px solid rgb(156 64 55 / .65);
+  border-radius: .25rem;
+  box-shadow: inset 0 0 0 1px rgb(252 250 246 / .5);
+  opacity: 0;
+  pointer-events: none;
+}
+.has-winner .lucky-payline { opacity: 1; }
+.has-winner .lucky-reel > .lucky-symbol:not(:nth-child(2)) { opacity: .35; }
 .lucky-lever {
   position: absolute;
-  top: 29%;
-  left: 87.2%;
-  width: 12%;
+  top: 31%;
+  left: 80.4%;
+  width: 17%;
   min-width: 44px;
-  height: 40%;
+  height: 35%;
   padding: 0;
   border: 0;
   border-radius: 999px;
@@ -68,28 +83,46 @@
   cursor: grab;
   touch-action: none;
 }
+/* A fixed mounting plate overlaps the cabinet edge; the piston passes behind
+   its sleeve, so the entire mechanism reads as part of the same object. */
 .lucky-lever::before {
   content: "";
   position: absolute;
-  top: 31%;
-  left: calc(50% - 7px);
-  width: 14px;
-  height: 66%;
+  z-index: 1;
+  top: 60%;
+  left: 0;
+  width: 69%;
+  height: 19%;
   border: 1px solid #97703d;
-  border-radius: 999px;
+  border-radius: 15% 25% 25% 15%;
+  background: radial-gradient(circle at 15% 50%, #73552e 0 5%, #ddc499 6% 8%, transparent 9%), linear-gradient(#d9bf91, #947044 46%, #d8ba86 52%, #97703d);
+  box-shadow: 1px 2px 3px #2b252150;
+}
+.lucky-lever::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 57%;
+  left: calc(60% - 10px);
+  width: 20px;
+  height: 45%;
+  border: 1px solid #97703d;
+  border-radius: 7px;
   background: linear-gradient(90deg, #73552e, #eedbb7 42%, #a7834d);
-  box-shadow: 1px 2px 4px #2b252144;
+  box-shadow: 1px 2px 3px #2b252144;
 }
 .lucky-lever-arm {
   position: absolute;
   top: 8%;
-  left: calc(50% - 4px);
+  left: calc(60% - 4px);
   width: 8px;
-  height: 56%;
+  height: 60%;
   border: 1px solid #97703d;
   border-radius: 999px;
   background: linear-gradient(90deg, #a68148, #f1e1c5 45%, #97703d);
+  transition: transform 200ms var(--ease);
 }
+.is-dragging .lucky-lever-arm { transition: none; }
 .lucky-knob {
   position: absolute;
   top: -12px;
@@ -105,21 +138,32 @@
 .lucky-lever.is-dragging { cursor: grabbing; }
 .lucky-jackpot {
   position: absolute;
-  top: 76.2%;
-  transform: translateY(-50%);
-  left: 26%;
+  z-index: 3;
+  top: 83.5%;
+  left: 24.5%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: .25rem;
-  width: 46%;
-  min-height: 44px;
-  height: 7.3%;
+  gap: .5rem;
+  width: 49%;
+  min-height: 64px;
+  padding: .6rem .7rem;
+  border: 1px solid #d5c1a6;
+  border-top: 1px dashed #b39b7a;
+  border-radius: 6px 6px 10px 10px;
+  background: #fcf8ed;
+  box-shadow: 0 4px 8px #2b25212b, inset 0 0 18px #d6bd9224;
   color: #7f302a;
-  font-size: clamp(.68rem, 2.3vw, .85rem);
+  font-size: clamp(.75rem, 2.4vw, .95rem);
   font-weight: 500;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  text-decoration: none;
+}
+.lucky-ticket-label { text-decoration: underline; text-underline-offset: 3px; }
+.lucky-ticket-art { color: inherit; flex: 0 0 32px; width: 32px; height: 36px; }
+.lucky-ticket-art > svg { width: 100%; height: 100%; }
+.lucky-ticket-art .equalizer { transform: scale(.65); }
+@media (prefers-reduced-motion: reduce) {
+  .lucky-lever-arm { transition: none; }
 }
 .lucky-gather { position: fixed; inset: 0; z-index: 60; pointer-events: none; }
 .lucky-ghost { position: absolute; top: 0; left: 0; transform-origin: 0 0; }

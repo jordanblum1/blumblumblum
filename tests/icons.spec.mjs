@@ -296,3 +296,35 @@ test('all nine links fit the viewport without horizontal overflow', async ({ pag
     linksFit: true,
   });
 });
+
+for (const device of [
+  { name: 'small iPhone', width: 320, height: 568, touch: true, rows: [3, 3, 3] },
+  { name: 'iPhone', width: 390, height: 844, touch: true, rows: [3, 3, 3] },
+  { name: 'iPad', width: 768, height: 1024, touch: true, rows: [3, 3, 3] },
+  { name: 'large iPad', width: 1024, height: 1366, touch: true, rows: [3, 3, 3] },
+  { name: 'landscape iPad', width: 1366, height: 1024, touch: true, rows: [3, 3, 3] },
+  { name: 'desktop', width: 1280, height: 860, touch: false, rows: [5, 4] },
+]) test('balanced link rows on ' + device.name, async ({ browser, baseURL }, info) => {
+  test.skip(info.project.name !== 'desktop', 'One explicit viewport matrix; not duplicated by the mobile project.');
+  const context = await browser.newContext({ baseURL, viewport: { width: device.width, height: device.height },
+    hasTouch: device.touch, isMobile: device.touch, reducedMotion: 'reduce' });
+  const page = await context.newPage();
+  await page.goto('/');
+  await expect(page.locator('html')).toHaveClass(/is-ready/);
+  const geometry = await page.locator('.links-grid li').evaluateAll(elements => elements.map(element => {
+    const { x, y, width } = element.getBoundingClientRect();
+    return { x, y, width };
+  }));
+  const rows = [];
+  for (const cell of geometry) {
+    let row = rows.find(row => Math.abs(row.y - cell.y) < 2);
+    if (!row) { row = { y: cell.y, cells: [] }; rows.push(row); }
+    row.cells.push(cell);
+  }
+  expect(rows.map(row => row.cells.length)).toEqual(device.rows);
+  const centers = rows.map(row => (row.cells[0].x + row.cells.at(-1).x + row.cells.at(-1).width) / 2);
+  expect(Math.max(...centers) - Math.min(...centers)).toBeLessThan(2);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await expect(page.locator('.link-label').first()).toHaveCSS('border-top-left-radius', '10px');
+  await context.close();
+});
