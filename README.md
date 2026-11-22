@@ -12,7 +12,7 @@ Then open `http://127.0.0.1:4173/`.
 
 ## Tests
 
-The easter eggs have one Playwright spec, `tests/eggs.spec.mjs`. It serves the site on port 4501 by itself.
+The Playwright suite covers the Easter eggs, native link icons and Lucky Links on desktop and mobile. It serves the site on port 4501 by itself.
 
 ```sh
 npm install
@@ -34,3 +34,9 @@ python3 scripts/sync-motion-icons.py --check
 ```
 
 Higgsfield toolbox source SHA-256: `bd7a00e8e4bd38d3a98789eaffb5f90f02b6e73047cbe8b4885040412c4830d9`. The adaptation preserves its paths, normalizes the viewBox and adds the lid/tool choreography. Earlier generated studies for the other icons are not used as replacement identities.
+
+## Lucky Links
+
+“Feeling lucky?” in the footer reveals a three-reel link picker beneath the BLUM logo. Click or drag its arm to choose one of the existing nine destinations; matching symbols reveal a normal destination link. Back or Escape restores the grid. Long-pressing the BLUM logo is a second entrance.
+
+The picker clones the existing decorative artwork with unique mask/clip IDs, uses three bounded Web Animations, and clears its reels on exit. Reduced motion settles instantly; a preference change, resize or hidden tab safely finishes a current choice. It uses no storage, remote resources or new dependencies. Without JavaScript the original link grid remains usable.
