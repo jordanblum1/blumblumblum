@@ -1,0 +1,16 @@
+/* The illustration supplies the gesture; its disc stays steady. */
+.icon-disc svg.icon-motion {
+  overflow: visible;
+}
+
+.icon-disc svg.jrb-mark {
+  width: 58%;
+  height: 58%;
+  fill: currentColor;
+  stroke: none;
+}
+
+.icon-disc svg.toolbox-mark {
+  width: 2.5rem;
+  height: 2.5rem;
+}

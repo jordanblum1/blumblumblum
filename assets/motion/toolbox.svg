@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="icon-motion toolbox-mark" data-icon-motion="toolbox" data-duration="1250" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <metadata>Higgsfield generated the toolbox, lid, hammer, wrench, placement groups, and tool clip. Adaptation retained that vector geometry, removed its redundant 1024-viewBox scaling, prefixed the artwork hooks, and added scoped CSS playback, a sparse standalone preview, and a static reduced-motion frame.</metadata>
+  <style>
+    svg.icon-motion[data-icon-motion="toolbox"] {
+      --blum-toolbox-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.55;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    svg.icon-motion[data-icon-motion="toolbox"] .blum-toolbox-part {
+      animation: none;
+      transform: none;
+      transform-box: view-box;
+      transform-origin: 0px 0px;
+    }
+    svg.icon-motion[data-icon-motion="toolbox"] #blum-toolbox-lid {
+      transform-origin: 3.5px 11.8px;
+    }
+
+    /* Standalone preview: 1250ms of motion, then 6750ms closed. */
+    svg.icon-motion[data-icon-motion="toolbox"]:not(.is-controlled) .blum-toolbox-part {
+      animation-duration: 8s;
+      animation-delay: 2.5s;
+      animation-iteration-count: infinite;
+      animation-fill-mode: both;
+      animation-timing-function: var(--blum-toolbox-ease);
+    }
+    svg.icon-motion[data-icon-motion="toolbox"]:not(.is-controlled) #blum-toolbox-lid {
+      animation-name: blum-toolbox-lid-preview;
+    }
+    svg.icon-motion[data-icon-motion="toolbox"]:not(.is-controlled) #blum-toolbox-hammer {
+      animation-name: blum-toolbox-hammer-preview;
+    }
+    svg.icon-motion[data-icon-motion="toolbox"]:not(.is-controlled) #blum-toolbox-wrench {
+      animation-name: blum-toolbox-wrench-preview;
+    }
+
+    /* The host controls scheduling and adds is-playing for one complete gesture. */
+    svg.icon-motion[data-icon-motion="toolbox"].is-playing .blum-toolbox-part {
+      animation-duration: 1250ms;
+      animation-delay: 0s;
+      animation-iteration-count: 1;
+      animation-fill-mode: both;
+      animation-timing-function: var(--blum-toolbox-ease);
+    }
+    svg.icon-motion[data-icon-motion="toolbox"].is-playing #blum-toolbox-lid {
+      animation-name: blum-toolbox-lid-play;
+    }
+    svg.icon-motion[data-icon-motion="toolbox"].is-playing #blum-toolbox-hammer {
+      animation-name: blum-toolbox-hammer-play;
+    }
+    svg.icon-motion[data-icon-motion="toolbox"].is-playing #blum-toolbox-wrench {
+      animation-name: blum-toolbox-wrench-play;
+    }
+
+    @keyframes blum-toolbox-lid-play {
+      0%, 100% { transform: none; }
+      25%, 75% { transform: rotate(-14deg); }
+    }
+    @keyframes blum-toolbox-hammer-play {
+      0%, 9.090909%, 75%, 100% { transform: none; }
+      34.090909%, 50% { transform: translate(-2px, -11px) rotate(-16deg); }
+    }
+    @keyframes blum-toolbox-wrench-play {
+      0%, 14.204545%, 75%, 100% { transform: none; }
+      39.204545%, 50% { transform: translate(1.3px, -11px) rotate(14deg); }
+    }
+
+    @keyframes blum-toolbox-lid-preview {
+      0%, 15.625%, 100% { transform: none; }
+      3.90625%, 11.71875% { transform: rotate(-14deg); }
+    }
+    @keyframes blum-toolbox-hammer-preview {
+      0%, 1.420455%, 11.71875%, 100% { transform: none; }
+      5.326705%, 7.8125% { transform: translate(-2px, -11px) rotate(-16deg); }
+    }
+    @keyframes blum-toolbox-wrench-preview {
+      0%, 2.21946%, 11.71875%, 100% { transform: none; }
+      6.12571%, 7.8125% { transform: translate(1.3px, -11px) rotate(14deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      svg.icon-motion[data-icon-motion="toolbox"] .blum-toolbox-part {
+        animation: none !important;
+        transform: none !important;
+      }
+    }
+  </style>
+  <defs>
+    <clipPath id="blum-toolbox-tools-clip" clipPathUnits="userSpaceOnUse">
+      <rect x="-24" y="-24" width="72" height="35.55"/>
+    </clipPath>
+  </defs>
+  <g id="blum-toolbox-lid" class="blum-toolbox-part">
+    <path d="M3.5 11.8H20.5"/>
+    <path d="M9 11.8V9.45Q9 8.4 10.05 8.4H13.95Q15 8.4 15 9.45V11.8"/>
+  </g>
+  <g clip-path="url(#blum-toolbox-tools-clip)">
+    <g id="blum-toolbox-hammer-placement" transform="translate(8.2 19)">
+      <g id="blum-toolbox-hammer" class="blum-toolbox-part">
+        <path d="M0 0V-4.9"/>
+        <rect x="-2.2" y="-6" width="4.4" height="1.3" rx=".15"/>
+      </g>
+    </g>
+    <g id="blum-toolbox-wrench-placement" transform="translate(15.5 19)">
+      <g id="blum-toolbox-wrench" class="blum-toolbox-part">
+        <path d="M0 0V-3.2"/>
+        <path d="M-1-6.4L-2-5.6Q-2.1-5.5-2.1-5.2V-4.6Q-2.1-3.2 0-3.2Q2.1-3.2 2.1-4.6V-5.2Q2.1-5.5 2-5.6L1-6.4V-4.8H-1Z"/>
+      </g>
+    </g>
+  </g>
+  <path id="blum-toolbox-body" d="M3.5 11.8V18.7A1.5 1.5 0 0 0 5 20.2H19A1.5 1.5 0 0 0 20.5 18.7V11.8"/>
+  <rect id="blum-toolbox-latch" x="10.9" y="11.8" width="2.2" height="2.2" rx=".45"/>
+</svg>
