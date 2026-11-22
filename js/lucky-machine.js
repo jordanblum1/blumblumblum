@@ -246,7 +246,8 @@ if (machine && opener && links && stage && lever && arm && winner && status && b
     sounds.stop();
     if (state === 'opening') settleOpening();
     else if (state === 'closing') settleClosed();
-    else finish();
+    else if (state === 'spinning') finish();
+    else cancelAnimations();
   };
 
   opener.addEventListener('click', () => show(opener));

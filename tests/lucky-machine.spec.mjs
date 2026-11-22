@@ -323,3 +323,26 @@ for (const failure of ['unavailable samples', 'blocked audio']) test('sound fail
   await expect(page.locator('.links-nav')).toBeVisible();
   expect(errors).toEqual([]);
 });
+
+for (const interruption of ['reduce', 'hide', 'resize']) test('the ticket reveal settles when interrupted by ' + interruption, async ({ page }) => {
+  await open(page);
+  await lever(page).click();
+  // Wait on the actual reveal start, not a sleep that can miss its 240ms window.
+  await page.evaluate(() => new Promise(resolve => {
+    const ticket = document.querySelector('[data-lucky-winner]');
+    const observer = new MutationObserver(() => {
+      if (!ticket.hidden) { observer.disconnect(); resolve(); }
+    });
+    if (!ticket.hidden) resolve();
+    else observer.observe(ticket, { attributes: true, attributeFilter: ['hidden'] });
+  }));
+  if (interruption === 'reduce') await page.emulateMedia({ reducedMotion: 'reduce' });
+  else if (interruption === 'resize') await page.setViewportSize({ width: 320, height: 640 });
+  else await page.evaluate(() => {
+    Object.defineProperty(document, 'hidden', { configurable: true, value: true });
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+  await expect(result(page)).toBeVisible();
+  expect(await page.locator('[data-lucky-machine]').evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0);
+  await expect(lever(page)).toBeEnabled();
+});
