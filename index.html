@@ -34,6 +34,7 @@
   <link rel="preload" href="./assets/fonts/switzer-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/icon-motion.css">
+  <link rel="stylesheet" href="./css/lucky-machine.css">
   <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
@@ -728,8 +729,33 @@ svg[data-icon-motion="wings"].is-playing .blum-wing-crumbs { animation:blum-wing
       </ul>
     </nav>
 
+    <section class="lucky-machine" id="lucky-machine" data-lucky-machine aria-labelledby="lucky-title" aria-busy="false" hidden>
+      <header class="lucky-machine-header">
+        <button class="lucky-back" type="button" data-lucky-close>← Back to links</button>
+        <p>A lucky little detour</p>
+      </header>
+      <div class="lucky-cabinet">
+        <p class="lucky-marquee">BLUM’S LUCKY LINKS</p>
+        <h2 id="lucky-title">Your next detour.</h2>
+        <div class="lucky-game">
+          <div class="lucky-reels" aria-hidden="true">
+            <div class="lucky-reel" data-lucky-reel></div>
+            <div class="lucky-reel" data-lucky-reel></div>
+            <div class="lucky-reel" data-lucky-reel></div>
+          </div>
+          <button class="lucky-lever" type="button" data-lucky-lever aria-label="Pull the lever">
+            <span class="lucky-lever-arm" aria-hidden="true"><span class="lucky-knob"></span></span>
+            <span class="lucky-lever-label" aria-hidden="true">Pull ↓</span>
+          </button>
+        </div>
+        <p class="lucky-status" data-lucky-status role="status" aria-live="polite">Pull the lever to find your next stop.</p>
+        <a class="lucky-jackpot" data-lucky-winner hidden></a>
+      </div>
+    </section>
+
     <footer class="site-footer">
       <span>© 2026 blumblumblum</span>
+      <button type="button" data-lucky-open aria-controls="lucky-machine" aria-expanded="false" hidden>Feeling lucky?</button>
       <button type="button" data-grain-hint title="Try typing “grain”">developed by hand</button>
     </footer>
   </main>
@@ -761,5 +787,6 @@ svg[data-icon-motion="wings"].is-playing .blum-wing-crumbs { animation:blum-wing
   <div class="toast" role="status" aria-live="polite" aria-atomic="true" data-toast></div>
   <script src="./js/site.js" defer></script>
   <script src="./js/icon-motion.js" defer></script>
+  <script src="./js/lucky-machine.js" defer></script>
 </body>
 </html>

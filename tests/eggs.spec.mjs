@@ -115,7 +115,7 @@ test('catch the letters: Esc puts the pieces back', async ({ page }) => {
     .toBe('none');
 });
 
-test('link roulette: long-press picks a link and does not count as a tap', async ({ page }) => {
+test('Lucky Links: long-press reveals the slot machine and does not count as a tap', async ({ page }) => {
   await open(page);
   const logo = page.locator('[data-logo-button]');
   const p = await pointer(page);
@@ -123,11 +123,12 @@ test('link roulette: long-press picks a link and does not count as a tap', async
   await page.waitForTimeout(750);
   await p.up();
   await page.waitForTimeout(600);
-  await shot(page, 'roulette-spin');
+  await shot(page, 'lucky-long-press');
 
-  await expect(page.locator('.links-grid li.is-picked')).toHaveCount(1, { timeout: 5_000 });
-  await expect(page.locator('[data-toast]')).toContainText('Today you should look at');
-  await shot(page, 'roulette-pick');
+  await expect(page.locator('[data-lucky-machine]')).toBeVisible();
+  await expect(page.locator('[data-lucky-winner]')).toBeHidden();
+  await shot(page, 'lucky-reveal');
+  await page.getByRole('button', { name: '← Back to links', exact: true }).click();
 
   // Had the long-press counted as tap one, two more taps would summon the clay.
   await tap(logo);
@@ -136,13 +137,13 @@ test('link roulette: long-press picks a link and does not count as a tap', async
   await expect(page.locator('.logo-panel')).not.toHaveClass(/is-clay/);
 });
 
-test('a short tap replays the logo and never spins the roulette', async ({ page }) => {
+test('a short tap replays the logo and never opens Lucky Links', async ({ page }) => {
   await open(page);
   const logo = page.locator('[data-logo-button]');
   await tap(logo);
   await expect(logo).toHaveClass(/is-replaying/);
   await page.waitForTimeout(1_500);
-  await expect(page.locator('.links-grid li:is(.is-rolling, .is-picked)')).toHaveCount(0);
+  await expect(page.locator('[data-lucky-machine]')).toBeHidden();
   await expect(page.locator('[data-toast]')).not.toContainText('Today');
 });
 
