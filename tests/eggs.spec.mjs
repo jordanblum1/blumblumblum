@@ -128,7 +128,7 @@ test('Lucky Links: long-press reveals the slot machine and does not count as a t
   await expect(page.locator('[data-lucky-machine]')).toBeVisible();
   await expect(page.locator('[data-lucky-winner]')).toBeHidden();
   await shot(page, 'lucky-reveal');
-  await page.getByRole('button', { name: '← Back to links', exact: true }).click();
+  await page.getByRole('button', { name: 'Return to links', exact: true }).click();
 
   // Had the long-press counted as tap one, two more taps would summon the clay.
   await tap(logo);
