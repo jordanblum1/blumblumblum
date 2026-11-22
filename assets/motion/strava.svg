@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="icon-motion strava-mark" data-icon-motion="strava" data-duration="1900" fill="currentColor" stroke="none" aria-hidden="true" focusable="false">
   <title>Strava</title>
-  <metadata>The original native Strava chevrons are retained intact as separate rigid groups. Scoped CSS turns them into a mountain route and returns them to their original arrangement.</metadata>
+  <metadata>The original native Strava chevrons are retained intact as separate rigid groups. Scoped CSS turns them into a mountain route for a miniature bicycle and returns them to their original arrangement. The bicycle replaces the original route dot.</metadata>
   <style>
     svg.icon-motion[data-icon-motion="strava"] {
       --blum-strava-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -18,7 +18,16 @@
       opacity: 0;
     }
 
-    /* Standalone preview: 1.9 seconds hiking, 6.1 seconds at the logo. */
+    svg.icon-motion[data-icon-motion="strava"] #blum-strava-bike {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 0.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transform-origin: 0px 0px;
+    }
+
+    /* Standalone preview: 1.9 seconds riding, 6.1 seconds at the logo. */
     svg.icon-motion[data-icon-motion="strava"]:not(.is-controlled) .blum-strava-part {
       animation-duration: 8s;
       animation-delay: 2.5s;
@@ -38,6 +47,10 @@
     svg.icon-motion[data-icon-motion="strava"]:not(.is-controlled) #blum-strava-route-marker {
       animation-name: blum-strava-travel-preview, blum-strava-visibility-preview;
       animation-timing-function: linear, var(--blum-strava-ease);
+    }
+
+    svg.icon-motion[data-icon-motion="strava"]:not(.is-controlled) #blum-strava-bike {
+      animation-name: blum-strava-pitch-preview;
     }
 
     /* The host adds is-controlled before requesting a single is-playing run. */
@@ -62,6 +75,10 @@
       animation-timing-function: linear, var(--blum-strava-ease);
     }
 
+    svg.icon-motion[data-icon-motion="strava"].is-playing #blum-strava-bike {
+      animation-name: blum-strava-pitch-play;
+    }
+
     @keyframes blum-strava-upper-play {
       0%, 100% { transform: translate(0px, 0px); }
       11.578947%, 88.421053% { transform: translate(-1px, 5px); }
@@ -75,11 +92,11 @@
       11.578947%, 88.421053% { transform: rotate(180deg); }
     }
     @keyframes blum-strava-travel-play {
-      0%, 11.578947% { transform: translate(0px, -0.7px); }
-      46.315789%, 53.684211% { transform: translate(7px, -14.528px); }
-      65.263158% { transform: translate(10.887px, -6.858px); }
-      76.842105% { transform: translate(12.92px, -10.872px); }
-      88.421053%, 100% { transform: translate(18.074px, -0.7px); }
+      0%, 11.578947% { transform: translate(0.437px, -1.963px); }
+      46.315789%, 53.684211% { transform: translate(7px, -14.928px); }
+      65.263158% { transform: translate(10.887px, -7.258px); }
+      76.842105% { transform: translate(12.92px, -11.272px); }
+      88.421053%, 100% { transform: translate(18.074px, -1.1px); }
     }
     @keyframes blum-strava-visibility-play {
       0%, 4.210526%, 95.789474%, 100% { opacity: 0; }
@@ -99,15 +116,34 @@
       2.75%, 21% { transform: rotate(180deg); }
     }
     @keyframes blum-strava-travel-preview {
-      0%, 2.75% { transform: translate(0px, -0.7px); }
-      11%, 12.75% { transform: translate(7px, -14.528px); }
-      15.5% { transform: translate(10.887px, -6.858px); }
-      18.25% { transform: translate(12.92px, -10.872px); }
-      21%, 100% { transform: translate(18.074px, -0.7px); }
+      0%, 2.75% { transform: translate(0.437px, -1.963px); }
+      11%, 12.75% { transform: translate(7px, -14.928px); }
+      15.5% { transform: translate(10.887px, -7.258px); }
+      18.25% { transform: translate(12.92px, -11.272px); }
+      21%, 100% { transform: translate(18.074px, -1.1px); }
     }
     @keyframes blum-strava-visibility-preview {
       0%, 1%, 22.75%, 100% { opacity: 0; }
       2.75%, 21% { opacity: 1; }
+    }
+
+    @keyframes blum-strava-pitch-play {
+      0%, 44.210526% { transform: rotate(-63.15deg); }
+      46.315789%, 53.684211% { transform: rotate(0deg); }
+      55.789474%, 63.157895% { transform: rotate(63.15deg); }
+      65.263158% { transform: rotate(0deg); }
+      67.368421%, 74.736842% { transform: rotate(-63.15deg); }
+      76.842105% { transform: rotate(0deg); }
+      78.947368%, 100% { transform: rotate(63.15deg); }
+    }
+    @keyframes blum-strava-pitch-preview {
+      0%, 10.5% { transform: rotate(-63.15deg); }
+      11%, 12.75% { transform: rotate(0deg); }
+      13.25%, 15% { transform: rotate(63.15deg); }
+      15.5% { transform: rotate(0deg); }
+      16%, 17.75% { transform: rotate(-63.15deg); }
+      18.25% { transform: rotate(0deg); }
+      18.75%, 100% { transform: rotate(63.15deg); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -129,6 +165,14 @@
         <path fill="currentColor" d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066Z"/>
       </g>
     </g>
-    <circle id="blum-strava-route-marker" class="blum-strava-part" cx="2.463" cy="17.428" r="0.65" fill="currentColor" opacity="0"/>
+    <g id="blum-strava-route-marker" class="blum-strava-part" opacity="0">
+      <g transform="translate(2.463 17.428)">
+        <g id="blum-strava-bike" class="blum-strava-part">
+          <circle cx="-1.25" cy="0" r="0.7"/>
+          <circle cx="1.25" cy="0" r="0.7"/>
+          <path d="M-1.25 0l.75-1.2L.5 0h-1.75m.75-1.2H.9L.5 0m.4-1.2L1.25 0M-.5-1.2l-.2-.4m-.35 0h.7M.9-1.2l-.2-.75h.55"/>
+        </g>
+      </g>
+    </g>
   </g>
 </svg>
