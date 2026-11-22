@@ -100,7 +100,6 @@ if (machine && opener && links && stage && lever && arm && winner && status && b
     winner.textContent = choices[selected].label + ' ↗';
     winner.hidden = false;
     status.textContent = choices[selected].label + ' selected. Follow the link, or spin again.';
-    machine.classList.add('has-jackpot');
   };
   const spin = (startDistance = 0) => {
     if (state !== 'idle') return;
@@ -110,7 +109,6 @@ if (machine && opener && links && stage && lever && arm && winner && status && b
     setState('spinning');
     selected = Math.floor(Math.random() * choices.length);
     winner.hidden = true;
-    machine.classList.remove('has-jackpot');
     status.textContent = 'Reels spinning.';
     if (reduced.matches) { finish(); return; }
     animate(arm, [
@@ -142,7 +140,6 @@ if (machine && opener && links && stage && lever && arm && winner && status && b
     suppressPointerClick = false;
     returnLeverFocus = false;
     setState('closed');
-    machine.classList.remove('has-jackpot');
     machine.hidden = true;
     reels.forEach(reel => reel.replaceChildren());
     winner.hidden = true;
