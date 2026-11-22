@@ -2,7 +2,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "playwright test"
+    "check": "node scripts/check-site.mjs",
+    "test": "playwright test",
+    "verify": "npm run check && npm test"
   },
   "devDependencies": {
     "@playwright/test": "1.64.1"
