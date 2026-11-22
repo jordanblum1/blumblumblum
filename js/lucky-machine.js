@@ -4,11 +4,12 @@
   const opener = document.querySelector('[data-lucky-open]');
   const links = document.querySelector('.links-nav');
   const lever = document.querySelector('[data-lucky-lever]');
+  const arm = lever?.querySelector('.lucky-lever-arm');
   const winner = document.querySelector('[data-lucky-winner]');
   const status = document.querySelector('[data-lucky-status]');
   const back = document.querySelector('[data-lucky-close]');
   const reels = [...document.querySelectorAll('[data-lucky-reel]')];
-  if (!machine || !opener || !links || !lever || !winner || !status || !back || reels.length !== 3) return;
+  if (!machine || !opener || !links || !lever || !arm || !winner || !status || !back || reels.length !== 3) return;
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const colors = ['#9c4037', '#316d65', '#675386', '#35729b', '#b3476f', '#cb572e', '#44885a', '#ba8030', '#6c5792'];
@@ -27,6 +28,7 @@
   let animations = [];
   let last = [0, 2, 5];
   let drag = null;
+  let suppressPointerClick = false;
 
   const symbol = index => {
     const choice = choices[index];
@@ -69,7 +71,7 @@
   const resetDrag = () => {
     drag = null;
     lever.classList.remove('is-dragging');
-    lever.style.removeProperty('--lever-pull');
+    arm.style.removeProperty('transform');
   };
   const finish = () => {
     if (!open || !spinning) return;
@@ -89,7 +91,7 @@
   const spin = (startAngle = '0deg') => {
     if (!open || spinning) return;
     resetDrag();
-    lever.style.setProperty('--lever-start', startAngle);
+    arm.style.setProperty('--lever-start', startAngle);
     spinning = true;
     const currentRound = ++round;
     selected = Math.floor(Math.random() * choices.length);
@@ -145,6 +147,7 @@
     round++;
     cancelAnimations();
     resetDrag();
+    suppressPointerClick = false;
     machine.classList.remove('is-spinning', 'has-jackpot');
     machine.setAttribute('aria-busy', 'false');
     machine.hidden = true;
@@ -157,9 +160,18 @@
 
   opener.addEventListener('click', () => show(opener));
   back.addEventListener('click', () => close());
-  lever.addEventListener('click', () => spin());
+  lever.addEventListener('click', event => {
+    // A completed drag already chose a destination, even if it settled instantly.
+    if (event.detail > 0 && suppressPointerClick) {
+      suppressPointerClick = false;
+      return;
+    }
+    suppressPointerClick = false;
+    spin();
+  });
   lever.addEventListener('pointerdown', event => {
     if (!event.isPrimary || event.button !== 0 || spinning) return;
+    suppressPointerClick = false;
     drag = { id: event.pointerId, y: event.clientY, distance: 0 };
     lever.setPointerCapture(event.pointerId);
     lever.classList.add('is-dragging');
@@ -167,13 +179,16 @@
   lever.addEventListener('pointermove', event => {
     if (!drag || drag.id !== event.pointerId) return;
     drag.distance = Math.max(0, event.clientY - drag.y);
-    lever.style.setProperty('--lever-pull', Math.min(28, drag.distance * 0.7) + 'deg');
+    arm.style.transform = 'rotate(' + Math.min(28, drag.distance * 0.7) + 'deg)';
   });
   lever.addEventListener('pointerup', event => {
     if (!drag || drag.id !== event.pointerId) return;
     const pulled = drag.distance >= 18;
-    const angle = lever.style.getPropertyValue('--lever-pull');
-    if (pulled) spin(angle);
+    const angle = Math.min(28, drag.distance * 0.7) + 'deg';
+    if (pulled) {
+      suppressPointerClick = true;
+      spin(angle);
+    }
     else resetDrag();
   });
   lever.addEventListener('pointercancel', resetDrag);

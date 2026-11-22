@@ -142,7 +142,6 @@
 .lucky-lever-label { position: absolute; right: 0; bottom: 3px; left: 0; font-size: .65rem; }
 .lucky-lever:disabled { cursor: default; }
 .lucky-lever.is-dragging { cursor: grabbing; }
-.lucky-lever.is-dragging .lucky-lever-arm { transform: rotate(var(--lever-pull, 0deg)); }
 .is-spinning .lucky-lever-arm { animation: lucky-pull 440ms cubic-bezier(.2,.8,.2,1); }
 .lucky-cabinet :focus-visible { outline-color: var(--lucky-gold); }
 

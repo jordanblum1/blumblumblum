@@ -87,8 +87,14 @@ test('closing during a spin cancels it, restores links and returns focus to the 
   await expect(page.locator('[data-lucky-machine]')).toBeHidden();
 });
 
-test('dragging the physical arm starts one spin on mouse and touch', async ({ page }, info) => {
+for (const motion of ['no-preference', 'reduce']) test('one arm drag makes one choice with motion ' + motion, async ({ page }, info) => {
+  await page.emulateMedia({ reducedMotion: motion });
+  await page.addInitScript(() => {
+    window.luckyDraws = 0;
+    Math.random = () => { window.luckyDraws++; return 2.5 / 9; };
+  });
   await open(page);
+  const before = await page.evaluate(() => window.luckyDraws);
   const box = await lever(page).boundingBox();
   const x = box.x + box.width / 2;
   const y = box.y + 25;
@@ -103,9 +109,13 @@ test('dragging the physical arm starts one spin on mouse and touch', async ({ pa
     await page.mouse.move(x, y + 40, { steps: 8 });
     await page.mouse.up();
   }
-  await expect(page.locator('[data-lucky-machine]')).toHaveAttribute('aria-busy', 'true');
+  if (motion === 'no-preference') await expect(page.locator('[data-lucky-machine]')).toHaveAttribute('aria-busy', 'true');
   await expect(result(page)).toBeVisible();
   await expect(page.locator('[data-lucky-symbol]')).toHaveCount(3);
+  expect(await page.evaluate(() => window.luckyDraws)).toBe(before + 1);
+  await lever(page).click();
+  await expect(result(page)).toBeVisible();
+  expect(await page.evaluate(() => window.luckyDraws)).toBe(before + 2);
 });
 
 test('motion preference changes and resizing settle a pending result safely', async ({ page }) => {
