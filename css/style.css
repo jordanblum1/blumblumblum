@@ -309,16 +309,8 @@ img {
 :root.is-ready .logo-panel,
 :root.is-ready .icon-disc,
 :root.is-ready .link-label,
-:root.is-ready .portfolio-mark,
-:root.is-ready .photos-mark,
-:root.is-ready .instagram-mark,
 :root.is-ready .spotify-mark,
-:root.is-ready .wing-mark,
-:root.is-ready .playlist-motion,
-:root.is-ready .github-disc::before,
-:root.is-ready .github-disc::after,
-:root.is-ready .strava-disc::before,
-:root.is-ready .strava-disc::after {
+:root.is-ready .playlist-motion {
   animation: none;
 }
 
@@ -394,14 +386,7 @@ img {
   stroke-width: 1.55;
 }
 
-.icon-disc .brand-glyph {
-  fill: currentColor;
-  stroke: none;
-  stroke-width: 0;
-}
-
 .icon-glyph,
-.portfolio-mark,
 .playlist-motion {
   transform-box: fill-box;
   transform-origin: center;
@@ -430,66 +415,7 @@ img {
   height: 2.5rem;
 }
 
-.portfolio-disc::after,
-.github-disc::before,
-.strava-disc::before {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  inset: 15%;
-  pointer-events: none;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  opacity: 0;
-}
-
-.github-disc::before {
-  border-style: dashed;
-  animation: motif-develop 360ms var(--ease) backwards;
-  animation-delay: calc(520ms + var(--stagger));
-}
-
-.github-disc::after,
-.strava-disc::after {
-  content: "";
-  position: absolute;
-  z-index: 2;
-  width: 0.3rem;
-  height: 0.3rem;
-  pointer-events: none;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0;
-}
-
-.github-disc::after {
-  top: 14%;
-  left: 49%;
-  animation: motif-dot-develop 360ms var(--ease) backwards;
-  animation-delay: calc(520ms + var(--stagger));
-}
-
-.strava-disc::before {
-  inset: 13%;
-  border-right-color: transparent;
-  border-bottom-color: transparent;
-  transform: rotate(-35deg);
-  animation: motif-develop 360ms var(--ease) backwards;
-  animation-delay: calc(520ms + var(--stagger));
-}
-
-.strava-disc::after {
-  right: 16%;
-  bottom: 23%;
-  animation: motif-dot-develop 360ms var(--ease) backwards;
-  animation-delay: calc(520ms + var(--stagger));
-}
-
-.portfolio-mark,
-.photos-mark,
-.instagram-mark,
 .spotify-mark,
-.wing-mark,
 .playlist-motion {
   animation-name: glyph-develop;
   animation-duration: 360ms;
@@ -498,40 +424,9 @@ img {
   animation-delay: calc(560ms + var(--stagger));
 }
 
-.photo-flash,
-.instagram-dot,
-.wing-meat,
-.wing-bone {
-  fill: currentColor;
-  stroke: none;
-}
-
-.photo-flash {
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.photo-sun,
-.photo-hills,
-.instagram-lens,
-.instagram-dot,
-.wing-steam,
 .spotify-wave {
   transform-box: fill-box;
   transform-origin: center;
-}
-
-.instagram-dot {
-  opacity: 1;
-}
-
-.wing-steam {
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-width: 1.25;
-  opacity: 0;
 }
 
 .spotify-wave {
@@ -579,7 +474,7 @@ img {
 .equalizer i:nth-child(3) { --rest: 0.68; }
 .equalizer i:nth-child(4) { --rest: 0.32; }
 
-.outpost-link:active .icon-disc {
+.outpost-link:not(:has(.icon-motion)):active .icon-disc {
   transform: translate3d(0, 1px, 0) scale(0.98);
 }
 
@@ -848,58 +743,6 @@ img {
   transform: translate3d(0, 0, 0);
 }
 
-.outpost-link:is(:hover, :focus-visible) .portfolio-mark {
-  animation: portfolio-stamp 420ms var(--ease);
-}
-
-.outpost-link:is(:hover, :focus-visible) .portfolio-disc::after {
-  animation: stamp-ring 420ms var(--ease);
-}
-
-.outpost-link:is(:hover, :focus-visible) .github-disc::before {
-  animation: orbit-trace 480ms var(--ease);
-}
-
-.outpost-link:is(:hover, :focus-visible) .github-disc::after {
-  animation: orbit-dot 480ms var(--ease);
-}
-
-.outpost-link:is(:hover, :focus-visible) .photos-mark {
-  animation: camera-click 380ms var(--ease);
-}
-
-.outpost-link:is(:hover, :focus-visible) .photo-sun {
-  animation: photo-sun-rise 380ms var(--ease);
-}
-
-.outpost-link:is(:hover, :focus-visible) .photo-hills {
-  animation: photo-parallax 380ms var(--ease);
-}
-
-.outpost-link:is(:hover, :focus-visible) .photo-flash {
-  animation: camera-flash 380ms var(--ease);
-}
-
-.outpost-link:is(:hover, :focus-visible) .instagram-mark {
-  animation: instagram-focus 420ms var(--ease);
-}
-
-.outpost-link:is(:hover, :focus-visible) .instagram-lens {
-  animation: lens-focus 420ms var(--ease);
-}
-
-.outpost-link:is(:hover, :focus-visible) .instagram-dot {
-  animation: focus-dot 420ms var(--ease);
-}
-
-.outpost-link:is(:hover, :focus-visible) .strava-disc::before {
-  animation: route-trace 480ms var(--ease);
-}
-
-.outpost-link:is(:hover, :focus-visible) .strava-disc::after {
-  animation: route-dot 480ms var(--ease);
-}
-
 .outpost-link:is(:hover, :focus-visible) .spotify-mark {
   animation: spotify-settle 420ms var(--ease);
 }
@@ -910,18 +753,6 @@ img {
 
 .outpost-link:is(:hover, :focus-visible) .spotify-wave-2 { animation-delay: 35ms; }
 .outpost-link:is(:hover, :focus-visible) .spotify-wave-3 { animation-delay: 70ms; }
-
-.outpost-link:is(:hover, :focus-visible) .wing-mark {
-  animation: wing-flap 440ms var(--ease);
-}
-
-.outpost-link:is(:hover, :focus-visible) .wing-steam-1 {
-  animation: wing-sizzle 440ms var(--ease);
-}
-
-.outpost-link:is(:hover, :focus-visible) .wing-steam-2 {
-  animation: wing-sizzle 440ms var(--ease) 45ms;
-}
 
 .outpost-link:is(:hover, :focus-visible) .playlist-motion {
   animation: playlist-pop 420ms var(--ease);
@@ -941,17 +772,17 @@ img {
   .brand-button:hover .logo-piece-3 { transform: translate3d(0, -0.1rem, 0) rotate(-0.5deg); }
   .brand-button:hover .logo-piece-4 { transform: translate3d(0, 0.15rem, 0) rotate(0.6deg); }
 
-  .outpost-link:hover {
+  .outpost-link:not(:has(.icon-motion)):hover {
     transform: translate3d(0, -0.2rem, 0);
   }
 
-  .outpost-link:hover .icon-disc {
+  .outpost-link:not(:has(.icon-motion)):hover .icon-disc {
     background: var(--paper-raised);
     color: var(--accent-deep);
     transform: rotate(-1.5deg) scale(1.02);
   }
 
-  .links-grid li:nth-child(even) .outpost-link:hover .icon-disc {
+  .links-grid li:nth-child(even) .outpost-link:not(:has(.icon-motion)):hover .icon-disc {
     transform: rotate(1.5deg) scale(1.02);
   }
 
@@ -1010,7 +841,8 @@ body.logo-party .links-grid li:nth-child(even) {
     stroke-dashoffset: 1;
     stroke-opacity: 0;
   }
-  12%, 68% {
+  12%,
+68% {
     fill-opacity: 0;
     stroke-opacity: 1;
   }
@@ -1027,7 +859,8 @@ body.logo-party .links-grid li:nth-child(even) {
     stroke-dashoffset: 1;
     stroke-opacity: 0;
   }
-  12%, 68% {
+  12%,
+68% {
     fill-opacity: 0;
     stroke-opacity: 1;
   }
@@ -1079,93 +912,6 @@ body.logo-party .links-grid li:nth-child(even) {
   }
 }
 
-@keyframes motif-develop {
-  0% { opacity: 0; transform: rotate(-22deg) scale(0.78); }
-  52% { opacity: 0.48; }
-  100% { opacity: 0; transform: rotate(18deg) scale(1.04); }
-}
-
-@keyframes motif-dot-develop {
-  0% { opacity: 0; transform: translate3d(-0.6rem, 0.45rem, 0) scale(0.5); }
-  52% { opacity: 0.9; }
-  100% { opacity: 0; transform: translate3d(0.55rem, -0.45rem, 0) scale(1); }
-}
-
-@keyframes portfolio-stamp {
-  0% { transform: translate3d(0, -0.14rem, 0) rotate(-3deg) scale(0.94); }
-  58% { transform: translate3d(0, 0.06rem, 0) rotate(0.8deg) scale(1.02); }
-  100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-}
-
-@keyframes stamp-ring {
-  0% { opacity: 0; transform: scale(0.74); }
-  52% { opacity: 0.52; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.08); }
-}
-
-@keyframes orbit-trace {
-  0% { opacity: 0; transform: rotate(-28deg) scale(0.82); }
-  46% { opacity: 0.5; }
-  100% { opacity: 0; transform: rotate(28deg) scale(1.02); }
-}
-
-@keyframes orbit-dot {
-  0% { opacity: 0; transform: translate3d(-0.9rem, 0.7rem, 0) scale(0.5); }
-  45% { opacity: 1; }
-  100% { opacity: 0; transform: translate3d(0.9rem, 0.65rem, 0) scale(1); }
-}
-
-@keyframes route-trace {
-  0% { opacity: 0; transform: rotate(-62deg) scale(0.84); }
-  50% { opacity: 0.55; }
-  100% { opacity: 0; transform: rotate(12deg) scale(1.02); }
-}
-
-@keyframes route-dot {
-  0% { opacity: 0; transform: translate3d(-1rem, 0.45rem, 0) scale(0.5); }
-  48% { opacity: 1; }
-  100% { opacity: 0; transform: translate3d(0, -1.15rem, 0) scale(1); }
-}
-
-@keyframes camera-click {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  38% { transform: translate3d(0, 0.07rem, 0) scale(0.98); }
-  68% { transform: translate3d(0, -0.06rem, 0) scale(1.02); }
-}
-
-@keyframes photo-sun-rise {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  52% { transform: translate3d(0, -0.2rem, 0) scale(1.02); }
-}
-
-@keyframes photo-parallax {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  52% { transform: translate3d(0.1rem, -0.04rem, 0); }
-}
-
-@keyframes camera-flash {
-  0%, 100% { opacity: 0; transform: scale(0.55); }
-  45% { opacity: 0.2; transform: scale(1); }
-}
-
-@keyframes instagram-focus {
-  0% { transform: rotate(-4deg) scale(0.94); }
-  62% { transform: rotate(1deg) scale(1.02); }
-  100% { transform: rotate(0deg) scale(1); }
-}
-
-@keyframes lens-focus {
-  0%, 100% { transform: scale(1); }
-  42% { transform: scale(0.78); }
-  70% { transform: scale(1.02); }
-}
-
-@keyframes focus-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  42% { opacity: 0.28; transform: scale(0.62); }
-  70% { opacity: 1; transform: scale(1.02); }
-}
-
 @keyframes spotify-settle {
   0% { transform: rotate(-3deg) scale(0.95); }
   65% { transform: rotate(0.8deg) scale(1.02); }
@@ -1173,20 +919,9 @@ body.logo-party .links-grid li:nth-child(even) {
 }
 
 @keyframes spotify-scan {
-  0%, 100% { stroke-dashoffset: 0; }
+  0%,
+100% { stroke-dashoffset: 0; }
   48% { stroke-dashoffset: 1; }
-}
-
-@keyframes wing-flap {
-  0% { transform: translate3d(-0.08rem, 0.08rem, 0) rotate(-5deg) scale(0.96); }
-  62% { transform: translate3d(0.06rem, -0.06rem, 0) rotate(2deg) scale(1.02); }
-  100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-}
-
-@keyframes wing-sizzle {
-  0%, 100% { opacity: 0; transform: translate3d(0, 0, 0) scale(0.7); }
-  42% { opacity: 0.9; }
-  78% { opacity: 0; transform: translate3d(0, -0.3rem, 0) scale(1); }
 }
 
 @keyframes playlist-pop {
@@ -1196,7 +931,8 @@ body.logo-party .links-grid li:nth-child(even) {
 }
 
 @keyframes equalizer-bounce {
-  0%, 100% { transform: scaleY(var(--rest)); }
+  0%,
+100% { transform: scaleY(var(--rest)); }
   48% { transform: scaleY(1); }
   72% { transform: scaleY(0.5); }
 }
@@ -1213,19 +949,22 @@ body.logo-party .links-grid li:nth-child(even) {
 }
 
 @keyframes party-left {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  0%,
+100% { transform: translate3d(0, 0, 0) rotate(0deg); }
   38% { transform: translate3d(-0.25rem, -0.1rem, 0) rotate(-1deg); }
   68% { transform: translate3d(0.12rem, 0, 0) rotate(0.3deg); }
 }
 
 @keyframes party-right {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  0%,
+100% { transform: translate3d(0, 0, 0) rotate(0deg); }
   38% { transform: translate3d(0.25rem, -0.1rem, 0) rotate(1deg); }
   68% { transform: translate3d(-0.12rem, 0, 0) rotate(-0.3deg); }
 }
 
 @keyframes reel {
-  0%, 100% { translate: 0 0; opacity: 1; }
+  0%,
+100% { translate: 0 0; opacity: 1; }
   45% { translate: 0 -55%; opacity: 0; }
   55% { translate: 0 55%; opacity: 0; }
 }
@@ -1279,7 +1018,7 @@ body.logo-party .links-grid li:nth-child(even) {
   }
 
   .embed-shell,
-  .embed-shell iframe {
+.embed-shell iframe {
     height: 9.5rem;
     min-height: 9.5rem;
   }
@@ -1319,7 +1058,7 @@ body.logo-party .links-grid li:nth-child(even) {
   }
 
   .embed-shell,
-  .embed-shell iframe {
+.embed-shell iframe {
     height: 9.5rem;
     min-height: 9.5rem;
   }
@@ -1361,8 +1100,8 @@ body.logo-party .links-grid li:nth-child(even) {
 
 @media (prefers-reduced-motion: reduce) {
   *,
-  *::before,
-  *::after {
+*::before,
+*::after {
     scroll-behavior: auto !important;
     animation-duration: 120ms !important;
     animation-delay: 0ms !important;
@@ -1371,10 +1110,10 @@ body.logo-party .links-grid li:nth-child(even) {
   }
 
   .logo-panel,
-  .logo-piece,
-  .icon-disc,
-  .link-label,
-  .playlist-dialog[open] {
+.logo-piece,
+.icon-disc,
+.link-label,
+.playlist-dialog[open] {
     animation-name: reduced-reveal !important;
   }
 
@@ -1384,40 +1123,24 @@ body.logo-party .links-grid li:nth-child(even) {
     animation: none !important;
   }
 
-  .portfolio-mark,
-  .photos-mark,
-  .instagram-mark,
   .spotify-mark,
-  .wing-mark,
-  .playlist-motion,
-  .equalizer i,
-  .photo-sun,
-  .photo-hills,
-  .photo-flash,
-  .instagram-lens,
-  .instagram-dot,
-  .spotify-wave,
-  .wing-steam,
-  .portfolio-disc::after,
-  .github-disc::before,
-  .github-disc::after,
-  .strava-disc::before,
-  .strava-disc::after,
-  body.logo-party .links-grid li {
+.playlist-motion,
+.equalizer i,
+.spotify-wave,
+body.logo-party .links-grid li {
     animation: none !important;
   }
 
   .logo-piece,
-  .brand-button:hover .logo-piece,
-  .outpost-link,
-  .outpost-link:hover .icon-disc,
-  .outpost-link:active .icon-disc,
-  .dialog-close:hover,
-  .links-grid li:is(.is-rolling, .is-picked) .icon-disc,
-  .toast {
+.brand-button:hover .logo-piece,
+.outpost-link,
+.outpost-link:hover .icon-disc,
+.outpost-link:active .icon-disc,
+.dialog-close:hover,
+.links-grid li:is(.is-rolling, .is-picked) .icon-disc,
+.toast {
     transform: none !important;
   }
 }
 
 .studio-disc { background: var(--paper-raised); }
-.studio-mark { width: 100%; height: 100%; object-fit: contain; border-radius: inherit; }

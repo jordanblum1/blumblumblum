@@ -33,6 +33,7 @@
   <link rel="preload" href="./assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="./assets/fonts/switzer-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/icon-motion.css">
   <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
@@ -89,20 +90,217 @@
       <ul class="links-grid">
         <li>
           <a class="outpost-link" href="https://jordanblum.com" aria-label="Jordan Blum’s portfolio">
-            <span class="icon-disc jrb-disc portfolio-disc" aria-hidden="true"><img class="portfolio-mark" src="./assets/jrb-logo.webp" width="96" height="96" alt="" decoding="async"></span>
+            <span class="icon-disc jrb-disc portfolio-disc" aria-hidden="true">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-24 -24 240 240" class="icon-motion jrb-mark" data-icon-motion="jrb" data-duration="700" width="192" height="192" aria-hidden="true" focusable="false"><style>svg[data-icon-motion="jrb"] { fill:currentColor; stroke:none; }
+.blum-jrb-settled { opacity:1; }
+.blum-jrb-fragments { opacity:0; }
+.blum-jrb-piece { transform-box:view-box; }
+svg[data-icon-motion="jrb"].is-playing .blum-jrb-settled { animation:blum-jrb-settled-play 700ms steps(1,end) both; }
+svg[data-icon-motion="jrb"].is-playing .blum-jrb-fragments { animation:blum-jrb-fragments-play 700ms steps(1,end) both; }
+@keyframes blum-jrb-settled-play { 0% { opacity:0; } 100% { opacity:1; } }
+@keyframes blum-jrb-fragments-play { 0% { opacity:1; } 100% { opacity:0; } }
+svg[data-icon-motion="jrb"]:not(.is-controlled) .blum-jrb-upper { animation:blum-jrb-upper-idle 8s cubic-bezier(.2,.8,.2,1) 2.5s infinite both; }
+svg[data-icon-motion="jrb"].is-playing .blum-jrb-upper { animation:blum-jrb-upper-play 700ms cubic-bezier(.2,.8,.2,1) both; }
+@keyframes blum-jrb-upper-play { 0%,100% { transform:translate(0px,0px); } 28% { transform:translate(0px,-6px); } 72% { transform:translate(0.0px,0.8999999999999999px); } }
+@keyframes blum-jrb-upper-idle { 0%,8.75%,100% { transform:translate(0px,0px); } 2.45% { transform:translate(0px,-6px); } 6.3% { transform:translate(0.0px,0.8999999999999999px); } }
+svg[data-icon-motion="jrb"]:not(.is-controlled) .blum-jrb-lower { animation:blum-jrb-lower-idle 8s cubic-bezier(.2,.8,.2,1) 2.5s infinite both; }
+svg[data-icon-motion="jrb"].is-playing .blum-jrb-lower { animation:blum-jrb-lower-play 700ms cubic-bezier(.2,.8,.2,1) both; }
+@keyframes blum-jrb-lower-play { 0%,100% { transform:translate(0px,0px); } 28% { transform:translate(0px,6px); } 72% { transform:translate(0.0px,-0.8999999999999999px); } }
+@keyframes blum-jrb-lower-idle { 0%,8.75%,100% { transform:translate(0px,0px); } 2.45% { transform:translate(0px,6px); } 6.3% { transform:translate(0.0px,-0.8999999999999999px); } }
+svg[data-icon-motion="jrb"]:not(.is-controlled) .blum-jrb-left { animation:blum-jrb-left-idle 8s cubic-bezier(.2,.8,.2,1) 2.5s infinite both; }
+svg[data-icon-motion="jrb"].is-playing .blum-jrb-left { animation:blum-jrb-left-play 700ms cubic-bezier(.2,.8,.2,1) both; }
+@keyframes blum-jrb-left-play { 0%,100% { transform:translate(0px,0px); } 28% { transform:translate(-16px,4px); } 72% { transform:translate(2.4px,-0.6px); } }
+@keyframes blum-jrb-left-idle { 0%,8.75%,100% { transform:translate(0px,0px); } 2.45% { transform:translate(-16px,4px); } 6.3% { transform:translate(2.4px,-0.6px); } }
+svg[data-icon-motion="jrb"]:not(.is-controlled) .blum-jrb-spine { animation:blum-jrb-spine-idle 8s cubic-bezier(.2,.8,.2,1) 2.5s infinite both; }
+svg[data-icon-motion="jrb"].is-playing .blum-jrb-spine { animation:blum-jrb-spine-play 700ms cubic-bezier(.2,.8,.2,1) both; }
+@keyframes blum-jrb-spine-play { 0%,100% { transform:translate(0px,0px); } 28% { transform:translate(0px,-14px); } 72% { transform:translate(0.0px,2.1px); } }
+@keyframes blum-jrb-spine-idle { 0%,8.75%,100% { transform:translate(0px,0px); } 2.45% { transform:translate(0px,-14px); } 6.3% { transform:translate(0.0px,2.1px); } }
+svg[data-icon-motion="jrb"]:not(.is-controlled) .blum-jrb-right { animation:blum-jrb-right-idle 8s cubic-bezier(.2,.8,.2,1) 2.5s infinite both; }
+svg[data-icon-motion="jrb"].is-playing .blum-jrb-right { animation:blum-jrb-right-play 700ms cubic-bezier(.2,.8,.2,1) both; }
+@keyframes blum-jrb-right-play { 0%,100% { transform:translate(0px,0px); } 28% { transform:translate(16px,4px); } 72% { transform:translate(-2.4px,-0.6px); } }
+@keyframes blum-jrb-right-idle { 0%,8.75%,100% { transform:translate(0px,0px); } 2.45% { transform:translate(16px,4px); } 6.3% { transform:translate(-2.4px,-0.6px); } }
+svg[data-icon-motion="jrb"]:not(.is-controlled):not(.is-playing) .blum-jrb-settled { animation:blum-jrb-settled-idle 8s steps(1,end) 2.5s infinite; }
+svg[data-icon-motion="jrb"]:not(.is-controlled):not(.is-playing) .blum-jrb-fragments { animation:blum-jrb-fragments-idle 8s steps(1,end) 2.5s infinite; }
+@keyframes blum-jrb-settled-idle { 0% { opacity:0; } 8.75%,100% { opacity:1; } }
+@keyframes blum-jrb-fragments-idle { 0% { opacity:1; } 8.75%,100% { opacity:0; } }
+@media(prefers-reduced-motion:reduce) { svg[data-icon-motion="jrb"] .blum-jrb-piece { animation:none!important;transform:none!important; } svg[data-icon-motion="jrb"] .blum-jrb-settled { animation:none!important;opacity:1!important; } svg[data-icon-motion="jrb"] .blum-jrb-fragments { animation:none!important;opacity:0!important; } }
+</style><defs><mask id="blum-jrb-source" maskUnits="userSpaceOnUse" x="0" y="0" width="192" height="192" style="mask-type:alpha"><image href="data:image/webp;base64,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" width="192" height="192"/></mask>
+<clipPath id="blum-jrb-ring"><path fill-rule="evenodd" clip-rule="evenodd" d="M-32-32H224V224H-32Z M179 96A83 83 0 1 0 13 96A83 83 0 1 0 179 96Z"/></clipPath>
+<clipPath id="blum-jrb-core"><circle cx="96" cy="96" r="83"/></clipPath>
+<clipPath id="blum-jrb-upper-clip"><rect x="0" y="0" width="192" height="96"/></clipPath>
+<clipPath id="blum-jrb-lower-clip"><rect x="0" y="96" width="192" height="96"/></clipPath>
+<clipPath id="blum-jrb-left-clip"><rect x="0" y="0" width="75" height="192"/></clipPath>
+<clipPath id="blum-jrb-spine-clip"><rect x="75" y="0" width="41" height="192"/></clipPath>
+<clipPath id="blum-jrb-right-clip"><rect x="116" y="0" width="76" height="192"/></clipPath></defs><g class="blum-jrb-settled"><rect width="192" height="192" mask="url(#blum-jrb-source)"/></g><g class="blum-jrb-fragments"><g class="blum-jrb-piece blum-jrb-upper"><g clip-path="url(#blum-jrb-upper-clip)"><g clip-path="url(#blum-jrb-ring)"><rect width="192" height="192" mask="url(#blum-jrb-source)"/></g></g></g><g class="blum-jrb-piece blum-jrb-lower"><g clip-path="url(#blum-jrb-lower-clip)"><g clip-path="url(#blum-jrb-ring)"><rect width="192" height="192" mask="url(#blum-jrb-source)"/></g></g></g><g class="blum-jrb-piece blum-jrb-left"><g clip-path="url(#blum-jrb-left-clip)"><g clip-path="url(#blum-jrb-core)"><rect width="192" height="192" mask="url(#blum-jrb-source)"/></g></g></g><g class="blum-jrb-piece blum-jrb-spine"><g clip-path="url(#blum-jrb-spine-clip)"><g clip-path="url(#blum-jrb-core)"><rect width="192" height="192" mask="url(#blum-jrb-source)"/></g></g></g><g class="blum-jrb-piece blum-jrb-right"><g clip-path="url(#blum-jrb-right-clip)"><g clip-path="url(#blum-jrb-core)"><rect width="192" height="192" mask="url(#blum-jrb-source)"/></g></g></g></g></svg>
+            </span>
             <span class="link-label">Portfolio</span>
           </a>
         </li>
         <li>
           <a class="outpost-link" href="https://buildwithblum.com/" aria-label="Build with Blum — freelance projects">
-            <span class="icon-disc studio-disc" aria-hidden="true"><img class="studio-mark" src="./assets/build-with-blum.svg" width="96" height="96" alt="" decoding="async"></span>
+            <span class="icon-disc studio-disc" aria-hidden="true">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="icon-motion toolbox-mark" data-icon-motion="toolbox" data-duration="1250" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <style>
+    svg.icon-motion[data-icon-motion="toolbox"] {
+      --blum-toolbox-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.55;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    svg.icon-motion[data-icon-motion="toolbox"] .blum-toolbox-part {
+      animation: none;
+      transform: none;
+      transform-box: view-box;
+      transform-origin: 0px 0px;
+    }
+    svg.icon-motion[data-icon-motion="toolbox"] #blum-toolbox-lid {
+      transform-origin: 3.5px 11.8px;
+    }
+
+    /* Standalone preview: 1250ms of motion, then 6750ms closed. */
+    svg.icon-motion[data-icon-motion="toolbox"]:not(.is-controlled) .blum-toolbox-part {
+      animation-duration: 8s;
+      animation-delay: 2.5s;
+      animation-iteration-count: infinite;
+      animation-fill-mode: both;
+      animation-timing-function: var(--blum-toolbox-ease);
+    }
+    svg.icon-motion[data-icon-motion="toolbox"]:not(.is-controlled) #blum-toolbox-lid {
+      animation-name: blum-toolbox-lid-preview;
+    }
+    svg.icon-motion[data-icon-motion="toolbox"]:not(.is-controlled) #blum-toolbox-hammer {
+      animation-name: blum-toolbox-hammer-preview;
+    }
+    svg.icon-motion[data-icon-motion="toolbox"]:not(.is-controlled) #blum-toolbox-wrench {
+      animation-name: blum-toolbox-wrench-preview;
+    }
+
+    /* The host controls scheduling and adds is-playing for one complete gesture. */
+    svg.icon-motion[data-icon-motion="toolbox"].is-playing .blum-toolbox-part {
+      animation-duration: 1250ms;
+      animation-delay: 0s;
+      animation-iteration-count: 1;
+      animation-fill-mode: both;
+      animation-timing-function: var(--blum-toolbox-ease);
+    }
+    svg.icon-motion[data-icon-motion="toolbox"].is-playing #blum-toolbox-lid {
+      animation-name: blum-toolbox-lid-play;
+    }
+    svg.icon-motion[data-icon-motion="toolbox"].is-playing #blum-toolbox-hammer {
+      animation-name: blum-toolbox-hammer-play;
+    }
+    svg.icon-motion[data-icon-motion="toolbox"].is-playing #blum-toolbox-wrench {
+      animation-name: blum-toolbox-wrench-play;
+    }
+
+    @keyframes blum-toolbox-lid-play {
+      0%, 100% { transform: none; }
+      25%, 75% { transform: rotate(-14deg); }
+    }
+    @keyframes blum-toolbox-hammer-play {
+      0%, 9.090909%, 75%, 100% { transform: none; }
+      34.090909%, 50% { transform: translate(-2px, -11px) rotate(-16deg); }
+    }
+    @keyframes blum-toolbox-wrench-play {
+      0%, 14.204545%, 75%, 100% { transform: none; }
+      39.204545%, 50% { transform: translate(1.3px, -11px) rotate(14deg); }
+    }
+
+    @keyframes blum-toolbox-lid-preview {
+      0%, 15.625%, 100% { transform: none; }
+      3.90625%, 11.71875% { transform: rotate(-14deg); }
+    }
+    @keyframes blum-toolbox-hammer-preview {
+      0%, 1.420455%, 11.71875%, 100% { transform: none; }
+      5.326705%, 7.8125% { transform: translate(-2px, -11px) rotate(-16deg); }
+    }
+    @keyframes blum-toolbox-wrench-preview {
+      0%, 2.21946%, 11.71875%, 100% { transform: none; }
+      6.12571%, 7.8125% { transform: translate(1.3px, -11px) rotate(14deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      svg.icon-motion[data-icon-motion="toolbox"] .blum-toolbox-part {
+        animation: none !important;
+        transform: none !important;
+      }
+    }
+  </style>
+  <defs>
+    <clipPath id="blum-toolbox-tools-clip" clipPathUnits="userSpaceOnUse">
+      <rect x="-24" y="-24" width="72" height="35.55"/>
+    </clipPath>
+  </defs>
+  <g id="blum-toolbox-lid" class="blum-toolbox-part">
+    <path d="M3.5 11.8H20.5"/>
+    <path d="M9 11.8V9.45Q9 8.4 10.05 8.4H13.95Q15 8.4 15 9.45V11.8"/>
+  </g>
+  <g clip-path="url(#blum-toolbox-tools-clip)">
+    <g id="blum-toolbox-hammer-placement" transform="translate(8.2 19)">
+      <g id="blum-toolbox-hammer" class="blum-toolbox-part">
+        <path d="M0 0V-4.9"/>
+        <rect x="-2.2" y="-6" width="4.4" height="1.3" rx=".15"/>
+      </g>
+    </g>
+    <g id="blum-toolbox-wrench-placement" transform="translate(15.5 19)">
+      <g id="blum-toolbox-wrench" class="blum-toolbox-part">
+        <path d="M0 0V-3.2"/>
+        <path d="M-1-6.4L-2-5.6Q-2.1-5.5-2.1-5.2V-4.6Q-2.1-3.2 0-3.2Q2.1-3.2 2.1-4.6V-5.2Q2.1-5.5 2-5.6L1-6.4V-4.8H-1Z"/>
+      </g>
+    </g>
+  </g>
+  <path id="blum-toolbox-body" d="M3.5 11.8V18.7A1.5 1.5 0 0 0 5 20.2H19A1.5 1.5 0 0 0 20.5 18.7V11.8"/>
+  <rect id="blum-toolbox-latch" x="10.9" y="11.8" width="2.2" height="2.2" rx=".45"/>
+</svg>
+            </span>
             <span class="link-label">Build with Blum</span>
           </a>
         </li>
         <li>
           <a class="outpost-link" href="https://github.com/jordanblum1" aria-label="Jordan Blum on GitHub">
             <span class="icon-disc github-disc" aria-hidden="true">
-              <svg class="icon-glyph brand-glyph github-mark" viewBox="0 0 24 24"><path d="M10.226 17.284c-2.965-.36-5.054-2.493-5.054-5.256 0-1.123.404-2.336 1.078-3.144-.292-.741-.247-2.314.09-2.965.898-.112 2.111.36 2.83 1.01.853-.269 1.752-.404 2.853-.404 1.1 0 1.999.135 2.807.382.696-.629 1.932-1.1 2.83-.988.315.606.36 2.179.067 2.942.72.854 1.101 2 1.101 3.167 0 2.763-2.089 4.852-5.098 5.234.763.494 1.28 1.572 1.28 2.807v2.336c0 .674.561 1.056 1.235.786 4.066-1.55 7.255-5.615 7.255-10.646C23.5 6.188 18.334 1 11.978 1 5.62 1 .5 6.188.5 12.545c0 4.986 3.167 9.12 7.435 10.669.606.225 1.19-.18 1.19-.786V20.63a2.9 2.9 0 0 1-1.078.224c-1.483 0-2.359-.808-2.987-2.313-.247-.607-.517-.966-1.034-1.033-.27-.023-.359-.135-.359-.27 0-.27.45-.471.898-.471.652 0 1.213.404 1.797 1.235.45.651.921.943 1.483.943.561 0 .92-.202 1.437-.719.382-.381.674-.718.944-.943"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-motion github-mark blum-github-root" data-icon-motion="github" data-duration="800" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false">
+  <style>
+    .blum-github-root .blum-github-native-mark { fill: currentColor; stroke: none; }
+    .blum-github-root .blum-github-glasses {
+      fill: currentColor;
+      stroke: none;
+      opacity: 0;
+      transform: translateY(-3.2px);
+    }
+    .blum-github-root:not(.is-controlled) .blum-github-glasses {
+      animation: blum-github-glasses-idle 8s var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) 2.5s infinite both;
+    }
+    .blum-github-root.is-controlled .blum-github-glasses { animation: none; }
+    .blum-github-root.is-playing .blum-github-glasses {
+      animation: blum-github-glasses-play 800ms var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) both;
+    }
+    @keyframes blum-github-glasses-idle {
+      0% { opacity: 0; transform: translateY(-3.2px); }
+      2.75%, 8.25% { opacity: 1; transform: translateY(0); }
+      10%, 100% { opacity: 0; transform: translateY(-3.2px); }
+    }
+    @keyframes blum-github-glasses-play {
+      0% { opacity: 0; transform: translateY(-3.2px); }
+      27.5%, 82.5% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-3.2px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .blum-github-root .blum-github-glasses {
+        animation: none !important;
+        opacity: 0 !important;
+        transform: translateY(-3.2px) !important;
+      }
+    }
+  </style>
+  <path class="blum-github-native-mark" fill="currentColor" stroke="none" d="M10.226 17.284c-2.965-.36-5.054-2.493-5.054-5.256 0-1.123.404-2.336 1.078-3.144-.292-.741-.247-2.314.09-2.965.898-.112 2.111.36 2.83 1.01.853-.269 1.752-.404 2.853-.404 1.1 0 1.999.135 2.807.382.696-.629 1.932-1.1 2.83-.988.315.606.36 2.179.067 2.942.72.854 1.101 2 1.101 3.167 0 2.763-2.089 4.852-5.098 5.234.763.494 1.28 1.572 1.28 2.807v2.336c0 .674.561 1.056 1.235.786 4.066-1.55 7.255-5.615 7.255-10.646C23.5 6.188 18.334 1 11.978 1 5.62 1 .5 6.188.5 12.545c0 4.986 3.167 9.12 7.435 10.669.606.225 1.19-.18 1.19-.786V20.63a2.9 2.9 0 0 1-1.078.224c-1.483 0-2.359-.808-2.987-2.313-.247-.607-.517-.966-1.034-1.033-.27-.023-.359-.135-.359-.27 0-.27.45-.471.898-.471.652 0 1.213.404 1.797 1.235.45.651.921.943 1.483.943.561 0 .92-.202 1.437-.719.382-.381.674-.718.944-.943"/>
+  <g class="blum-github-glasses" fill="currentColor" stroke="none">
+    <path d="M7.35 10.15h3.55l-.34 1.75a.45.45 0 0 1-.44.36H8.14a.45.45 0 0 1-.44-.36Zm5.75 0h3.55l-.35 1.75a.45.45 0 0 1-.44.36h-1.98a.45.45 0 0 1-.44-.36Z"/>
+    <path d="M6.8 10.25h.75m3.25.35c.75-.42 1.65-.42 2.4 0m3.25-.35h.75" fill="none" stroke="currentColor" stroke-width=".65" stroke-linecap="round"/>
+  </g>
+</svg>
             </span>
             <span class="link-label">GitHub</span>
           </a>
@@ -110,7 +308,116 @@
         <li>
           <a class="outpost-link" href="/gallery" aria-label="Jordan Blum’s photo archive">
             <span class="icon-disc photos-disc" aria-hidden="true">
-              <svg class="icon-glyph photos-mark" viewBox="0 0 24 24"><rect class="photo-frame" x="3" y="5" width="18" height="14" rx="2"/><circle class="photo-sun" cx="8.5" cy="10" r="1.5"/><path class="photo-hills" d="m5.5 17 4-4 3 2.75 2.5-2.5 3.5 3.75"/><circle class="photo-flash" cx="8.5" cy="10" r="2.7"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon-motion photos-mark blum-photos-svg" data-icon-motion="photos" data-duration="2160" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <style>
+    svg.blum-photos-svg .blum-photos-scene {
+      transform-box: view-box;
+      transform-origin: 12px 12px;
+      animation-duration: 8s;
+      animation-delay: 2.5s;
+      animation-iteration-count: infinite;
+      animation-timing-function: var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+      animation-fill-mode: both;
+    }
+    svg.blum-photos-svg .blum-photos-day {
+      opacity: 1;
+      animation-name: blum-photos-idle-day;
+    }
+    svg.blum-photos-svg .blum-photos-night {
+      opacity: 0;
+      animation-name: blum-photos-idle-night;
+    }
+    svg.blum-photos-svg .blum-photos-sea {
+      opacity: 0;
+      animation-name: blum-photos-idle-sea;
+    }
+    svg.blum-photos-svg.is-controlled .blum-photos-scene {
+      animation: none;
+    }
+    svg.blum-photos-svg.is-playing .blum-photos-scene {
+      animation-duration: 2160ms;
+      animation-delay: 0s;
+      animation-iteration-count: 1;
+      animation-timing-function: var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+      animation-fill-mode: both;
+    }
+    svg.blum-photos-svg.is-playing .blum-photos-day {
+      animation-name: blum-photos-play-day;
+    }
+    svg.blum-photos-svg.is-playing .blum-photos-night {
+      animation-name: blum-photos-play-night;
+    }
+    svg.blum-photos-svg.is-playing .blum-photos-sea {
+      animation-name: blum-photos-play-sea;
+    }
+    @keyframes blum-photos-idle-day {
+      0%, 2% { opacity: 1; transform: translateX(0); }
+      4.75% { opacity: 0; transform: translateX(-3.25px); }
+      5%, 20% { opacity: 0; transform: translateX(3.25px); }
+      22.75%, 100% { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes blum-photos-idle-night {
+      0%, 2% { opacity: 0; transform: translateX(3.25px); }
+      4.75%, 11% { opacity: 1; transform: translateX(0); }
+      13.75%, 100% { opacity: 0; transform: translateX(-3.25px); }
+    }
+    @keyframes blum-photos-idle-sea {
+      0%, 11% { opacity: 0; transform: translateX(3.25px); }
+      13.75%, 20% { opacity: 1; transform: translateX(0); }
+      22.75%, 100% { opacity: 0; transform: translateX(-3.25px); }
+    }
+    @keyframes blum-photos-play-day {
+      0%, 7.407407% { opacity: 1; transform: translateX(0); }
+      17.592593% { opacity: 0; transform: translateX(-3.25px); }
+      18%, 74.074074% { opacity: 0; transform: translateX(3.25px); }
+      84.259259%, 100% { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes blum-photos-play-night {
+      0%, 7.407407% { opacity: 0; transform: translateX(3.25px); }
+      17.592593%, 40.740741% { opacity: 1; transform: translateX(0); }
+      50.925926%, 100% { opacity: 0; transform: translateX(-3.25px); }
+    }
+    @keyframes blum-photos-play-sea {
+      0%, 40.740741% { opacity: 0; transform: translateX(3.25px); }
+      50.925926%, 74.074074% { opacity: 1; transform: translateX(0); }
+      84.259259%, 100% { opacity: 0; transform: translateX(-3.25px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      svg.blum-photos-svg .blum-photos-scene {
+        animation: none !important;
+        transform: none !important;
+      }
+      svg.blum-photos-svg .blum-photos-day { opacity: 1 !important; }
+      svg.blum-photos-svg .blum-photos-night,
+      svg.blum-photos-svg .blum-photos-sea { opacity: 0 !important; }
+    }
+  </style>
+  <defs>
+    <clipPath id="blum-photos-scene-clip">
+      <rect x="3.85" y="5.85" width="16.3" height="12.3" rx="1.15" />
+    </clipPath>
+  </defs>
+  <g clip-path="url(#blum-photos-scene-clip)">
+    <g class="blum-photos-scene blum-photos-day" opacity="1">
+      <circle cx="8.5" cy="10" r="1.5" />
+      <path d="m5.5 17 4-4 3 2.75 2.5-2.5 3.5 3.75" />
+    </g>
+    <g class="blum-photos-scene blum-photos-night" opacity="0">
+      <path d="m5.5 17 4-4 3 2.75 2.5-2.5 3.5 3.75" />
+      <path fill="currentColor" stroke="none" d="M15.624 7.635A2.3 2.3 0 1 0 18.565 10.576A2.1 2.1 0 0 1 15.624 7.635Z" />
+      <g fill="currentColor" stroke="none">
+        <circle cx="7" cy="8.5" r="0.45" />
+        <circle cx="10.4" cy="10.2" r="0.45" />
+      </g>
+    </g>
+    <g class="blum-photos-scene blum-photos-sea" opacity="0">
+      <circle cx="15.7" cy="9.4" r="1.35" />
+      <path d="M4.8 13.8H19.2" />
+      <path d="M6.3 16.3Q8.5 15.2 10.7 16.3T15.1 16.3" />
+    </g>
+  </g>
+  <rect class="blum-photos-frame" x="3" y="5" width="18" height="14" rx="2" />
+</svg>
             </span>
             <span class="link-label">Photos</span>
           </a>
@@ -118,7 +425,68 @@
         <li>
           <a class="outpost-link" href="https://instagram.com/jordanblum1" aria-label="Jordan Blum on Instagram">
             <span class="icon-disc instagram-disc" aria-hidden="true">
-              <svg class="icon-glyph instagram-mark" viewBox="0 0 24 24"><rect class="instagram-frame" x="3" y="3" width="18" height="18" rx="5"/><circle class="instagram-lens" cx="12" cy="12" r="4"/><circle class="instagram-dot" cx="17.5" cy="6.5" r="0.65"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="icon-motion instagram-mark" data-icon-motion="instagram" data-duration="560" aria-hidden="true" focusable="false">
+  <style>
+    .blum-instagram-curtain-upper {
+      transform: translateY(-4.1px);
+      animation: blum-instagram-upper-idle 8000ms cubic-bezier(0.2, 0.8, 0.2, 1) 2500ms infinite;
+    }
+    .blum-instagram-curtain-lower {
+      transform: translateY(4.1px);
+      animation: blum-instagram-lower-idle 8000ms cubic-bezier(0.2, 0.8, 0.2, 1) 2500ms infinite;
+    }
+    .is-controlled .blum-instagram-curtain-upper,
+    .is-controlled .blum-instagram-curtain-lower {
+      animation: none;
+    }
+    .is-playing .blum-instagram-curtain-upper {
+      animation: blum-instagram-upper-shot 560ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+    .is-playing .blum-instagram-curtain-lower {
+      animation: blum-instagram-lower-shot 560ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+    @keyframes blum-instagram-upper-shot {
+      0%, 100% { transform: translateY(-4.1px); }
+      32%, 58% { transform: translateY(-0.35px); }
+    }
+    @keyframes blum-instagram-lower-shot {
+      0%, 100% { transform: translateY(4.1px); }
+      32%, 58% { transform: translateY(0.35px); }
+    }
+    @keyframes blum-instagram-upper-idle {
+      0%, 7%, 100% { transform: translateY(-4.1px); }
+      2.24%, 4.06% { transform: translateY(-0.35px); }
+    }
+    @keyframes blum-instagram-lower-idle {
+      0%, 7%, 100% { transform: translateY(4.1px); }
+      2.24%, 4.06% { transform: translateY(0.35px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .blum-instagram-curtain-upper {
+        animation: none !important;
+        transform: translateY(-4.1px) !important;
+      }
+      .blum-instagram-curtain-lower {
+        animation: none !important;
+        transform: translateY(4.1px) !important;
+      }
+    }
+  </style>
+  <defs>
+    <clipPath id="blum-instagram-shutter-clip" clipPathUnits="userSpaceOnUse">
+      <circle cx="0" cy="0" r="3.15"/>
+    </clipPath>
+  </defs>
+  <rect class="blum-instagram-frame" x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"/>
+  <g class="blum-instagram-shutter" transform="translate(12 12) rotate(-35)">
+    <g clip-path="url(#blum-instagram-shutter-clip)" fill="currentColor" stroke="none">
+      <rect class="blum-instagram-curtain-upper" x="-4" y="-4" width="8" height="4" transform="translate(0 -4.1)"/>
+      <rect class="blum-instagram-curtain-lower" x="-4" y="0" width="8" height="4" transform="translate(0 4.1)"/>
+    </g>
+  </g>
+  <circle class="blum-instagram-lens" cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle class="blum-instagram-dot" cx="17.5" cy="6.5" r=".65" fill="currentColor" stroke="none"/>
+</svg>
             </span>
             <span class="link-label">Instagram</span>
           </a>
@@ -126,7 +494,139 @@
         <li>
           <a class="outpost-link" href="https://www.strava.com/athletes/26247444" aria-label="Jordan Blum on Strava">
             <span class="icon-disc strava-disc" aria-hidden="true">
-              <svg class="brand-glyph strava-mark" viewBox="0 0 24 24"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599 2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="icon-motion strava-mark" data-icon-motion="strava" data-duration="1900" fill="currentColor" stroke="none" aria-hidden="true" focusable="false">
+  <title>Strava</title>
+  <style>
+    svg.icon-motion[data-icon-motion="strava"] {
+      --blum-strava-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+      fill: currentColor;
+      stroke: none;
+    }
+    svg.icon-motion[data-icon-motion="strava"] .blum-strava-part {
+      animation: none;
+      transform-box: view-box;
+    }
+    svg.icon-motion[data-icon-motion="strava"] #blum-strava-lower-rotation {
+      transform-origin: 15.385px 18.914px;
+    }
+    svg.icon-motion[data-icon-motion="strava"] #blum-strava-route-marker {
+      opacity: 0;
+    }
+
+    /* Standalone preview: 1.9 seconds hiking, 6.1 seconds at the logo. */
+    svg.icon-motion[data-icon-motion="strava"]:not(.is-controlled) .blum-strava-part {
+      animation-duration: 8s;
+      animation-delay: 2.5s;
+      animation-iteration-count: infinite;
+      animation-fill-mode: both;
+      animation-timing-function: var(--blum-strava-ease);
+    }
+    svg.icon-motion[data-icon-motion="strava"]:not(.is-controlled) #blum-strava-upper-chevron {
+      animation-name: blum-strava-upper-preview;
+    }
+    svg.icon-motion[data-icon-motion="strava"]:not(.is-controlled) #blum-strava-lower-translation {
+      animation-name: blum-strava-lower-translation-preview;
+    }
+    svg.icon-motion[data-icon-motion="strava"]:not(.is-controlled) #blum-strava-lower-rotation {
+      animation-name: blum-strava-lower-rotation-preview;
+    }
+    svg.icon-motion[data-icon-motion="strava"]:not(.is-controlled) #blum-strava-route-marker {
+      animation-name: blum-strava-travel-preview, blum-strava-visibility-preview;
+      animation-timing-function: linear, var(--blum-strava-ease);
+    }
+
+    /* The host adds is-controlled before requesting a single is-playing run. */
+    svg.icon-motion[data-icon-motion="strava"].is-playing .blum-strava-part {
+      animation-duration: 1900ms;
+      animation-delay: 0s;
+      animation-iteration-count: 1;
+      animation-fill-mode: both;
+      animation-timing-function: var(--blum-strava-ease);
+    }
+    svg.icon-motion[data-icon-motion="strava"].is-playing #blum-strava-upper-chevron {
+      animation-name: blum-strava-upper-play;
+    }
+    svg.icon-motion[data-icon-motion="strava"].is-playing #blum-strava-lower-translation {
+      animation-name: blum-strava-lower-translation-play;
+    }
+    svg.icon-motion[data-icon-motion="strava"].is-playing #blum-strava-lower-rotation {
+      animation-name: blum-strava-lower-rotation-play;
+    }
+    svg.icon-motion[data-icon-motion="strava"].is-playing #blum-strava-route-marker {
+      animation-name: blum-strava-travel-play, blum-strava-visibility-play;
+      animation-timing-function: linear, var(--blum-strava-ease);
+    }
+
+    @keyframes blum-strava-upper-play {
+      0%, 100% { transform: translate(0px, 0px); }
+      11.578947%, 88.421053% { transform: translate(-1px, 5px); }
+    }
+    @keyframes blum-strava-lower-translation-play {
+      0%, 100% { transform: translateY(0px); }
+      11.578947%, 88.421053% { transform: translateY(-5.172px); }
+    }
+    @keyframes blum-strava-lower-rotation-play {
+      0%, 100% { transform: rotate(0deg); }
+      11.578947%, 88.421053% { transform: rotate(180deg); }
+    }
+    @keyframes blum-strava-travel-play {
+      0%, 11.578947% { transform: translate(0px, -0.7px); }
+      46.315789%, 53.684211% { transform: translate(7px, -14.528px); }
+      65.263158% { transform: translate(10.887px, -6.858px); }
+      76.842105% { transform: translate(12.92px, -10.872px); }
+      88.421053%, 100% { transform: translate(18.074px, -0.7px); }
+    }
+    @keyframes blum-strava-visibility-play {
+      0%, 4.210526%, 95.789474%, 100% { opacity: 0; }
+      11.578947%, 88.421053% { opacity: 1; }
+    }
+
+    @keyframes blum-strava-upper-preview {
+      0%, 23.75%, 100% { transform: translate(0px, 0px); }
+      2.75%, 21% { transform: translate(-1px, 5px); }
+    }
+    @keyframes blum-strava-lower-translation-preview {
+      0%, 23.75%, 100% { transform: translateY(0px); }
+      2.75%, 21% { transform: translateY(-5.172px); }
+    }
+    @keyframes blum-strava-lower-rotation-preview {
+      0%, 23.75%, 100% { transform: rotate(0deg); }
+      2.75%, 21% { transform: rotate(180deg); }
+    }
+    @keyframes blum-strava-travel-preview {
+      0%, 2.75% { transform: translate(0px, -0.7px); }
+      11%, 12.75% { transform: translate(7px, -14.528px); }
+      15.5% { transform: translate(10.887px, -6.858px); }
+      18.25% { transform: translate(12.92px, -10.872px); }
+      21%, 100% { transform: translate(18.074px, -0.7px); }
+    }
+    @keyframes blum-strava-visibility-preview {
+      0%, 1%, 22.75%, 100% { opacity: 0; }
+      2.75%, 21% { opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      svg.icon-motion[data-icon-motion="strava"] .blum-strava-part {
+        animation: none !important;
+        transform: none !important;
+      }
+      svg.icon-motion[data-icon-motion="strava"] #blum-strava-route-marker {
+        opacity: 0 !important;
+      }
+    }
+  </style>
+  <g id="blum-strava">
+    <g id="blum-strava-upper-chevron" class="blum-strava-part">
+      <path fill="currentColor" d="M10.463 8.229l2.836 5.598h4.172L10.463 0l-7 13.828h4.169Z"/>
+    </g>
+    <g id="blum-strava-lower-translation" class="blum-strava-part">
+      <g id="blum-strava-lower-rotation" class="blum-strava-part">
+        <path fill="currentColor" d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066Z"/>
+      </g>
+    </g>
+    <circle id="blum-strava-route-marker" class="blum-strava-part" cx="2.463" cy="17.428" r="0.65" fill="currentColor" opacity="0"/>
+  </g>
+</svg>
             </span>
             <span class="link-label">Strava</span>
           </a>
@@ -142,7 +642,23 @@
         <li>
           <a class="outpost-link" href="https://www.chicksofnyc.com/" aria-label="Chicks of NYC">
             <span class="icon-disc wings-disc" aria-hidden="true">
-              <svg class="icon-glyph wing-mark" viewBox="0 0 24 24"><path class="wing-meat" d="M20.16 12.73C22.93 9.96 22.57 5.26 19.09 3C17.08 1.67 14.39 1.66 12.36 2.97C10.6 4.1 9.63 5.86 9.46 7.68C9.33 9 8.83 10.23 7.91 11.15L7.88 11.18C6.72 12.34 6.72 14.11 7.81 15.19L8.8 16.18C9.89 17.27 11.66 17.27 12.75 16.18C13.72 15.21 15 14.68 16.39 14.53C17.76 14.38 19.1 13.78 20.16 12.73"/><path class="wing-bone" d="M6.26 19.86C6.53 20.42 6.44 21.1 5.97 21.56C5.39 22.15 4.44 22.15 3.85 21.56C3.58 21.29 3.44 20.94 3.42 20.58C3.06 20.56 2.71 20.42 2.44 20.15C1.85 19.56 1.85 18.61 2.44 18.03C2.9 17.57 3.59 17.47 4.14 17.74L6.62 15.31C6.76 15.5 6.92 15.72 7.1 15.9L8.09 16.89C8.3 17.09 8.5 17.26 8.76 17.41L6.26 19.86Z"/><path class="wing-steam wing-steam-1" d="M18.5 2.4c.7-.6.7-1.2.1-1.8"/><path class="wing-steam wing-steam-2" d="M21.2 4.2c.8-.5 1-1 .6-1.7"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="icon-motion wing-mark" data-icon-motion="wings" data-duration="780" aria-hidden="true" focusable="false"><style>svg[data-icon-motion="wings"] { fill:currentColor;stroke:none; }
+.blum-wing-holes,.blum-wing-crumbs { opacity:0; }
+.blum-wing-body { transform-origin:12px 12px; }
+svg[data-icon-motion="wings"]:not(.is-controlled) .blum-wing-body { animation:blum-wing-bite-idle 8s cubic-bezier(.2,.8,.2,1) 2.5s infinite both; }
+svg[data-icon-motion="wings"]:not(.is-controlled) .blum-wing-holes { animation:blum-wing-holes-idle 8s steps(1) 2.5s infinite both; }
+svg[data-icon-motion="wings"]:not(.is-controlled) .blum-wing-crumbs { animation:blum-wing-crumbs-idle 8s cubic-bezier(.2,.8,.2,1) 2.5s infinite both; }
+svg[data-icon-motion="wings"].is-playing .blum-wing-body { animation:blum-wing-bite-play 780ms cubic-bezier(.2,.8,.2,1) both; }
+svg[data-icon-motion="wings"].is-playing .blum-wing-holes { animation:blum-wing-holes-play 780ms steps(1) both; }
+svg[data-icon-motion="wings"].is-playing .blum-wing-crumbs { animation:blum-wing-crumbs-play 780ms cubic-bezier(.2,.8,.2,1) both; }
+@keyframes blum-wing-bite-play { 0%,65%,100% { transform:translate(0px,0px) rotate(0deg); } 18% { transform:translate(-.5px,.4px) rotate(-4deg); } }
+@keyframes blum-wing-holes-play { 0%,100% { opacity:0; } 15% { opacity:1; } }
+@keyframes blum-wing-crumbs-play { 0%,14%,80%,100% { opacity:0;transform:translate(0px,0px); } 18% { opacity:1; } 72% { opacity:0;transform:translate(1.2px,2px); } }
+@keyframes blum-wing-bite-idle { 0%,6.34%,100% { transform:translate(0px,0px) rotate(0deg); } 1.755% { transform:translate(-.5px,.4px) rotate(-4deg); } }
+@keyframes blum-wing-holes-idle { 0%,9.75%,100% { opacity:0; } 1.4625% { opacity:1; } }
+@keyframes blum-wing-crumbs-idle { 0%,1.365%,7.8%,100% { opacity:0;transform:translate(0px,0px); } 1.755% { opacity:1; } 7.02% { opacity:0;transform:translate(1.2px,2px); } }
+@media(prefers-reduced-motion:reduce) { svg[data-icon-motion="wings"] * { animation:none!important;transform:none!important; } svg[data-icon-motion="wings"] .blum-wing-holes,svg[data-icon-motion="wings"] .blum-wing-crumbs { opacity:0!important; } }
+</style><defs><mask id="blum-wing-bite" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24" style="mask-type:luminance"><rect width="24" height="24" fill="white"/><g class="blum-wing-holes" fill="black"><circle cx="20.1" cy="3.7" r="1.5"/><circle cx="21.3" cy="5.6" r="1.7"/><circle cx="22.2" cy="7.5" r="1.5"/></g></mask></defs><g class="blum-wing-body" fill="currentColor" stroke="none"><path d="M20.16 12.73C22.93 9.96 22.57 5.26 19.09 3C17.08 1.67 14.39 1.66 12.36 2.97C10.6 4.1 9.63 5.86 9.46 7.68C9.33 9 8.83 10.23 7.91 11.15L7.88 11.18C6.72 12.34 6.72 14.11 7.81 15.19L8.8 16.18C9.89 17.27 11.66 17.27 12.75 16.18C13.72 15.21 15 14.68 16.39 14.53C17.76 14.38 19.1 13.78 20.16 12.73" mask="url(#blum-wing-bite)"/><path d="M6.26 19.86C6.53 20.42 6.44 21.1 5.97 21.56C5.39 22.15 4.44 22.15 3.85 21.56C3.58 21.29 3.44 20.94 3.42 20.58C3.06 20.56 2.71 20.42 2.44 20.15C1.85 19.56 1.85 18.61 2.44 18.03C2.9 17.57 3.59 17.47 4.14 17.74L6.62 15.31C6.76 15.5 6.92 15.72 7.1 15.9L8.09 16.89C8.3 17.09 8.5 17.26 8.76 17.41L6.26 19.86Z"/></g><g class="blum-wing-crumbs" fill="currentColor" stroke="none"><circle cx="21.4" cy="4.7" r=".3"/><circle cx="22.2" cy="6.5" r=".35"/></g></svg>
             </span>
             <span class="link-label">Wings</span>
           </a>
@@ -190,5 +706,6 @@
 
   <div class="toast" role="status" aria-live="polite" aria-atomic="true" data-toast></div>
   <script src="./js/site.js" defer></script>
+  <script src="./js/icon-motion.js" defer></script>
 </body>
 </html>
