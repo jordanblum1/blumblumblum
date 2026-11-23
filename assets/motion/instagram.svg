@@ -2,15 +2,9 @@
   <style>
     .blum-instagram-curtain-upper {
       transform: translateY(-4.1px);
-      animation: blum-instagram-upper-idle 8000ms cubic-bezier(0.2, 0.8, 0.2, 1) 2500ms infinite;
     }
     .blum-instagram-curtain-lower {
       transform: translateY(4.1px);
-      animation: blum-instagram-lower-idle 8000ms cubic-bezier(0.2, 0.8, 0.2, 1) 2500ms infinite;
-    }
-    .is-controlled .blum-instagram-curtain-upper,
-    .is-controlled .blum-instagram-curtain-lower {
-      animation: none;
     }
     .is-playing .blum-instagram-curtain-upper {
       animation: blum-instagram-upper-shot 560ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
@@ -25,14 +19,6 @@
     @keyframes blum-instagram-lower-shot {
       0%, 100% { transform: translateY(4.1px); }
       32%, 58% { transform: translateY(0.35px); }
-    }
-    @keyframes blum-instagram-upper-idle {
-      0%, 7%, 100% { transform: translateY(-4.1px); }
-      2.24%, 4.06% { transform: translateY(-0.35px); }
-    }
-    @keyframes blum-instagram-lower-idle {
-      0%, 7%, 100% { transform: translateY(4.1px); }
-      2.24%, 4.06% { transform: translateY(0.35px); }
     }
     @media (prefers-reduced-motion: reduce) {
       .blum-instagram-curtain-upper {

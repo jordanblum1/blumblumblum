@@ -1,57 +1,45 @@
-// One small action per icon. Native anchors remain usable throughout.
+// One small gesture while hovered. Native anchors always navigate immediately.
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
-  const icons = [...document.querySelectorAll('svg[data-icon-motion]')];
-  const states = icons.map((icon, index) => {
+  const states = [...document.querySelectorAll('svg[data-icon-motion]')].map(icon => {
     icon.classList.add('is-controlled');
-    return { icon, index, link: icon.closest('a'), visible: false, playing: false, timer: 0, idle: 0 };
+    return { icon, link: icon.closest('a'), visible: false, hovered: false, playing: false, timer: 0 };
   });
-  const allowed = state => state.visible && !document.hidden && !reduced.matches;
+  const allowed = state => state.visible && state.hovered && finePointer.matches && !document.hidden && !reduced.matches;
   const stop = state => {
     clearTimeout(state.timer);
-    clearTimeout(state.idle);
     state.playing = false;
     state.icon.classList.remove('is-playing');
   };
-  const schedule = (state, delay = 8000) => {
-    clearTimeout(state.idle);
-    if (allowed(state)) state.idle = setTimeout(() => play(state), delay);
-  };
   const play = state => {
     if (!allowed(state) || state.playing) return;
-    clearTimeout(state.idle);
     state.playing = true;
     state.icon.classList.add('is-playing');
-    state.timer = setTimeout(() => {
-      state.playing = false;
-      state.icon.classList.remove('is-playing');
-      schedule(state);
-    }, Number(state.icon.dataset.duration));
+    state.timer = setTimeout(() => stop(state), Number(state.icon.dataset.duration));
   };
-  const sync = () => {
-    for (const state of states) {
-      if (!allowed(state)) stop(state);
-      else if (!state.playing) schedule(state, 2500 + state.index * 700);
-    }
-  };
+  const sync = () => states.forEach(state => { if (!allowed(state)) stop(state); });
   const observer = new IntersectionObserver(entries => {
     for (const entry of entries) {
       const state = states.find(item => item.icon === entry.target);
       state.visible = entry.isIntersecting;
-      if (!allowed(state)) stop(state);
-      else if (!state.playing) schedule(state, 2500 + state.index * 700);
+      if (!state.visible) { state.hovered = false; stop(state); }
+      else play(state);
     }
-  }, { threshold: 0.5 });
+  }, { threshold: .5 });
   for (const state of states) {
     observer.observe(state.icon);
     state.link.addEventListener('pointerenter', event => {
-      if (event.pointerType === 'mouse' && finePointer.matches) play(state);
+      if (event.pointerType !== 'mouse' || !finePointer.matches) return;
+      state.hovered = true;
+      play(state);
     });
-    state.link.addEventListener('focus', () => play(state));
+    state.link.addEventListener('pointerleave', () => { state.hovered = false; stop(state); });
   }
+  const suspend = () => states.forEach(state => { state.hovered = false; stop(state); });
   reduced.addEventListener('change', sync);
-  document.addEventListener('visibilitychange', sync);
-  window.addEventListener('pagehide', () => states.forEach(stop));
-  window.addEventListener('pageshow', sync);
+  finePointer.addEventListener('change', suspend);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) suspend(); });
+  window.addEventListener('blur', suspend);
+  window.addEventListener('pagehide', suspend);
 })();

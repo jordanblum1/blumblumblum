@@ -4,25 +4,7 @@
   const toast = document.querySelector('[data-toast]');
   let toastTimer;
 
-  const introSentinel = document.querySelector('.playlist-motion');
-  const linksNav = document.querySelector('.links-nav');
-  let introFallbackTimer;
-
-  const finishIntro = () => {
-    window.clearTimeout(introFallbackTimer);
-    root.classList.add('is-ready');
-  };
-
-  introSentinel?.addEventListener('animationend', (event) => {
-    if (event.animationName === 'glyph-develop') finishIntro();
-  });
-
-  // Prioritize an intentional interaction over the staggered entrance. Without
-  // this, leaving a link early can restart its delayed, opacity-zero first frame.
-  linksNav?.addEventListener('pointerover', finishIntro, { once: true, passive: true });
-  linksNav?.addEventListener('focusin', finishIntro, { once: true });
-
-  introFallbackTimer = window.setTimeout(finishIntro, reducedMotion.matches ? 160 : 1400);
+  root.classList.add('is-ready');
 
   document.querySelector('.skip-link')?.addEventListener('click', () => {
     window.requestAnimationFrame(() => {
