@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 const source = readFileSync(new URL('../js/icon-motion.js', import.meta.url), 'utf8');
-function setup() {
+function setup(visible = true) {
   const link = new EventTarget();
   const classes = new Set();
   const icon = { classList: { add: value => classes.add(value), remove: value => classes.delete(value) },
@@ -22,7 +22,7 @@ function setup() {
     setTimeout: callback => { timers.set(++sequence, callback); return sequence; },
     clearTimeout: id => timers.delete(id),
   });
-  observe(true);
+  if (visible) observe(true);
   const pointer = (type, pointerType = 'mouse') => link.dispatchEvent(Object.assign(new Event(type), { pointerType }));
   const playing = () => classes.has('is-playing');
   const change = (query, matches) => { query.matches = matches; query.dispatchEvent(new Event('change')); };
@@ -81,4 +81,15 @@ test('every SVG animation selector requires the playing state, including each gr
       }
     }
   }
+});
+
+
+test('a pointer arriving before the first visibility callback starts when it becomes visible', () => {
+  const state = setup(false);
+  state.pointer('pointerenter');
+  assert.equal(state.playing(), false);
+  state.observe(true);
+  assert.equal(state.playing(), true);
+  state.pointer('pointerleave');
+  assert.equal(state.playing(), false);
 });

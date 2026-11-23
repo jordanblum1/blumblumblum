@@ -24,6 +24,7 @@
       const state = states.find(item => item.icon === entry.target);
       state.visible = entry.isIntersecting;
       if (!state.visible) { state.hovered = false; stop(state); }
+      else play(state);
     }
   }, { threshold: .5 });
   for (const state of states) {
