@@ -18,7 +18,7 @@ env:
 jobs:
   deploy:
     name: Deploy static site
-    runs-on: [self-hosted, macOS, ARM64, personal-mac]
+    runs-on: [self-hosted, Linux, X64, personal-pc]
 
     steps:
       - name: Check out repository

@@ -8,12 +8,18 @@ permissions:
 
 jobs:
   smoke:
-    runs-on: [self-hosted, macOS, ARM64, personal-mac]
+    runs-on: [self-hosted, Linux, X64, personal-pc]
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          package-manager-cache: false
       - name: Verify runner
         run: |
-          test "$(uname -m)" = "arm64"
-          sw_vers
+          test "$RUNNER_OS" = "Linux"
+          test "$RUNNER_ARCH" = "X64"
+          test "$(uname -m)" = "x86_64"
+          cat /etc/os-release
           node --version
