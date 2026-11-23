@@ -6,8 +6,6 @@
     .blum-instagram-curtain-lower {
       transform: translateY(4.1px);
     }
-    .is-controlled .blum-instagram-curtain-upper,
-
     .is-playing .blum-instagram-curtain-upper {
       animation: blum-instagram-upper-shot 560ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
     }

@@ -66,3 +66,19 @@ test('visibility, reduced motion and pointer changes cancel motion without an id
   state.change(state.fine, false); state.pointer('pointerenter');
   assert.equal(state.playing(), false);
 });
+
+test('every SVG animation selector requires the playing state, including each grouped selector', () => {
+  for (const name of ['jrb', 'toolbox', 'github', 'photos', 'instagram', 'strava', 'wings']) {
+    const svg = readFileSync(new URL(`../assets/motion/${name}.svg`, import.meta.url), 'utf8');
+    const style = svg.match(/<style>([\s\S]*?)<\/style>/)?.[1] ?? '';
+    // Only leaf CSS blocks can declare animation; keyframe leaves contain transforms/opacity.
+    for (const [, selectors, declarations] of style.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+      const startsMotion = [...declarations.matchAll(/(?:^|;)\s*animation(?:-name)?\s*:\s*([^;]+)/g)]
+        .some(([, value]) => !value.trim().startsWith('none'));
+      if (!startsMotion) continue;
+      for (const selector of selectors.split(',')) {
+        assert.ok(selector.includes('.is-playing'), `${name}: ${selector.trim()} starts motion without hover activation`);
+      }
+    }
+  }
+});
