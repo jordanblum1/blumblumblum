@@ -207,7 +207,6 @@ img {
   background: var(--panel);
   box-shadow: var(--shadow);
   text-align: center;
-  animation: panel-develop 420ms var(--ease) backwards;
   transition:
     background-color var(--default) var(--ease),
     border-color var(--default) var(--ease),
@@ -249,7 +248,6 @@ img {
   transform-box: fill-box;
   transform-origin: center;
   transition: transform var(--default) var(--ease);
-  animation: logo-assemble 650ms var(--ease) backwards;
 }
 
 .logo-piece path {
@@ -263,7 +261,6 @@ img {
   stroke-opacity: 0;
   stroke-width: 2;
   vector-effect: non-scaling-stroke;
-  animation: logo-ink 700ms var(--ease) backwards;
 }
 
 .logo-piece-1 {
@@ -301,10 +298,16 @@ img {
 
 .brand-button.is-replaying .logo-piece {
   animation-name: logo-reassemble;
+  animation-duration: 650ms;
+  animation-timing-function: var(--ease);
+  animation-fill-mode: backwards;
 }
 
 .brand-button.is-replaying .logo-piece path {
   animation-name: logo-ink-replay;
+  animation-duration: 700ms;
+  animation-timing-function: var(--ease);
+  animation-fill-mode: backwards;
 }
 
 :root.is-ready .logo-panel,
@@ -336,17 +339,8 @@ img {
 }
 
 .links-grid li {
-  --stagger: 0ms;
   min-width: 0;
 }
-
-.links-grid li:nth-child(2) { --stagger: 30ms; }
-.links-grid li:nth-child(3) { --stagger: 60ms; }
-.links-grid li:nth-child(4) { --stagger: 90ms; }
-.links-grid li:nth-child(5) { --stagger: 120ms; }
-.links-grid li:nth-child(6) { --stagger: 150ms; }
-.links-grid li:nth-child(7) { --stagger: 180ms; }
-.links-grid li:nth-child(8) { --stagger: 210ms; }
 
 .outpost-link {
   display: grid;
@@ -372,8 +366,6 @@ img {
     background-color var(--default) var(--ease),
     color var(--default) var(--ease),
     transform var(--default) var(--ease);
-  animation: disc-develop 420ms var(--ease) backwards;
-  animation-delay: calc(360ms + var(--stagger));
 }
 
 .icon-disc svg {
@@ -417,15 +409,6 @@ img {
   height: 2.5rem;
 }
 
-.spotify-mark,
-.playlist-motion {
-  animation-name: glyph-develop;
-  animation-duration: 360ms;
-  animation-timing-function: var(--ease);
-  animation-fill-mode: backwards;
-  animation-delay: calc(560ms + var(--stagger));
-}
-
 .spotify-wave {
   transform-box: fill-box;
   transform-origin: center;
@@ -450,8 +433,6 @@ img {
   text-align: center;
   white-space: normal;
   text-wrap: balance;
-  animation: label-develop 280ms var(--ease) backwards;
-  animation-delay: calc(470ms + var(--stagger));
 }
 
 .equalizer {
@@ -520,7 +501,6 @@ img {
 @media (hover: hover) and (pointer: fine) {
   .lucky-token:hover .lucky-clue-handle { transform: translateY(3px); }
 }
-.lucky-token:focus-visible .lucky-clue-handle { transform: translateY(3px); }
 
 .playlist-dialog {
   width: min(calc(100% - 2rem), 38rem);
@@ -742,28 +722,31 @@ img {
   transform: translate3d(0, 0, 0);
 }
 
-.outpost-link:is(:hover, :focus-visible) .spotify-mark {
+@media (hover: hover) and (pointer: fine) {
+.outpost-link:hover .spotify-mark {
   animation: spotify-settle 420ms var(--ease);
 }
 
-.outpost-link:is(:hover, :focus-visible) .spotify-wave {
+.outpost-link:hover .spotify-wave {
   animation: spotify-scan 420ms var(--ease);
 }
 
-.outpost-link:is(:hover, :focus-visible) .spotify-wave-2 { animation-delay: 35ms; }
-.outpost-link:is(:hover, :focus-visible) .spotify-wave-3 { animation-delay: 70ms; }
+.outpost-link:hover .spotify-wave-2 { animation-delay: 35ms; }
+.outpost-link:hover .spotify-wave-3 { animation-delay: 70ms; }
 
-.outpost-link:is(:hover, :focus-visible) .playlist-motion {
+.outpost-link:hover .playlist-motion {
   animation: playlist-pop 420ms var(--ease);
 }
 
-.outpost-link:is(:hover, :focus-visible) .equalizer i {
+.outpost-link:hover .equalizer i {
   animation: equalizer-bounce 420ms var(--ease);
 }
 
-.outpost-link:is(:hover, :focus-visible) .equalizer i:nth-child(2) { animation-delay: 45ms; }
-.outpost-link:is(:hover, :focus-visible) .equalizer i:nth-child(3) { animation-delay: 90ms; }
-.outpost-link:is(:hover, :focus-visible) .equalizer i:nth-child(4) { animation-delay: 25ms; }
+.outpost-link:hover .equalizer i:nth-child(2) { animation-delay: 45ms; }
+.outpost-link:hover .equalizer i:nth-child(3) { animation-delay: 90ms; }
+.outpost-link:hover .equalizer i:nth-child(4) { animation-delay: 25ms; }
+
+}
 
 @media (hover: hover) and (pointer: fine) {
   .brand-button:hover .logo-piece-1 { transform: translate3d(0, -0.2rem, 0) rotate(-1deg); }
@@ -799,29 +782,6 @@ body.logo-party .links-grid li:nth-child(even) {
   animation: party-right 520ms var(--ease) both;
 }
 
-@keyframes panel-develop {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 0.75rem, 0) scale(0.985);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-}
-
-@keyframes logo-assemble {
-  0% {
-    transform: translate3d(var(--piece-x), var(--piece-y), 0) rotate(var(--piece-rotate)) scale(0.92);
-  }
-  72% {
-    transform: translate3d(0, -0.12rem, 0) rotate(0deg) scale(1.015);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-}
-
 @keyframes logo-reassemble {
   0% {
     transform: translate3d(var(--piece-x), var(--piece-y), 0) rotate(var(--piece-rotate)) scale(0.92);
@@ -831,24 +791,6 @@ body.logo-party .links-grid li:nth-child(even) {
   }
   100% {
     transform: translate3d(0, 0, 0) scale(1);
-  }
-}
-
-@keyframes logo-ink {
-  0% {
-    fill-opacity: 0;
-    stroke-dashoffset: 1;
-    stroke-opacity: 0;
-  }
-  12%,
-68% {
-    fill-opacity: 0;
-    stroke-opacity: 1;
-  }
-  100% {
-    fill-opacity: 1;
-    stroke-dashoffset: 0;
-    stroke-opacity: 0;
   }
 }
 
@@ -867,47 +809,6 @@ body.logo-party .links-grid li:nth-child(even) {
     fill-opacity: 1;
     stroke-dashoffset: 0;
     stroke-opacity: 0;
-  }
-}
-
-@keyframes disc-develop {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 0.75rem, 0) scale(0.92);
-  }
-  72% {
-    opacity: 1;
-    transform: translate3d(0, -0.08rem, 0) scale(1.01);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-}
-
-@keyframes label-develop {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 0.35rem, 0);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes glyph-develop {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 0.18rem, 0) scale(0.9);
-  }
-  68% {
-    opacity: 1;
-    transform: translate3d(0, -0.04rem, 0) scale(1.02);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
@@ -1084,9 +985,15 @@ body.logo-party .links-grid li:nth-child(even) {
   }
 }
 
+/* Tablet-width windows stay a balanced 3×3, including trackpad-equipped iPads. */
+@media (min-width: 601px) and (max-width: 1439px) {
+  .links-nav { width: min(100%, 32rem); }
+  .links-grid { --link-gap: 1.5rem; row-gap: 1.75rem; }
+}
+
 /* Touch tablets keep the same 3×3 layout even in landscape. A wide desktop
    uses wrapping rows, so the final four links center naturally under five. */
-@media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+@media (min-width: 1440px) and (hover: hover) and (pointer: fine) {
   .links-grid {
     display: flex;
     flex-wrap: wrap;
@@ -1123,7 +1030,7 @@ body.logo-party .links-grid li:nth-child(even) {
   }
 
   .lucky-clue-handle { transition: none; }
-  .lucky-token:hover .lucky-clue-handle, .lucky-token:focus-visible .lucky-clue-handle { transform: none; }
+  .lucky-token:hover .lucky-clue-handle { transform: none; }
 
   .spotify-mark,
 .playlist-motion,

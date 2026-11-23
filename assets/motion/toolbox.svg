@@ -10,7 +10,6 @@
       stroke-linejoin: round;
     }
     svg.icon-motion[data-icon-motion="toolbox"] .blum-toolbox-part {
-      animation: none;
       transform: none;
       transform-box: view-box;
       transform-origin: 0px 0px;
@@ -18,25 +17,6 @@
     svg.icon-motion[data-icon-motion="toolbox"] #blum-toolbox-lid {
       transform-origin: 3.5px 11.8px;
     }
-
-    /* Standalone preview: 1250ms of motion, then 6750ms closed. */
-    svg.icon-motion[data-icon-motion="toolbox"]:not(.is-controlled) .blum-toolbox-part {
-      animation-duration: 8s;
-      animation-delay: 2.5s;
-      animation-iteration-count: infinite;
-      animation-fill-mode: both;
-      animation-timing-function: var(--blum-toolbox-ease);
-    }
-    svg.icon-motion[data-icon-motion="toolbox"]:not(.is-controlled) #blum-toolbox-lid {
-      animation-name: blum-toolbox-lid-preview;
-    }
-    svg.icon-motion[data-icon-motion="toolbox"]:not(.is-controlled) #blum-toolbox-hammer {
-      animation-name: blum-toolbox-hammer-preview;
-    }
-    svg.icon-motion[data-icon-motion="toolbox"]:not(.is-controlled) #blum-toolbox-wrench {
-      animation-name: blum-toolbox-wrench-preview;
-    }
-
     /* The host controls scheduling and adds is-playing for one complete gesture. */
     svg.icon-motion[data-icon-motion="toolbox"].is-playing .blum-toolbox-part {
       animation-duration: 1250ms;
@@ -54,7 +34,6 @@
     svg.icon-motion[data-icon-motion="toolbox"].is-playing #blum-toolbox-wrench {
       animation-name: blum-toolbox-wrench-play;
     }
-
     @keyframes blum-toolbox-lid-play {
       0%, 100% { transform: none; }
       25%, 75% { transform: rotate(-14deg); }
@@ -67,20 +46,6 @@
       0%, 14.204545%, 75%, 100% { transform: none; }
       39.204545%, 50% { transform: translate(1.3px, -11px) rotate(14deg); }
     }
-
-    @keyframes blum-toolbox-lid-preview {
-      0%, 15.625%, 100% { transform: none; }
-      3.90625%, 11.71875% { transform: rotate(-14deg); }
-    }
-    @keyframes blum-toolbox-hammer-preview {
-      0%, 1.420455%, 11.71875%, 100% { transform: none; }
-      5.326705%, 7.8125% { transform: translate(-2px, -11px) rotate(-16deg); }
-    }
-    @keyframes blum-toolbox-wrench-preview {
-      0%, 2.21946%, 11.71875%, 100% { transform: none; }
-      6.12571%, 7.8125% { transform: translate(1.3px, -11px) rotate(14deg); }
-    }
-
     @media (prefers-reduced-motion: reduce) {
       svg.icon-motion[data-icon-motion="toolbox"] .blum-toolbox-part {
         animation: none !important;

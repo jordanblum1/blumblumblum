@@ -24,7 +24,7 @@ Run `EVIDENCE=1 npx playwright test` to save screenshots to `docs/egg-evidence/`
 
 ## Link icon motion
 
-The seven source SVGs live in `assets/motion/`. GitHub, Instagram, Strava, the photo icon, the wing and JRB retain their existing native geometry; only the toolbox artwork was regenerated with Higgsfield. The JRB uses the original WebP alpha as a self-contained SVG mask. Motion uses scoped CSS transforms/opacity and a small visibility-aware controller, with keyboard focus and static reduced motion. Links navigate immediately.
+The seven source SVGs live in `assets/motion/`. GitHub, Instagram, Strava, the photo icon, the wing and JRB retain their existing native geometry; only the toolbox artwork was regenerated with Higgsfield. The JRB uses the original WebP alpha as a self-contained SVG mask. Motion uses scoped CSS transforms/opacity and a small visibility-aware controller, with fine-pointer hover activation and static reduced motion. Focus and touch leave the artwork still; pointer leave, hidden tabs and offscreen suspension cancel playback. Links navigate immediately.
 
 After editing an SVG, refresh the static inline copies:
 
@@ -50,6 +50,6 @@ The miniature “Feeling lucky?” slot machine in the footer gathers the nine n
 | Recover from interruption | Escape, ×, resize, reduced motion / hidden tab | Usable grid or settled result, restored focus, no orphan animations | `tests/lucky-machine.spec.mjs` |
 | Discover existing Easter eggs | `js/site.js` | Logo, playlist and other interactions remain usable | `tests/eggs.spec.mjs` |
 
-`npm run check` validates every browser script’s syntax and the canonical SVG copies. `npm test` runs the existing desktop/mobile browser journeys; `npm run verify` runs both. Keep command definitions in `package.json`. There are no new runtime dependencies or build step.
+`npm run check` validates every browser script’s syntax and the canonical SVG copies. `npm run test:unit` exercises hover and interruption behavior without a browser. `npm test` runs the existing desktop/mobile browser journeys; `npm run verify` runs all three. Keep command definitions in `package.json`. There are no new runtime dependencies or build step.
 
 The deployment workflow stages only public HTML, manifests, favicons, `assets/`, `css/` and `js/`; docs, tests and agent instructions are excluded. Keep its existing release and credential boundaries. Instructions for future agents live in [AGENTS.md](AGENTS.md).

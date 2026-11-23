@@ -3,27 +3,17 @@
     svg.blum-photos-svg .blum-photos-scene {
       transform-box: view-box;
       transform-origin: 12px 12px;
-      animation-duration: 8s;
-      animation-delay: 2.5s;
-      animation-iteration-count: infinite;
-      animation-timing-function: var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
-      animation-fill-mode: both;
     }
     svg.blum-photos-svg .blum-photos-day {
       opacity: 1;
-      animation-name: blum-photos-idle-day;
     }
     svg.blum-photos-svg .blum-photos-night {
       opacity: 0;
-      animation-name: blum-photos-idle-night;
     }
     svg.blum-photos-svg .blum-photos-sea {
       opacity: 0;
-      animation-name: blum-photos-idle-sea;
     }
-    svg.blum-photos-svg.is-controlled .blum-photos-scene {
-      animation: none;
-    }
+
     svg.blum-photos-svg.is-playing .blum-photos-scene {
       animation-duration: 2160ms;
       animation-delay: 0s;
@@ -39,22 +29,6 @@
     }
     svg.blum-photos-svg.is-playing .blum-photos-sea {
       animation-name: blum-photos-play-sea;
-    }
-    @keyframes blum-photos-idle-day {
-      0%, 2% { opacity: 1; transform: translateX(0); }
-      4.75% { opacity: 0; transform: translateX(-3.25px); }
-      5%, 20% { opacity: 0; transform: translateX(3.25px); }
-      22.75%, 100% { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes blum-photos-idle-night {
-      0%, 2% { opacity: 0; transform: translateX(3.25px); }
-      4.75%, 11% { opacity: 1; transform: translateX(0); }
-      13.75%, 100% { opacity: 0; transform: translateX(-3.25px); }
-    }
-    @keyframes blum-photos-idle-sea {
-      0%, 11% { opacity: 0; transform: translateX(3.25px); }
-      13.75%, 20% { opacity: 1; transform: translateX(0); }
-      22.75%, 100% { opacity: 0; transform: translateX(-3.25px); }
     }
     @keyframes blum-photos-play-day {
       0%, 7.407407% { opacity: 1; transform: translateX(0); }

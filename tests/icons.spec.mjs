@@ -134,57 +134,38 @@ test('the nine destinations and labels and the original native artwork match the
   }
 });
 
-test('focusing each native link starts an actual visible icon action', async ({ page }) => {
+test('focus and idle time leave every native icon still', async ({ page }) => {
+  await open(page);
+  for (const name of motionNames) {
+    const root = icon(page, name);
+    const link = await readyToInteract(page, name);
+    await link.focus();
+    await expect(root).not.toHaveClass(/is-playing/);
+    expect(withoutColorTransitions(await activeAnimationDetails(root))).toEqual([]);
+  }
+  await page.waitForTimeout(12_000);
+  await expect(page.locator('svg[data-icon-motion].is-playing')).toHaveCount(0);
+});
+
+test('fine hover plays the art; leave cancels and re-entry starts a fresh gesture', async ({ page }, info) => {
+  test.skip(Boolean(info.project.use.isMobile), 'Touch keeps a still preview and normal anchor navigation.');
   await open(page);
   for (const name of motionNames) {
     const root = icon(page, name);
     const link = await readyToInteract(page, name);
     const rest = await paint(root);
-    await link.focus();
-    await expect(root).toHaveClass(/is-playing/);
-    await expect.poll(() => runningAnimations(root), { intervals: [16, 16, 32] }).toBeGreaterThan(0);
-    await expect.poll(() => paint(root), { intervals: [16, 16, 32], timeout: 1000 }).not.toEqual(rest);
-  }
-});
-
-test('hover or focus re-entry leaves the current phrase running and returns to its original rest', async ({ page }, info) => {
-  await open(page);
-  const root = icon(page, 'photos');
-  const link = await readyToInteract(page, 'photos');
-  const rest = await paint(root);
-  if (info.project.use.isMobile) await link.focus();
-  else await link.hover();
-  await expect(root).toHaveClass(/is-playing/);
-  await expect.poll(() => paint(root), { intervals: [16, 16, 32], timeout: 1000 }).not.toEqual(rest);
-  await root.evaluate(async element => {
-    const animations = element.getAnimations({ subtree: true }).filter(animation =>
-      !(animation instanceof CSSTransition && animation.transitionProperty === 'color'),
-    );
-    await Promise.all(animations.map(animation => animation.ready));
-    window.iconPhraseUnderTest = animations.map(animation => ({
-      animation, startTime: animation.startTime, currentTime: animation.currentTime,
-    }));
-  });
-  expect(await root.evaluate(() => window.iconPhraseUnderTest.length)).toBeGreaterThan(0);
-  if (info.project.use.isMobile) {
-    await link.blur();
-    await link.focus();
-  } else {
-    await page.mouse.move(0, 0);
     await link.hover();
-    await link.focus();
+    await expect(root).toHaveClass(/is-playing/);
+    await expect.poll(() => paint(root), { intervals: [16, 16, 32], timeout: 1000 }).not.toEqual(rest);
+    await page.mouse.move(0, 0);
+    await expect(root).not.toHaveClass(/is-playing/);
+    expect(await paint(root)).toEqual(rest);
+    await link.hover();
+    await expect(root).toHaveClass(/is-playing/);
+    await expect(root).not.toHaveClass(/is-playing/, { timeout: 4000 });
+    expect(await paint(root)).toEqual(rest);
+    await page.mouse.move(0, 0);
   }
-  expect(await root.evaluate(element => {
-    const current = element.getAnimations({ subtree: true }).filter(animation =>
-      !(animation instanceof CSSTransition && animation.transitionProperty === 'color'),
-    );
-    return window.iconPhraseUnderTest.every(({ animation, startTime, currentTime }) =>
-      current.includes(animation) && animation.startTime === startTime && animation.currentTime >= currentTime,
-    ) && current.length === window.iconPhraseUnderTest.length;
-  })).toBe(true);
-  await expect(root).not.toHaveClass(/is-playing/, { timeout: 4000 });
-  expect(await runningAnimations(root)).toBe(0);
-  expect(await paint(root)).toEqual(rest);
 });
 
 test('reduced motion keeps every icon static and cancels an action when the preference changes', async ({ page }, info) => {
@@ -206,7 +187,8 @@ test('reduced motion keeps every icon static and cancels an action when the pref
   const link = await readyToInteract(page, 'photos');
   await link.blur();
   const rest = await paint(icon(page, 'photos'));
-  await link.focus();
+  if (info.project.use.isMobile) return;
+  await link.hover();
   await expect(icon(page, 'photos')).toHaveClass(/is-playing/);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(page.locator('svg[data-icon-motion].is-playing')).toHaveCount(0);
@@ -215,12 +197,13 @@ test('reduced motion keeps every icon static and cancels an action when the pref
   expect(await paint(icon(page, 'photos'))).toEqual(rest);
 });
 
-test('taking an icon offscreen cancels its current phrase and restores its rest', async ({ page }) => {
+test('taking an icon offscreen cancels its current phrase and restores its rest', async ({ page }, info) => {
+  test.skip(Boolean(info.project.use.isMobile), 'Touch has no decorative hover phrase.');
   await open(page);
   const root = icon(page, 'photos');
   const link = await readyToInteract(page, 'photos');
   const rest = await paint(root);
-  await link.focus();
+  await link.hover();
   await expect(root).toHaveClass(/is-playing/);
   await page.evaluate(() => {
     document.body.style.paddingBottom = '200vh';
@@ -235,7 +218,7 @@ test('taking an icon offscreen cancels its current phrase and restores its rest'
   await expect(root).not.toHaveClass(/is-playing/);
 });
 
-test('native icon links navigate without canceling the click or waiting for animation completion', async ({ page, baseURL }) => {
+test('native icon links navigate without canceling the click or waiting for animation completion', async ({ page, baseURL }, info) => {
   const clicks = [];
   await page.exposeFunction('recordIconLinkClick', details => clicks.push(details));
   await page.addInitScript(() => {
@@ -263,8 +246,8 @@ test('native icon links navigate without canceling the click or waiting for anim
   for (const [index, target] of targets.entries()) {
     if (index > 0) await open(page);
     const link = await readyToInteract(page, target.name);
-    if (target.name === 'photos') {
-      await link.focus();
+    if (target.name === 'photos' && !info.project.use.isMobile) {
+      await link.hover();
       await expect(icon(page, 'photos')).toHaveClass(/is-playing/);
     }
     const destination = new URL(target.href, baseURL).href;
@@ -273,7 +256,7 @@ test('native icon links navigate without canceling the click or waiting for anim
     await expect.poll(() => clicks.find(click => click.href === target.href)).toBeTruthy();
     const click = clicks.find(click => click.href === target.href);
     expect(click.prevented, `${target.name} must leave navigation to the anchor`).toBe(false);
-    if (target.name === 'photos') expect(click.playing).toBe(true);
+    if (target.name === 'photos' && !info.project.use.isMobile) expect(click.playing).toBe(true);
   }
 });
 
@@ -303,7 +286,12 @@ for (const device of [
   { name: 'iPad', width: 768, height: 1024, touch: true, rows: [3, 3, 3] },
   { name: 'large iPad', width: 1024, height: 1366, touch: true, rows: [3, 3, 3] },
   { name: 'landscape iPad', width: 1366, height: 1024, touch: true, rows: [3, 3, 3] },
-  { name: 'desktop', width: 1280, height: 860, touch: false, rows: [5, 4] },
+  { name: 'small laptop', width: 1100, height: 860, touch: false, rows: [3, 3, 3] },
+  { name: 'tablet window', width: 1280, height: 860, touch: false, rows: [3, 3, 3] },
+  { name: 'wide tablet window', width: 1366, height: 860, touch: false, rows: [3, 3, 3] },
+  { name: 'desktop boundary below', width: 1439, height: 900, touch: false, rows: [3, 3, 3] },
+  { name: 'desktop boundary', width: 1440, height: 900, touch: false, rows: [5, 4] },
+  { name: 'wide desktop', width: 1600, height: 1000, touch: false, rows: [5, 4] },
 ]) test('balanced link rows on ' + device.name, async ({ browser, baseURL }, info) => {
   test.skip(info.project.name !== 'desktop', 'One explicit viewport matrix; not duplicated by the mobile project.');
   const context = await browser.newContext({ baseURL, viewport: { width: device.width, height: device.height },

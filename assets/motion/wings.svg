@@ -1,17 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="icon-motion wing-mark" data-icon-motion="wings" data-duration="780" aria-hidden="true" focusable="false"><style>svg[data-icon-motion="wings"] { fill:currentColor;stroke:none; }
 .blum-wing-holes,.blum-wing-crumbs { opacity:0; }
 .blum-wing-body { transform-origin:12px 12px; }
-svg[data-icon-motion="wings"]:not(.is-controlled) .blum-wing-body { animation:blum-wing-bite-idle 8s cubic-bezier(.2,.8,.2,1) 2.5s infinite both; }
-svg[data-icon-motion="wings"]:not(.is-controlled) .blum-wing-holes { animation:blum-wing-holes-idle 8s steps(1) 2.5s infinite both; }
-svg[data-icon-motion="wings"]:not(.is-controlled) .blum-wing-crumbs { animation:blum-wing-crumbs-idle 8s cubic-bezier(.2,.8,.2,1) 2.5s infinite both; }
 svg[data-icon-motion="wings"].is-playing .blum-wing-body { animation:blum-wing-bite-play 780ms cubic-bezier(.2,.8,.2,1) both; }
 svg[data-icon-motion="wings"].is-playing .blum-wing-holes { animation:blum-wing-holes-play 780ms steps(1) both; }
 svg[data-icon-motion="wings"].is-playing .blum-wing-crumbs { animation:blum-wing-crumbs-play 780ms cubic-bezier(.2,.8,.2,1) both; }
 @keyframes blum-wing-bite-play { 0%,65%,100% { transform:translate(0px,0px) rotate(0deg); } 18% { transform:translate(-.5px,.4px) rotate(-4deg); } }
 @keyframes blum-wing-holes-play { 0%,100% { opacity:0; } 15% { opacity:1; } }
 @keyframes blum-wing-crumbs-play { 0%,14%,80%,100% { opacity:0;transform:translate(0px,0px); } 18% { opacity:1; } 72% { opacity:0;transform:translate(1.2px,2px); } }
-@keyframes blum-wing-bite-idle { 0%,6.34%,100% { transform:translate(0px,0px) rotate(0deg); } 1.755% { transform:translate(-.5px,.4px) rotate(-4deg); } }
-@keyframes blum-wing-holes-idle { 0%,9.75%,100% { opacity:0; } 1.4625% { opacity:1; } }
-@keyframes blum-wing-crumbs-idle { 0%,1.365%,7.8%,100% { opacity:0;transform:translate(0px,0px); } 1.755% { opacity:1; } 7.02% { opacity:0;transform:translate(1.2px,2px); } }
 @media(prefers-reduced-motion:reduce) { svg[data-icon-motion="wings"] * { animation:none!important;transform:none!important; } svg[data-icon-motion="wings"] .blum-wing-holes,svg[data-icon-motion="wings"] .blum-wing-crumbs { opacity:0!important; } }
 </style><defs><mask id="blum-wing-bite" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24" style="mask-type:luminance"><rect width="24" height="24" fill="white"/><g class="blum-wing-holes" fill="black"><circle cx="20.1" cy="3.7" r="1.5"/><circle cx="21.3" cy="5.6" r="1.7"/><circle cx="22.2" cy="7.5" r="1.5"/></g></mask></defs><g class="blum-wing-body" fill="currentColor" stroke="none"><path d="M20.16 12.73C22.93 9.96 22.57 5.26 19.09 3C17.08 1.67 14.39 1.66 12.36 2.97C10.6 4.1 9.63 5.86 9.46 7.68C9.33 9 8.83 10.23 7.91 11.15L7.88 11.18C6.72 12.34 6.72 14.11 7.81 15.19L8.8 16.18C9.89 17.27 11.66 17.27 12.75 16.18C13.72 15.21 15 14.68 16.39 14.53C17.76 14.38 19.1 13.78 20.16 12.73" mask="url(#blum-wing-bite)"/><path d="M6.26 19.86C6.53 20.42 6.44 21.1 5.97 21.56C5.39 22.15 4.44 22.15 3.85 21.56C3.58 21.29 3.44 20.94 3.42 20.58C3.06 20.56 2.71 20.42 2.44 20.15C1.85 19.56 1.85 18.61 2.44 18.03C2.9 17.57 3.59 17.47 4.14 17.74L6.62 15.31C6.76 15.5 6.92 15.72 7.1 15.9L8.09 16.89C8.3 17.09 8.5 17.26 8.76 17.41L6.26 19.86Z"/></g><g class="blum-wing-crumbs" fill="currentColor" stroke="none"><circle cx="21.4" cy="4.7" r=".3"/><circle cx="22.2" cy="6.5" r=".35"/></g></svg>

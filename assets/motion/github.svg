@@ -7,17 +7,9 @@
       opacity: 0;
       transform: translateY(-3.2px);
     }
-    .blum-github-root:not(.is-controlled) .blum-github-glasses {
-      animation: blum-github-glasses-idle 8s var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) 2.5s infinite both;
-    }
-    .blum-github-root.is-controlled .blum-github-glasses { animation: none; }
+
     .blum-github-root.is-playing .blum-github-glasses {
       animation: blum-github-glasses-play 800ms var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) both;
-    }
-    @keyframes blum-github-glasses-idle {
-      0% { opacity: 0; transform: translateY(-3.2px); }
-      2.75%, 8.25% { opacity: 1; transform: translateY(0); }
-      10%, 100% { opacity: 0; transform: translateY(-3.2px); }
     }
     @keyframes blum-github-glasses-play {
       0% { opacity: 0; transform: translateY(-3.2px); }
